@@ -5,7 +5,7 @@
 | Titre du projet | BenchFlow |
 | Nom de l’étudiante | Alyson ISABELLA VALENZI |
 | Framework retenu | React + TypeScript (Vite) |
-| Lien du dépôt Git | URL GitHub *(à remplacer par le lien réel)* |
+| Lien du dépôt Git | URL GitHub : https://github.com/alysonivone-cyber/BenchFlow |
 | Date de soumission | 27/10/2026 |
 
 
