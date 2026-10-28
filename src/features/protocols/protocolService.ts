@@ -1,0 +1,6 @@
+import {db} from '../../db/database';import {protocols} from '../../data/protocols';import type {Protocol} from '../../types/models';
+export async function getProtocol(id:string):Promise<Protocol|undefined>{return (await db.customProtocols.get(id))??protocols.find(p=>p.id===id);}
+export async function getAllProtocols():Promise<Protocol[]>{const saved=await db.customProtocols.toArray();return [...protocols.filter(p=>!saved.some(s=>s.id===p.id)),...saved];}
+export async function saveCustomProtocol(p:Protocol):Promise<void>{await db.customProtocols.put(p);}
+export async function saveSourcePdf(id:string,file:File):Promise<void>{if(file.type!=='application/pdf'||file.size>15*1024*1024)throw new Error('Select a PDF smaller than 15 MB.');const existing=await getProtocol(id);if(!existing)throw new Error('Protocol not found.');await db.customProtocols.put({...existing,sourcePdf:file,sourcePdfName:file.name});}
+export async function openSourcePdf(id:string):Promise<void>{const p=await getProtocol(id);if(!p?.sourcePdf)throw new Error('No source PDF is attached.');const url=URL.createObjectURL(p.sourcePdf);const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);}

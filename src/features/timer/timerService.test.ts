@@ -1,0 +1,3 @@
+import {describe,it,expect} from 'vitest';import {remainingTime,updateTimer,reconcileTimer} from './timerService';import type {LabTimer} from '../../types/models';
+const base:LabTimer={id:'a',sessionId:'s',stepId:'x',durationMs:30000,remainingMs:30000,endsAt:null,status:'idle',updatedAt:0};
+describe('timer',()=>{it('uses timestamps rather than interval counts',()=>{const started=updateTimer(base,'start',1000);expect(remainingTime(started,11000)).toBe(20000);expect(updateTimer(started,'pause',11000).remainingMs).toBe(20000);});it('finishes after deadline',()=>expect(reconcileTimer(updateTimer(base,'start',0),31000).status).toBe('finished'));});
