@@ -1,5 +1,8 @@
 import {useState} from 'react';
-import {calculateDilution,convertVolume,solveDilution} from './calculations';
+import {
+  convertVolume,
+  solveDilution,
+} from "./calculations";
 import type {DilutionVariable,ConcentrationUnit,VolumeUnit} from './calculations';
 import {TimerPanel} from '../timer/TimerPanel';
 const labels:Record<DilutionVariable,string>={c1:'Stock concentration (C₁)',v1:'Stock volume (V₁)',c2:'Final concentration (C₂)',v2:'Final volume (V₂)'};

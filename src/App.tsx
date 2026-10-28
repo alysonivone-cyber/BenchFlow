@@ -1,4 +1,3 @@
-
 import {
   BrowserRouter,
   Routes,
@@ -8,11 +7,9 @@ import {
 
 import { Layout } from "./components/Layout";
 
-import {
-  ProtocolLibrary,
-  ProtocolDetail,
-  NewProtocol,
-} from "./features/protocols/ProtocolPages";
+import { ProtocolLibrary } from "./features/protocols/ProtocolLibrary";
+import { ProtocolDetail } from "./features/protocols/ProtocolDetail";
+import { NewProtocol } from "./features/protocols/NewProtocol";
 
 import {
   SessionsPage,

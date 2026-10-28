@@ -1,6 +1,107 @@
-import {db} from '../../db/database';import {protocols} from '../../data/protocols';import type {Protocol} from '../../types/models';
-export async function getProtocol(id:string):Promise<Protocol|undefined>{return (await db.customProtocols.get(id))??protocols.find(p=>p.id===id);}
-export async function getAllProtocols():Promise<Protocol[]>{const saved=await db.customProtocols.toArray();return [...protocols.filter(p=>!saved.some(s=>s.id===p.id)),...saved];}
-export async function saveCustomProtocol(p:Protocol):Promise<void>{await db.customProtocols.put(p);}
-export async function saveSourcePdf(id:string,file:File):Promise<void>{if(file.type!=='application/pdf'||file.size>15*1024*1024)throw new Error('Select a PDF smaller than 15 MB.');const existing=await getProtocol(id);if(!existing)throw new Error('Protocol not found.');await db.customProtocols.put({...existing,sourcePdf:file,sourcePdfName:file.name});}
-export async function openSourcePdf(id:string):Promise<void>{const p=await getProtocol(id);if(!p?.sourcePdf)throw new Error('No source PDF is attached.');const url=URL.createObjectURL(p.sourcePdf);const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.click();setTimeout(()=>URL.revokeObjectURL(url),60000);}
+
+import { db } from "../../db/database";
+import { protocols } from "../../data/protocols";
+import type { Protocol } from "../../types/models";
+
+const MAX_PDF_SIZE = 15 * 1024 * 1024;
+
+/**
+ * Retrieve a protocol from local storage
+ * or from the built-in demonstration protocols.
+ */
+export async function getProtocol(
+  id: string
+): Promise<Protocol | undefined> {
+  const customProtocol = await db.customProtocols.get(id);
+
+  return (
+    customProtocol ??
+    protocols.find((protocol) => protocol.id === id)
+  );
+}
+
+/**
+ * Retrieve all available protocols.
+ * Custom protocols override built-in protocols
+ * when they share the same identifier.
+ */
+export async function getAllProtocols(): Promise<Protocol[]> {
+  const savedProtocols = await db.customProtocols.toArray();
+
+  const builtInProtocols = protocols.filter(
+    (protocol) =>
+      !savedProtocols.some(
+        (saved) => saved.id === protocol.id
+      )
+  );
+
+  return [...builtInProtocols, ...savedProtocols];
+}
+
+/**
+ * Save a custom protocol to IndexedDB.
+ */
+export async function saveCustomProtocol(
+  protocol: Protocol
+): Promise<void> {
+  await db.customProtocols.put(protocol);
+}
+
+/**
+ * Attach or replace the source PDF of a protocol.
+ */
+export async function saveSourcePdf(
+  id: string,
+  file: File
+): Promise<void> {
+  if (
+    file.type !== "application/pdf" ||
+    file.size > MAX_PDF_SIZE
+  ) {
+    throw new Error(
+      "Select a PDF smaller than 15 MB."
+    );
+  }
+
+  const existingProtocol = await getProtocol(id);
+
+  if (!existingProtocol) {
+    throw new Error("Protocol not found.");
+  }
+
+  await db.customProtocols.put({
+    ...existingProtocol,
+    sourcePdf: file,
+    sourcePdfName: file.name,
+  });
+}
+
+/**
+ * Open the attached PDF in a new browser tab.
+ */
+export async function openSourcePdf(
+  id: string
+): Promise<void> {
+  const protocol = await getProtocol(id);
+
+  if (!protocol?.sourcePdf) {
+    throw new Error("No source PDF is attached.");
+  }
+
+  const pdfUrl = URL.createObjectURL(
+    protocol.sourcePdf
+  );
+
+  const link = document.createElement("a");
+
+  link.href = pdfUrl;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+
+  link.click();
+
+  // Release the temporary URL after opening the PDF.
+  setTimeout(() => {
+    URL.revokeObjectURL(pdfUrl);
+  }, 60000);
+}
