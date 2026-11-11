@@ -20,6 +20,7 @@ import {
 } from "./protocolService";
 import { useDeleteProtocol } from "./useDeleteProtocol";
 import { db } from "../../db/database";
+import { formatDateStamp } from "../sessions/sessionLabel";
 
 export function ProtocolLibrary() {
   const protocols = useLiveQuery(
@@ -97,6 +98,9 @@ export function ProtocolLibrary() {
 
               <span className={mutedText}>
                 {protocol.steps.length} steps
+                {protocol.importedAt
+                  ? ` · Added ${formatDateStamp(protocol.importedAt)}`
+                  : ""}
                 {protocol.sourcePdf
                   ? " · PDF attached"
                   : ""}

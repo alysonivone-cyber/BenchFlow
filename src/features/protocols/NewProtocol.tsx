@@ -15,6 +15,7 @@ import {
   successMessage,
 } from "../../components/ui";
 import { saveCustomProtocol } from "./protocolService";
+import { fileBaseName } from "../sessions/sessionLabel";
 
 // --------------------------------------------------
 // TYPES
@@ -181,9 +182,12 @@ export function NewProtocol() {
 
       const extracted = await extractProtocolFromPdf(pdf);
 
-      // Preserve a manually entered title.
+      // Preserve a manually entered title. If the PDF gives no
+      // usable title, fall back to the file name (without ".pdf").
       setTitle((current) =>
-        current.trim() ? current : extracted.title
+        current.trim()
+          ? current
+          : extracted.title.trim() || fileBaseName(pdf.name)
       );
 
       // Fill protocol-level fields only when the user has not entered a value.
@@ -295,6 +299,7 @@ export function NewProtocol() {
 
         sourcePdf: pdf ?? undefined,
         sourcePdfName: pdf?.name,
+        importedAt: Date.now(),
       });
 
       navigate(`/protocols/${id}`);

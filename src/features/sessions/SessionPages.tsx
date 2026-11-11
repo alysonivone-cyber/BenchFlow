@@ -17,6 +17,10 @@ import {
   saveSession,
 } from "./sessionService";
 import { TimerPanel } from "../timer/TimerPanel";
+import {
+  formatSessionName,
+  formatSessionStamp,
+} from "./sessionLabel";
 import { Chip } from "../../components/Chip";
 import {
   btn,
@@ -138,7 +142,10 @@ export function SessionsPage() {
                 <div className="flex-1">
                   <div className="flex items-center justify-between gap-5">
                     <h3 className="m-0 text-[1.13rem]">
-                      {protocol.title}
+                      {formatSessionName(
+                        session.createdAt,
+                        protocol.title
+                      )}
                     </h3>
 
                     <span
@@ -153,8 +160,6 @@ export function SessionsPage() {
                   </div>
 
                   <p className={mutedText}>
-                    {session.id.slice(0, 8)}
-                    {" · "}
                     Step{" "}
                     {Math.min(
                       session.currentStep + 1,
@@ -387,7 +392,7 @@ export function SessionDetail() {
           {protocol.title}
         </Link>
         {" › "}
-        Session {session.id.slice(0, 8)}
+        Session {formatSessionStamp(session.createdAt)}
       </div>
 
       <div className={`${heading} flex items-center gap-[17px]`}>

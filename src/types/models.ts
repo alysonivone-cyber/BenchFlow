@@ -33,6 +33,8 @@ export interface Protocol {
   steps: ProtocolStep[];
   sourcePdf?: Blob;
   sourcePdfName?: string;
+  /** When the protocol was added to BenchFlow (ms since epoch). */
+  importedAt?: number;
 }
 
 // --------------------------------------------------
