@@ -1,8 +1,21 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-import { db } from "../../db/database";
+import {
+  btn,
+  buttonRow,
+  errorMessage,
+  mutedText,
+} from "../../components/ui";
 import type { LabTimer } from "../../types/models";
+
+import {
+  alertTimerFinished,
+  getNotificationSupport,
+  requestNotificationPermission,
+  unlockAudio,
+  type NotificationSupport,
+} from "./timerAlerts";
 
 import {
   ensureTimer,
@@ -12,16 +25,17 @@ import {
   updateTimer,
 } from "./timerService";
 
-// --------------------------------------------------
-// TIMER CONFIGURATION
-// --------------------------------------------------
-
 type TimerPanelProps = {
   sessionId?: string;
   stepId?: string;
+  /** Shown in the end-of-timer alert (e.g. "Cell Lysis"). */
+  stepTitle?: string;
 };
 
 type TimerAction = "start" | "pause" | "reset";
+
+const STORAGE_ERROR =
+  "Timer storage unavailable. The timer will still work, but changes may not be saved.";
 
 const TIMER_PRESETS = [
   { label: "30 sec", seconds: 30 },
@@ -36,12 +50,8 @@ const TIMER_PRESETS = [
   { label: "3 hours", seconds: 10800 },
 ];
 
-// --------------------------------------------------
-// TIME FORMATTING
-// --------------------------------------------------
-
 function formatRemaining(milliseconds: number): string {
-  const totalSeconds = Math.floor(
+  const totalSeconds = Math.ceil(
     Math.max(0, milliseconds) / 1000
   );
 
@@ -57,13 +67,30 @@ function formatRemaining(milliseconds: number): string {
     : `${twoDigits(minutes)}:${twoDigits(seconds)}`;
 }
 
-// --------------------------------------------------
-// TIMER COMPONENT
-// --------------------------------------------------
+function createLocalTimer(
+  sessionId = "",
+  stepId = "",
+  seconds = 30
+): LabTimer {
+  return {
+    id:
+      sessionId && stepId
+        ? `${sessionId}:${stepId}`
+        : "practice",
+    sessionId,
+    stepId,
+    durationMs: seconds * 1000,
+    remainingMs: seconds * 1000,
+    endsAt: null,
+    status: "idle",
+    updatedAt: Date.now(),
+  };
+}
 
 export function TimerPanel({
   sessionId,
   stepId,
+  stepTitle,
 }: TimerPanelProps) {
   const [timer, setLocalTimer] = useState<LabTimer | null>(
     null
@@ -72,116 +99,145 @@ export function TimerPanel({
   const [duration, setDuration] = useState(30);
   const [now, setNow] = useState(Date.now());
   const [error, setError] = useState("");
+  const [notificationSupport, setNotificationSupport] =
+    useState<NotificationSupport>(getNotificationSupport);
 
   const persistent = Boolean(sessionId && stepId);
 
-  // --------------------------------------------------
-  // INITIALIZE OR RESTORE TIMER
-  // --------------------------------------------------
+  const timerRef = useRef<LabTimer | null>(null);
+
+  function updateLocalTimer(next: LabTimer) {
+    timerRef.current = next;
+    setLocalTimer(next);
+  }
 
   useEffect(() => {
-    let live = true;
+    let active = true;
+
+    setError("");
+
+    const fallback = createLocalTimer(
+      sessionId,
+      stepId
+    );
+
+    timerRef.current = fallback;
+    setLocalTimer(fallback);
+    setDuration(30);
 
     if (sessionId && stepId) {
       ensureTimer(sessionId, stepId)
         .then((savedTimer) => {
-          if (!live) return;
+          if (!active) return;
 
           const restored = reconcileTimer(savedTimer);
 
-          setLocalTimer(restored);
+          updateLocalTimer(restored);
           setDuration(
-            Math.round(restored.durationMs / 1000)
+            Math.max(
+              1,
+              Math.round(restored.durationMs / 1000)
+            )
           );
         })
         .catch(() => {
-          if (live) {
-            setError("Timer storage unavailable.");
-          }
-        });
-    } else {
-      setLocalTimer({
-        id: "practice",
-        sessionId: "",
-        stepId: "",
-        durationMs: 30000,
-        remainingMs: 30000,
-        endsAt: null,
-        status: "idle",
-        updatedAt: Date.now(),
-      });
+          if (!active) return;
 
-      setDuration(30);
+          setError(STORAGE_ERROR);
+        });
     }
 
     return () => {
-      live = false;
+      active = false;
     };
   }, [sessionId, stepId]);
 
-  // --------------------------------------------------
-  // UPDATE CURRENT TIME
-  // --------------------------------------------------
-
   useEffect(() => {
-    const intervalId = window.setInterval(
-      () => setNow(Date.now()),
-      250
-    );
+    const intervalId = window.setInterval(() => {
+      setNow(Date.now());
+    }, 250);
 
     return () => {
       window.clearInterval(intervalId);
     };
   }, []);
 
-  // --------------------------------------------------
-  // DETECT TIMER COMPLETION
-  // --------------------------------------------------
+  async function persist(next: LabTimer) {
+    if (!persistent) return;
 
-  useEffect(() => {
-    if (
-      timer?.status === "running" &&
-      remainingTime(timer, now) === 0
-    ) {
-      const finished = reconcileTimer(timer, now);
-
-      setLocalTimer(finished);
-
-      if (persistent) {
-        void setTimer(finished).catch(() =>
-          setError("Could not save timer.")
-        );
-      }
-    }
-  }, [now, timer, persistent]);
-
-  // --------------------------------------------------
-  // START, PAUSE OR RESET
-  // --------------------------------------------------
-
-  async function apply(action: TimerAction) {
-    if (!timer) return;
-
-    const next = updateTimer(timer, action);
-
-    setLocalTimer(next);
-
-    if (persistent) {
-      try {
-        await setTimer(next);
-      } catch {
-        setError("Could not save timer.");
-      }
+    // A failure is reported but never disables saving:
+    // the next action simply tries again.
+    try {
+      await setTimer(next);
+      setError("");
+    } catch {
+      setError(STORAGE_ERROR);
     }
   }
 
-  // --------------------------------------------------
-  // CHANGE TIMER DURATION
-  // --------------------------------------------------
+  // Refresh the display as soon as the app returns to the
+  // foreground: intervals are throttled in background tabs,
+  // but the remaining time is derived from `endsAt`.
+  useEffect(() => {
+    function refresh() {
+      if (document.visibilityState === "visible") {
+        setNow(Date.now());
+      }
+    }
+
+    document.addEventListener("visibilitychange", refresh);
+    window.addEventListener("focus", refresh);
+
+    return () => {
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("focus", refresh);
+    };
+  }, []);
+
+  // Detect the running -> finished transition while the app
+  // is open. The ref check guarantees the alert fires once,
+  // even if this effect runs twice (React StrictMode).
+  useEffect(() => {
+    const current = timerRef.current;
+
+    if (
+      current?.status === "running" &&
+      remainingTime(current, now) === 0
+    ) {
+      const finished = reconcileTimer(current, now);
+
+      updateLocalTimer(finished);
+      void persist(finished);
+
+      void alertTimerFinished(
+        stepTitle
+          ? `Step "${stepTitle}" is complete.`
+          : "Your timer is complete."
+      );
+    }
+  }, [now]);
+
+  async function apply(action: TimerAction) {
+    const current = timerRef.current;
+
+    if (!current) return;
+
+    // Start is a user gesture: allow the end-of-timer beep.
+    if (action === "start") unlockAudio();
+
+    const next = updateTimer(current, action);
+
+    updateLocalTimer(next);
+    setNow(Date.now());
+
+    await persist(next);
+  }
 
   async function changeDuration(seconds: number) {
+    const current = timerRef.current;
+
     if (
-      !timer ||
+      !current ||
       !Number.isFinite(seconds) ||
       seconds < 1 ||
       seconds > 86400
@@ -189,10 +245,8 @@ export function TimerPanel({
       return;
     }
 
-    setDuration(seconds);
-
     const next: LabTimer = {
-      ...timer,
+      ...current,
       durationMs: seconds * 1000,
       remainingMs: seconds * 1000,
       endsAt: null,
@@ -200,32 +254,26 @@ export function TimerPanel({
       updatedAt: Date.now(),
     };
 
-    setLocalTimer(next);
+    setDuration(seconds);
+    updateLocalTimer(next);
 
-    if (persistent) {
-      try {
-        await db.timers.put(next);
-      } catch {
-        setError("Could not save timer.");
-      }
-    }
+    await persist(next);
   }
 
   const remaining = timer
     ? remainingTime(timer, now)
     : 0;
 
-  // --------------------------------------------------
-  // TIMER INTERFACE
-  // --------------------------------------------------
-
   return (
-    <div className="timer">
-      <div className="clock" aria-live="off">
+    <div className="text-center">
+      <div
+        className="p-6 text-[3.8rem] font-extrabold tracking-[-.05em] text-clock"
+        aria-live="off"
+      >
         {formatRemaining(remaining)}
       </div>
 
-      <p className="muted">
+      <p className={mutedText}>
         {timer?.status === "finished"
           ? "Time is up!"
           : timer?.status === "running"
@@ -236,28 +284,32 @@ export function TimerPanel({
       </p>
 
       {timer?.status === "finished" && (
-        <p className="success" role="alert">
-          Timer completed
-          {stepId
-            ? " for this experimental step"
-            : ""}
-          .
+        <p
+          className="rounded-[10px] border border-alert-line bg-alert px-[14px] py-3 font-bold text-alert-ink motion-safe:animate-timer-pulse"
+          role="alert"
+        >
+          ⏰ Timer completed
+          {stepTitle ? ` — ${stepTitle}` : ""}.
         </p>
       )}
 
-      <div className="button-row">
+      <div className={buttonRow}>
         <button
           type="button"
-          className="btn primary"
-          disabled={!timer || timer.status === "running"}
+          className={btn("primary")}
+          disabled={
+            !timer || timer.status === "running"
+          }
           onClick={() => void apply("start")}
         >
-          ▶ {timer?.status === "paused" ? "Resume" : "Start"}
+          ▶ {timer?.status === "paused"
+            ? "Resume"
+            : "Start"}
         </button>
 
         <button
           type="button"
-          className="btn soft"
+          className={btn("soft")}
           disabled={timer?.status !== "running"}
           onClick={() => void apply("pause")}
         >
@@ -266,7 +318,7 @@ export function TimerPanel({
 
         <button
           type="button"
-          className="btn soft"
+          className={btn("soft")}
           disabled={!timer}
           onClick={() => void apply("reset")}
         >
@@ -274,7 +326,7 @@ export function TimerPanel({
         </button>
       </div>
 
-      <label className="duration-label">
+      <label className="mx-auto my-5 grid max-w-[210px] gap-[7px] text-left text-[.85rem] font-[650]">
         Duration (seconds)
 
         <input
@@ -291,12 +343,12 @@ export function TimerPanel({
         />
       </label>
 
-      <div className="button-row presets">
+      <div className={buttonRow}>
         {TIMER_PRESETS.map(({ label, seconds }) => (
           <button
             key={seconds}
             type="button"
-            className="btn soft"
+            className={btn("soft")}
             disabled={!timer}
             onClick={() =>
               void changeDuration(seconds)
@@ -307,8 +359,29 @@ export function TimerPanel({
         ))}
       </div>
 
+      {notificationSupport === "default" && (
+        <button
+          type="button"
+          className={btn("soft", "mt-2")}
+          onClick={async () =>
+            setNotificationSupport(
+              await requestNotificationPermission()
+            )
+          }
+        >
+          🔔 Enable system notifications
+        </button>
+      )}
+
+      {notificationSupport === "denied" && (
+        <p className={`${mutedText} text-[.85rem]`}>
+          System notifications are blocked: the in-app
+          alert and sound remain active.
+        </p>
+      )}
+
       {error && (
-        <p role="alert" className="error">
+        <p role="alert" className={errorMessage}>
           {error}
         </p>
       )}
