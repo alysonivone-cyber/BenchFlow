@@ -44,6 +44,14 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 - **Commits Git :** voir le tableau de `03-historique-des-commits.md`, section 4 bis ; créés le 11 novembre **après** la séance, regroupés par sujet.
 - **État final / points à poursuivre :** test manuel du timer et des notifications ; NOTE-01 (indépendance des notes entre sessions) ; test hors ligne sur build de production ; réviser le code ligne à ligne pour l'oral ; commiter désormais après chaque fonction.
 
+## 11 novembre 2026 (après-midi) — Noms lisibles des sessions
+
+- **Travail effectué :** affichage `20261111-1423 · Titre` pour les sessions, date d'ajout des protocoles, titre de repli = nom du fichier PDF.
+- **Fichiers concernés :** `sessionLabel.ts` (nouveau), `SessionPages.tsx`, `ProtocolLibrary.tsx`, `NewProtocol.tsx`, `models.ts`.
+- **Tests exécutés et résultats :** 37 tests Vitest réussis (5 nouveaux), `tsc -b` et `vite build` réussis, session créée dans Chrome par script : le titre affiché est `20261111-1233 · DNA Extraction`.
+- **Commit Git :** à compléter.
+- **État final / points à poursuivre :** décider d'une page d'analyse (bonus hors V1).
+
 ## Modèle à réutiliser pour les prochaines séances
 
 ### [Date] — [Fonctionnalité ou correction]

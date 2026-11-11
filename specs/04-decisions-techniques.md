@@ -134,6 +134,16 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limite assumée :** sans serveur push, une application entièrement fermée ne peut pas alerter ; je ne promets pas le contraire.
 
+## DT-15 — Noms lisibles pour les sessions et date d'ajout des protocoles
+
+**Contexte :** l'écran des sessions affichait les 8 premiers caractères d'un UUID (par exemple `7046f1ce`), illisible pour l'utilisateur et inutilisable pour classer les expériences.
+
+**Décision :** l'`id` reste un UUID aléatoire (c'est la clé Dexie des notes et des timers) ; le nom affiché est calculé à partir de `createdAt` : `20261111-1423 · Titre du protocole`. Les protocoles reçoivent un champ optionnel `importedAt` (date d'ajout, affichée « Added 20261111 »), et le titre d'un PDF sans titre exploitable reprend le nom du fichier.
+
+**Pourquoi ne pas utiliser le nom lisible comme identifiant :** deux sessions du même protocole le même jour auraient le même nom, et changer les clés casserait les notes et timers déjà enregistrés. Aucune migration Dexie n'est nécessaire (`importedAt` n'est pas indexé).
+
+**Suite possible :** une page de synthèse (durées, étapes terminées) à partir de `createdAt`, `updatedAt` et `completedStepIds`, hors périmètre V1 déclaré.
+
 ## Comment défendre une décision à l'oral
 
 Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.

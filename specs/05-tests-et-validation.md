@@ -68,6 +68,7 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; test manuel à faire |
 | T20 | Supprimer un protocole avec sessions | Confirmation, suppression des sessions, notes et timers | Réussi (test automatisé et script) |
 | T21 | Supprimer puis restaurer un protocole de démonstration | Masqué puis de nouveau visible | Réussi (test automatisé et script) |
+| T23 | Nom lisible d'une session | Affichage `AAAAMMJJ-HHmm · Titre`, sans changer l'id | Réussi (5 tests unitaires + script, 11/11) |
 | T22 | Importer un PDF hors ligne (build de production) | L'analyse fonctionne | Réussi le 11/11 (script) après ajout de `.mjs` au précache |
 
 ## 5. Cas de test spécifiques au lecteur PDF
