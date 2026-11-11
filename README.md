@@ -36,7 +36,8 @@ npm run preview
 | `src/features/calculator` | Validated dilution/volume calculations and tests. |
 | `src/features/timer` | Timestamp-based timers, persistence and tests. |
 | `src/components/Layout.tsx` | Shared app shell, sidebar, back button. |
-| `src/styles.css` | Responsive design tokens/styles in one place. |
+| `src/styles.css` | Tailwind CSS v4 entry: design tokens (`@theme`), breakpoints, base styles. |
+| `src/components/ui.ts` | Shared Tailwind class helpers (buttons, cards…). |
 | `public/icons` | Installable PWA icons. |
 | `docs` | Original README, Balsamiq, submitted specification, professor instructions. |
 
@@ -45,19 +46,21 @@ npm run preview
 - Protocol Library: 3 built-in demonstration protocols, overview and ordered steps.
 - Workflow: create independent local sessions; navigate steps; save notes; resume after reload; progress display.
 - Scientific Calculator: dilution C₁V₁ = C₂V₂, µL/mL conversion, validation.
-- Step timer: local persistence, start/pause/resume/reset, timestamp-based recovery after reload.
+- Step timer: local persistence, start/pause/resume/reset, timestamp-based recovery after reload, end-of-timer alerts.
+- Delete any protocol (custom or demo) with its sessions, notes and timers; demo protocols can be restored.
+- Styling with Tailwind CSS v4.
 - PWA: install manifest, icons, generated service worker for offline app shell after build.
 - Responsive layout: desktop and small-screen navigation.
 
 ## Still to implement / validate before final V1 submission
 
-- **NOTIF-01:** explicit in-app completion notification UX, optional sound and permission-based system notification; timer currently shows an in-app completed state but does not implement system alerts.
+- **NOTIF-01:** implemented (in-app banner, beeps, permission-based system notification). A fully closed app cannot alert, because there is no backend/push server. Manual test on real devices still to do.
 - **TECH-04:** manual offline acceptance testing in browsers and devices, including first-load / reload and unavailable-resource cases.
-- **TECH-01:** robust storage quota/error handling and explicit recovery UX; the initial code shows basic errors.
+- **TECH-01:** robust storage quota/error handling and explicit recovery UX.
 - **TIME-01:** device/browser testing when backgrounded or fully closed; never promise a notification while fully closed.
 - **NOTE-01:** verify note isolation between at least two sessions with integration tests.
 - **WORK-01:** verify all navigation/validation edge cases with integration tests.
-- **PDF viewer:** Balsamiq shows a placeholder, but the submitted V1 specification commits to structured demo protocols, not PDF import/parsing. No PDF importer is promised in this starter.
+- **PDF import:** an extra added beyond the submitted V1 scope (which committed to structured demo protocols). Text is extracted locally with pdf.js and always reviewed by the user before saving. It is not a guaranteed reader for every PDF.
 - **Safety:** protocol examples are illustrative and must not be used as validated laboratory instructions.
 
 ## Architectural decisions
@@ -70,7 +73,11 @@ npm run preview
 
 ## AI assistance disclosure (required by CREA)
 
-OpenAI ChatGPT assisted with the initial project scaffolding, data models, demonstration protocols, interface components, timer/calculation utilities, and initial tests. The student must review, understand, test, and be able to explain all submitted code. Subsequent changes should be recorded in regular, focused Git commits.
+OpenAI ChatGPT assisted with the initial project scaffolding, data models, demonstration protocols, interface components, timer/calculation utilities, and initial tests.
+
+Anthropic Claude (Claude Sonnet 5.5) assisted on 11 November 2026 with: the fix of the session timer (atomic `ensureTimer` transaction and regression test), the end-of-timer alerts (NOTIF-01), the "Open me" / "Close" step badge, deleting protocols with cascade, lazy-loading pdf.js, the migration of the styles to Tailwind CSS, and the update of the documentation in `specs/`. The commits of that session carry a `Co-Authored-By: Claude` trailer.
+
+The student reviews, tests and must be able to explain all submitted code.
 
 ## Suggested first Git commits
 
@@ -80,7 +87,7 @@ OpenAI ChatGPT assisted with the initial project scaffolding, data models, demon
 4. `feat: add step notes and timestamp-based timers`
 5. `test: cover dilution and timer calculations`
 
-**Do not pretend these commits were made separately if importing the starter in one commit.** Start with `chore: import reviewed BenchFlow starter`, then make small genuine commits as you iterate.
+**Do not pretend these commits were made separately if importing the starter in one commit.** The real history is described in `specs/03-historique-des-commits.md`, including the commits that were recorded after the fact on 11 November.
 
 See `CAHIER_DES_FONCTIONNALITES.md` for the submitted scope and acceptance criteria.
 
@@ -89,7 +96,7 @@ See `CAHIER_DES_FONCTIONNALITES.md` for the submitted scope and acceptance crite
 
 - Four-variable dilution solver with concentration and volume unit conversions.
 - Source PDF attachment and viewing in Protocol Library (stored locally in IndexedDB).
-- Manual protocol creation with steps and optional source PDF.
+- Manual protocol creation with steps and optional source PDF, or creation from an imported PDF (reviewed by the user).
 - Session and step timers use the shared timestamp-based timer service.
 
-**Note:** PDFs are not parsed automatically; no AI, account or cloud storage is used. Large PDFs may exceed browser storage quota.
+**Note:** PDFs are analysed locally in the browser with rules (no AI, account or cloud storage). Large PDFs may exceed browser storage quota.
