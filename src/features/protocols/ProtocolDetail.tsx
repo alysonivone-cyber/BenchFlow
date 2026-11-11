@@ -2,6 +2,20 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
+import { ChevronDown, Clock, ListOrdered } from "lucide-react";
+
+import { Chip } from "../../components/Chip";
+import {
+  btn,
+  detailGrid,
+  detailsCard,
+  errorMessage,
+  heading,
+  hintText,
+  mutedText,
+  panel,
+  stack,
+} from "../../components/ui";
 
 import { createSession } from "../sessions/sessionService";
 import {
@@ -77,19 +91,19 @@ export function ProtocolDetail() {
 
   return (
     <>
-      <div className="heading">
+      <div className={heading}>
         <h1>{protocol.title}</h1>
         <p>{protocol.description}</p>
       </div>
 
-      <div className="detailgrid">
-        <div className="stack">
-          <section className="panel">
+      <div className={detailGrid}>
+        <div className={stack}>
+          <section className={panel}>
             <h3>Objective</h3>
             <p>{protocol.objective}</p>
           </section>
 
-          <section className="panel">
+          <section className={panel}>
             <h3>Required Materials</h3>
             <ul>
               {protocol.materials.map((material) => (
@@ -98,24 +112,24 @@ export function ProtocolDetail() {
             </ul>
           </section>
 
-          <section className="panel">
+          <section className={panel}>
             <h3>Expected Results</h3>
             <p>{protocol.expectedResults}</p>
           </section>
 
-          <section className="panel">
+          <section className={panel}>
             <h3>Original Protocol PDF</h3>
 
             {protocol.sourcePdf ? (
               <button
                 type="button"
-                className="btn soft"
+                className={btn("soft")}
                 onClick={() => void viewPdf()}
               >
                 View Original PDF ↗
               </button>
             ) : (
-              <p className="muted">
+              <p className={mutedText}>
                 No original PDF attached yet.
               </p>
             )}
@@ -133,31 +147,50 @@ export function ProtocolDetail() {
           </section>
         </div>
 
-        <div className="stack">
-          <div className="chips">
-            <span>{protocol.steps.length} steps</span>
-            <span>~ {protocol.duration}</span>
+        <div className={stack}>
+          <div className="mb-5 flex flex-wrap items-center gap-[10px]">
+            <Chip tone="blue">
+              <ListOrdered size={16} aria-hidden="true" />
+              {protocol.steps.length} steps
+            </Chip>
+            <Chip tone="violet">
+              <Clock size={16} aria-hidden="true" />~{" "}
+              {protocol.duration}
+            </Chip>
           </div>
 
           <h2>Protocol Steps</h2>
 
           {protocol.steps.map((step, index) => (
             <details
-              className="step-preview"
+              className={detailsCard}
               key={step.id}
             >
-              <summary>
-                <span className="step-number">
+              <summary className="group/summary flex cursor-pointer list-none items-center gap-[14px] rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-open-ink [&::-webkit-details-marker]:hidden">
+                <span className="inline-grid size-8 flex-none place-items-center rounded-full bg-step font-extrabold text-step-ink">
                   {index + 1}
                 </span>
 
-                <span>
+                <span className="min-w-0 flex-1">
                   <strong>{step.title}</strong>
-                  <small>{step.description}</small>
+                  <small className="mt-[5px] block text-[13.333px] text-step-desc">
+                    {step.description}
+                  </small>
+                </span>
+
+                {/* Green badge: tells the user the step can be expanded. */}
+                <span className="inline-flex flex-none items-center gap-[5px] rounded-full border border-open-line bg-open px-3 py-[6px] text-[.8rem] font-bold text-open-ink [details:not([open])>summary:hover_&]:bg-open-hover group-open/step:border-close-line group-open/step:bg-close group-open/step:text-close-ink">
+                  <span className="group-open/step:hidden">Open me</span>
+                  <span className="hidden group-open/step:inline">Close</span>
+                  <ChevronDown
+                    size={14}
+                    aria-hidden="true"
+                    className="transition-transform duration-200 group-open/step:rotate-180 motion-reduce:transition-none"
+                  />
                 </span>
               </summary>
 
-              <ol>
+              <ol className="my-4 list-decimal pl-10 leading-[1.7] text-body-soft">
                 {step.instructions.map(
                   (instruction, instructionIndex) => (
                     <li key={instructionIndex}>
@@ -171,7 +204,7 @@ export function ProtocolDetail() {
 
           <button
             type="button"
-            className="btn primary wide"
+            className={btn("primary", "w-full")}
             onClick={() => void startSession()}
             disabled={busy}
           >
@@ -181,12 +214,12 @@ export function ProtocolDetail() {
           </button>
 
           {error && (
-            <p className="error" role="alert">
+            <p className={errorMessage} role="alert">
               {error}
             </p>
           )}
 
-          <p className="hint">
+          <p className={hintText}>
             BenchFlow assists execution; use your
             laboratory's approved procedures and
             safety rules.
