@@ -166,7 +166,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Alternatives écartées :** un bouton « Télécharger » avec le bon nom de fichier (ce n'est plus « ouvrir dans le navigateur ») ; un service worker qui servirait le PDF à une adresse lisible (trop complexe pour le gain).
 
-**Validation :** 2 tests unitaires sur le nom ; dans le navigateur (mode ordinateur), l'onglet s'appelle `20261111-1429 · Strawberry DNA Extraction` et contient l'`<embed>` du PDF ; en mode tactile, le PDF s'ouvre directement. **À confirmer sur Edge** : le rendu du PDF dans la page.
+**Validation :** dans le navigateur (mode ordinateur), l'onglet s'appelle `20261111-1429 · Strawberry DNA Extraction` et contient l'`<embed>` du PDF ; en mode tactile, le PDF s'ouvre directement. **À confirmer sur Edge** : le rendu du PDF dans la page.
 
 ## Comment défendre une décision à l'oral
 

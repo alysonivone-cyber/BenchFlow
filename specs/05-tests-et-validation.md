@@ -35,7 +35,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | `npx vitest run` | 32 tests réussis (5 fichiers) : timer, calculs, stockage, alertes, suppression en cascade |
 | `npx vitest run` (après le correctif « introuvable », DT-16) | 38 tests réussis (6 fichiers) : s'y ajoutent les noms lisibles et le contrat de `getProtocol` |
 | Navigateur, après DT-16 | `/protocols/inconnu` → « Protocol not found. » ; `/sessions/inconnu` → « Session not found. » ; session dont le protocole est supprimé → « Session not found. » ; pages valides inchangées |
-| `npx vitest run` (après DT-17, titre de l'onglet du PDF) | 40 tests réussis (7 fichiers) : s'y ajoutent 2 tests sur le nom du PDF |
+| `npx vitest run` (après DT-17, titre de l'onglet du PDF) | 38 tests réussis (6 fichiers) : aucun test ajouté, la vérification de DT-17 a été faite à la main dans Edge |
 | Navigateur, après DT-17 | Ordinateur, y compris avec écran tactile : onglet `20261111-1429 · Strawberry DNA Extraction` avec `<embed>` du PDF ; téléphone : PDF ouvert directement. Rendu réel dans Edge : à confirmer |
 | Test de régression StrictMode | Appels simultanés d'`ensureTimer` : un seul timer créé |
 | `tsc -b` + `vite build` | Réussis ; 11 fichiers précachés |
