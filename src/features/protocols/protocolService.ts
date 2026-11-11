@@ -2,6 +2,7 @@
 import { db } from "../../db/database";
 import { protocols } from "../../data/protocols";
 import type { Protocol } from "../../types/models";
+import { openPdfInTitledTab, pdfDisplayName } from "./pdfTitle";
 
 const MAX_PDF_SIZE = 15 * 1024 * 1024;
 
@@ -100,13 +101,23 @@ export async function openSourcePdf(
     protocol.sourcePdf
   );
 
-  const link = document.createElement("a");
+    // On a computer, open a tab with a readable title (see pdfTitle.ts);
+  // otherwise open the PDF directly in a new tab.
 
-  link.href = pdfUrl;
-  link.target = "_blank";
-  link.rel = "noopener noreferrer";
+  const opened = openPdfInTitledTab(
+    pdfUrl,
+    pdfDisplayName(protocol.title, protocol.importedAt)
+  );
 
-  link.click();
+  if (!opened) {
+    const link = document.createElement("a");
+
+    link.href = pdfUrl;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    link.click();
+  }
 
   // Release the temporary URL after opening the PDF.
   setTimeout(() => {
