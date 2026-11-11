@@ -1,4 +1,3 @@
-
 import { db } from "../../db/database";
 import type { LabTimer } from "../../types/models";
 
@@ -83,26 +82,32 @@ export async function ensureTimer(
 ): Promise<LabTimer> {
   const id = `${sessionId}:${stepId}`;
 
-  const existingTimer = await db.timers.get(id);
+  // Read + create in ONE read-write transaction: Dexie queues
+  // concurrent transactions, so a second caller (e.g. React
+  // StrictMode running the effect twice) sees the timer created
+  // by the first one instead of hitting a ConstraintError.
+  return db.transaction("rw", db.timers, async () => {
+    const existingTimer = await db.timers.get(id);
 
-  if (existingTimer) {
-    return existingTimer;
-  }
+    if (existingTimer) {
+      return existingTimer;
+    }
 
-  const timer: LabTimer = {
-    id,
-    sessionId,
-    stepId,
-    durationMs: DEFAULT_DURATION_MS,
-    remainingMs: DEFAULT_DURATION_MS,
-    endsAt: null,
-    status: "idle",
-    updatedAt: Date.now(),
-  };
+    const timer: LabTimer = {
+      id,
+      sessionId,
+      stepId,
+      durationMs: DEFAULT_DURATION_MS,
+      remainingMs: DEFAULT_DURATION_MS,
+      endsAt: null,
+      status: "idle",
+      updatedAt: Date.now(),
+    };
 
-  await db.timers.add(timer);
+    await db.timers.add(timer);
 
-  return timer;
+    return timer;
+  });
 }
 
 // --------------------------------------------------
