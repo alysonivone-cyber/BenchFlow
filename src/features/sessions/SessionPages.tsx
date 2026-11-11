@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import {
@@ -18,6 +17,30 @@ import {
   saveSession,
 } from "./sessionService";
 import { TimerPanel } from "../timer/TimerPanel";
+import { Chip } from "../../components/Chip";
+import {
+  btn,
+  errorMessage,
+  heading,
+  inCard,
+  listCard,
+  mutedText,
+  panel,
+  stack,
+  twoCols,
+} from "../../components/ui";
+import { DeleteProtocolButton } from "../protocols/DeleteProtocolButton";
+import { useDeleteProtocol } from "../protocols/useDeleteProtocol";
+
+// Tailwind classes for the session status badge.
+const STATUS_STYLES = {
+  "in-progress": "bg-status-ok text-status-ok-ink",
+  paused: "bg-status-paused text-status-paused-ink",
+  completed: "bg-status-done text-status-done-ink",
+} as const;
+
+// Footer buttons share the row equally (wrap on phones).
+const FOOTER_BUTTON = "flex-1 phone:flex-[1_1_40%]";
 
 // --------------------------------------------------
 // SAVED SESSIONS
@@ -40,6 +63,7 @@ export function SessionsPage() {
 
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  const { requestDelete, dialog } = useDeleteProtocol(setError);
 
   async function newSession(protocolId: string) {
     try {
@@ -52,16 +76,17 @@ export function SessionsPage() {
 
   return (
     <>
-      <div className="heading">
+      <div className={heading}>
         <h1>Smart Experimental Workflow</h1>
         <p>Choose or start a new session.</p>
       </div>
 
-      <div className="section-title">
-        <h2>Saved Sessions</h2>
+      <div className="mb-5 flex items-center justify-between gap-5">
+        <h2 className="m-0">Saved Sessions</h2>
 
         <select
           aria-label="Start a new session"
+          className="max-w-60 rounded-lg border-0 bg-primary px-[15px] py-3 text-white"
           value=""
           onChange={(event) =>
             void newSession(event.target.value)
@@ -83,12 +108,12 @@ export function SessionsPage() {
       </div>
 
       {error && (
-        <p className="error" role="alert">
+        <p className={errorMessage} role="alert">
           {error}
         </p>
       )}
 
-      <div className="stack">
+      <div className={stack}>
         {sessions?.length ? (
           sessions.map((session) => {
             const protocol = protocols?.find(
@@ -105,15 +130,19 @@ export function SessionsPage() {
 
             return (
               <article
-                className="listcard sessioncard"
+                className={listCard(
+                  "items-end phone:flex-col phone:items-stretch"
+                )}
                 key={session.id}
               >
-                <div className="session-info">
-                  <div className="session-heading">
-                    <h3>{protocol.title}</h3>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-5">
+                    <h3 className="m-0 text-[1.13rem]">
+                      {protocol.title}
+                    </h3>
 
                     <span
-                      className={`status ${session.status}`}
+                      className={`rounded-full px-[10px] py-[6px] text-[.76rem] ${STATUS_STYLES[session.status]}`}
                     >
                       {session.status === "in-progress"
                         ? "In progress"
@@ -123,7 +152,7 @@ export function SessionsPage() {
                     </span>
                   </div>
 
-                  <p className="muted">
+                  <p className={mutedText}>
                     {session.id.slice(0, 8)}
                     {" · "}
                     Step{" "}
@@ -136,8 +165,9 @@ export function SessionsPage() {
                     {percent}%
                   </p>
 
-                  <div className="progress">
+                  <div className="mt-[13px] h-2 overflow-hidden rounded-[20px] bg-track">
                     <div
+                      className="h-full rounded-[20px] bg-fill"
                       style={{
                         width: `${percent}%`,
                       }}
@@ -145,20 +175,28 @@ export function SessionsPage() {
                   </div>
                 </div>
 
-                <Link
-                  className="btn soft"
-                  to={`/sessions/${session.id}`}
-                >
-                  {session.status === "completed"
-                    ? "View Session"
-                    : "Resume Session"}{" "}
-                  →
-                </Link>
+                <div className="flex flex-wrap justify-end gap-2">
+                  <Link
+                    className={btn("soft", inCard)}
+                    to={`/sessions/${session.id}`}
+                  >
+                    {session.status === "completed"
+                      ? "View Session"
+                      : "Resume Session"}{" "}
+                    →
+                  </Link>
+
+                  <DeleteProtocolButton
+                    protocol={protocol}
+                    onClick={requestDelete}
+                    label="Delete protocol"
+                  />
+                </div>
               </article>
             );
           })
         ) : (
-          <div className="panel">
+          <div className={panel}>
             <p>
               No saved sessions yet. Start your first
               experiment using the selector above or
@@ -166,7 +204,7 @@ export function SessionsPage() {
             </p>
 
             <Link
-              className="btn primary"
+              className={btn("primary")}
               to="/protocols"
             >
               Browse Protocols
@@ -174,6 +212,8 @@ export function SessionsPage() {
           </div>
         )}
       </div>
+
+      {dialog}
     </>
   );
 }
@@ -342,7 +382,7 @@ export function SessionDetail() {
 
   return (
     <>
-      <div className="breadcrumbs">
+      <div className="mb-[22px] text-[.88rem] text-crumbs">
         <Link to={`/protocols/${protocol.id}`}>
           {protocol.title}
         </Link>
@@ -350,8 +390,8 @@ export function SessionDetail() {
         Session {session.id.slice(0, 8)}
       </div>
 
-      <div className="heading step-heading">
-        <span className="large-number">
+      <div className={`${heading} flex items-center gap-[17px]`}>
+        <span className="inline-grid size-[60px] flex-none place-items-center rounded-full bg-step text-[1.8rem] font-extrabold text-step-ink">
           {session.currentStep + 1}
         </span>
 
@@ -361,26 +401,26 @@ export function SessionDetail() {
         </div>
       </div>
 
-      <div className="chips">
-        <span>
+      <div className="mb-5 flex flex-wrap items-center gap-[10px]">
+        <Chip tone="blue">
           ~ {step.estimatedMinutes ?? "—"} min
-        </span>
+        </Chip>
 
-        <span>
+        <Chip tone="violet">
           Materials ({step.materials.length} items)
-        </span>
+        </Chip>
 
-        <span>Experiment Notes</span>
+        <Chip tone="blue">Experiment Notes</Chip>
 
-        <span>
+        <Chip tone="violet">
           {session.completedStepIds.length}/
           {protocol.steps.length} steps completed
-        </span>
+        </Chip>
       </div>
 
-      <div className="two-cols">
-        <div className="stack">
-          <section className="panel">
+      <div className={twoCols}>
+        <div className={stack}>
+          <section className={panel}>
             <h2>Required Materials</h2>
 
             <ul>
@@ -392,10 +432,10 @@ export function SessionDetail() {
             </ul>
           </section>
 
-          <section className="panel">
+          <section className={panel}>
             <h2>Instructions</h2>
 
-            <ol className="instructions">
+            <ol className="[&_li]:border-b [&_li]:border-line-row [&_li]:py-[9px]">
               {step.instructions.map(
                 (instruction) => (
                   <li key={instruction}>
@@ -407,8 +447,8 @@ export function SessionDetail() {
           </section>
         </div>
 
-        <div className="stack">
-          <section className="panel">
+        <div className={stack}>
+          <section className={panel}>
             <h2>Experiment Notes</h2>
 
             <textarea
@@ -421,26 +461,27 @@ export function SessionDetail() {
             />
 
             <button
-              className="btn soft"
+              className={btn("soft")}
               onClick={() => void saveNotes()}
             >
               Save Notes
             </button>
           </section>
 
-          <section className="panel">
+          <section className={panel}>
             <h2>Step Timer</h2>
 
             <TimerPanel
               key={`${session.id}:${step.id}`}
               sessionId={session.id}
               stepId={step.id}
+              stepTitle={step.title}
             />
           </section>
 
           <Link
             to="/calculator"
-            className="btn soft"
+            className={btn("soft")}
           >
             Open Scientific Calculator →
           </Link>
@@ -448,14 +489,14 @@ export function SessionDetail() {
       </div>
 
       {error && (
-        <p className="error" role="alert">
+        <p className={errorMessage} role="alert">
           {error}
         </p>
       )}
 
-      <div className="footer-actions">
+      <div className="mt-[30px] flex justify-between gap-[15px] phone:flex-wrap">
         <button
-          className="btn soft"
+          className={btn("soft", FOOTER_BUTTON)}
           onClick={() => void goPrevious()}
           disabled={session.currentStep === 0}
         >
@@ -463,14 +504,14 @@ export function SessionDetail() {
         </button>
 
         <button
-          className="btn soft"
+          className={btn("soft", FOOTER_BUTTON)}
           onClick={() => void saveExit()}
         >
           Save and Exit
         </button>
 
         <button
-          className="btn primary"
+          className={btn("primary", FOOTER_BUTTON)}
           onClick={() => void goNext()}
           disabled={session.status === "completed"}
         >

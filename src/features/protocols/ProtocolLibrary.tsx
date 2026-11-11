@@ -3,9 +3,23 @@ import { Link } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
 
 import {
+  btn,
+  buttonRow,
+  errorMessage,
+  heading,
+  inCard,
+  listCard,
+  mutedText,
+  stack,
+} from "../../components/ui";
+import { DeleteProtocolButton } from "./DeleteProtocolButton";
+import {
   getAllProtocols,
   openSourcePdf,
+  restoreDemoProtocols,
 } from "./protocolService";
+import { useDeleteProtocol } from "./useDeleteProtocol";
+import { db } from "../../db/database";
 
 export function ProtocolLibrary() {
   const protocols = useLiveQuery(
@@ -14,6 +28,14 @@ export function ProtocolLibrary() {
   );
 
   const [error, setError] = useState("");
+
+  const { requestDelete, dialog } = useDeleteProtocol(setError);
+
+  // Number of demo protocols the user deleted (can be restored).
+  const hiddenDemoCount = useLiveQuery(
+    () => db.deletedProtocols.count(),
+    []
+  );
 
   async function handleOpenPdf(id: string) {
     try {
@@ -30,7 +52,7 @@ export function ProtocolLibrary() {
 
   return (
     <>
-      <div className="heading">
+      <div className={heading}>
         <h1>Protocol Library</h1>
         <p>
           Browse protocols, consult original PDFs
@@ -38,31 +60,42 @@ export function ProtocolLibrary() {
         </p>
       </div>
 
-      <p>
+      <div className="mb-5 flex flex-wrap gap-2">
         <Link
-          className="btn primary"
+          className={btn("primary")}
           to="/protocols/new"
         >
           + Add New Protocol
         </Link>
-      </p>
+
+        {Boolean(hiddenDemoCount) && (
+          <button
+            type="button"
+            className={btn("soft")}
+            onClick={() => void restoreDemoProtocols()}
+          >
+            Restore {hiddenDemoCount} demo protocol
+            {hiddenDemoCount === 1 ? "" : "s"}
+          </button>
+        )}
+      </div>
 
       {error && (
-        <p className="error" role="alert">
+        <p className={errorMessage} role="alert">
           {error}
         </p>
       )}
 
-      <div className="stack">
+      <div className={stack}>
         {protocols?.map((protocol) => (
           <article
-            className="listcard"
+            className={listCard("items-center phone:items-start")}
             key={protocol.id}
           >
             <div>
-              <h3>{protocol.title}</h3>
+              <h3 className="mb-2 text-[1.13rem]">{protocol.title}</h3>
 
-              <span className="muted">
+              <span className={mutedText}>
                 {protocol.steps.length} steps
                 {protocol.sourcePdf
                   ? " · PDF attached"
@@ -70,11 +103,11 @@ export function ProtocolLibrary() {
               </span>
             </div>
 
-            <div className="button-row">
+            <div className={buttonRow}>
               {protocol.sourcePdf && (
                 <button
                   type="button"
-                  className="btn soft"
+                  className={btn("soft", inCard)}
                   onClick={() =>
                     void handleOpenPdf(protocol.id)
                   }
@@ -84,15 +117,22 @@ export function ProtocolLibrary() {
               )}
 
               <Link
-                className="btn soft"
+                className={btn("soft", inCard)}
                 to={`/protocols/${protocol.id}`}
               >
                 View Protocol →
               </Link>
+
+              <DeleteProtocolButton
+                protocol={protocol}
+                onClick={requestDelete}
+              />
             </div>
           </article>
         ))}
       </div>
+
+      {dialog}
     </>
   );
 }
