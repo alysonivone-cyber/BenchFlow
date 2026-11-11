@@ -187,16 +187,16 @@ Chaque groupe contient des fichiers entiers ; un fichier qui touche plusieurs su
 
 | Hash | Commit | Contenu |
 |---|---|---|
-| `À COMPLÉTER` | `refactor(ui): migrate styles to Tailwind CSS v4 and add shared UI helpers` | Tailwind v4, `styles.css`, `ui.ts`, `Chip`, `Layout`, `App`, calculateur, `vite.config.ts`, favicon |
-| `À COMPLÉTER` | `fix(timer): create the step timer in one Dexie transaction` | `timerService.ts` et test de régression (DT-13) |
-| `À COMPLÉTER` | `feat(timer): alert the user when a step timer ends (NOTIF-01)` | `TimerPanel.tsx`, `timerAlerts.ts` et tests (DT-14) |
-| `À COMPLÉTER` | `feat(protocols): add Open me / Close badge on protocol steps` | `ProtocolDetail.tsx` |
-| `À COMPLÉTER` | `feat(protocols): delete any protocol with its sessions, notes and timers` | Dexie v3, service, dialogue, tests (DT-12) |
-| `À COMPLÉTER` | `feat(protocols): import a protocol from a PDF, loaded on demand` | `NewProtocol.tsx`, `pdfExtractor.ts` (DT-11) |
-| `À COMPLÉTER` | `chore: development diagnostic and small clean-ups` | `main.tsx`, `models.ts`, `sessionService.ts` |
-| `À COMPLÉTER` | `chore(vscode): silence Tailwind at-rule warnings and recommend the extension` | `.vscode/` |
-| `À COMPLÉTER` | `docs: add and update project specs` | Dossier `specs/` |
-| `À COMPLÉTER` | `docs(readme): declare Claude assistance, update scope and styling` | `README.md` |
+| `2f2b3dc` | `refactor(ui): migrate styles to Tailwind CSS v4 and add shared UI helpers` | Tailwind v4, `styles.css`, `ui.ts`, `Chip`, `Layout`, `App`, calculateur, `vite.config.ts`, favicon |
+| `3a85b20` | `fix(timer): create the step timer in one Dexie transaction` | `timerService.ts` et test de régression (DT-13) |
+| `f551ae3` | `feat(timer): alert the user when a step timer ends (NOTIF-01)` | `TimerPanel.tsx`, `timerAlerts.ts` et tests (DT-14) |
+| `05f3636` | `feat(protocols): add Open me / Close badge on protocol steps` | `ProtocolDetail.tsx` |
+| `b838542` | `feat(protocols): delete any protocol with its sessions, notes and timers` | Dexie v3, service, dialogue, tests (DT-12) |
+| `8c5b3fb` | `feat(protocols): import a protocol from a PDF, loaded on demand` | `NewProtocol.tsx`, `pdfExtractor.ts` (DT-11) |
+| `286a477` | `chore: development diagnostic and small clean-ups` | `main.tsx`, `models.ts`, `sessionService.ts` |
+| `a922194` | `chore(vscode): silence Tailwind at-rule warnings and recommend the extension` | `.vscode/` |
+| `56ea93d` | `docs: add and update project specs` | Dossier `specs/` |
+| `880c22d` | `docs(readme): declare Claude assistance, update scope and styling` | `README.md` |
 
 Obtenir les hashes : `git log --oneline -12`.
 
