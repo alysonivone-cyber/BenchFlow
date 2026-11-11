@@ -13,6 +13,21 @@ import type {
 } from "./calculations";
 
 import { TimerPanel } from "../timer/TimerPanel";
+import {
+  btn,
+  errorMessage,
+  fields,
+  heading,
+  hintText,
+  mutedText,
+  panel,
+  successMessage,
+  twoCols,
+} from "../../components/ui";
+
+// Highlighted formula / result box.
+const FORMULA =
+  "my-[18px] rounded-[10px] bg-formula p-5 text-center text-[1.4rem] font-extrabold text-formula-ink";
 
 // --------------------------------------------------
 // DILUTION CALCULATOR CONFIGURATION
@@ -159,7 +174,7 @@ export function CalculatorPage() {
 
   return (
     <>
-      <div className="heading">
+      <div className={heading}>
         <h1>Scientific Calculator</h1>
 
         <p>
@@ -168,17 +183,17 @@ export function CalculatorPage() {
         </p>
       </div>
 
-      <div className="two-cols">
-        <section className="panel">
+      <div className={twoCols}>
+        <section className={panel}>
           <h2>Dilution Calculator</h2>
 
-          <p className="muted">
+          <p className={mutedText}>
             Solve any variable in C₁V₁ = C₂V₂.
             Use compatible concentration and
             volume units.
           </p>
 
-          <div className="formula">
+          <div className={FORMULA}>
             C₁ × V₁ = C₂ × V₂
           </div>
 
@@ -207,7 +222,7 @@ export function CalculatorPage() {
             </select>
           </label>
 
-          <div className="fields">
+          <div className={fields}>
             {variables.map((variable) => (
               <label key={variable}>
                 {labels[variable]}
@@ -270,26 +285,26 @@ export function CalculatorPage() {
 
           <button
             type="button"
-            className="btn primary"
+            className={btn("primary")}
             onClick={calculate}
           >
             Calculate
           </button>
 
           {error && (
-            <p className="error" role="alert">
+            <p className={errorMessage} role="alert">
               {error}
             </p>
           )}
 
           {result !== null && (
-            <p className="success" role="status">
+            <p className={successMessage} role="status">
               {labels[target]} ={" "}
               <strong>{result}</strong>
             </p>
           )}
 
-          <p className="hint">
+          <p className={hintText}>
             This calculator supports simple dilutions
             only; always verify the protocol and units.
           </p>
@@ -298,7 +313,7 @@ export function CalculatorPage() {
 
           <h3>Volume Converter</h3>
 
-          <div className="fields">
+          <div className={fields}>
             <label>
               Volume
 
@@ -329,15 +344,15 @@ export function CalculatorPage() {
             </label>
           </div>
 
-          <p className="formula">
+          <p className={FORMULA}>
             {displayConvertedVolume()}
           </p>
         </section>
 
-        <section className="panel">
+        <section className={panel}>
           <h2>Laboratory Timer</h2>
 
-          <p className="muted">
+          <p className={mutedText}>
             Standalone timer. Timers in experimental
             sessions are saved per step.
           </p>

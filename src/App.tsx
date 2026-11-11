@@ -18,28 +18,37 @@ import {
 
 import { CalculatorPage } from "./features/calculator/CalculatorPage";
 
+import {
+  btn,
+  hintText,
+  mutedText,
+  panel,
+} from "./components/ui";
+
 // --------------------------------------------------
 // HOME PAGE
 // --------------------------------------------------
 
 function Home() {
   return (
-    <div className="home">
-      <div className="home-icon">BF</div>
+    <div className="flex min-h-[65vh] flex-col items-center justify-center text-center">
+      <div className="mb-[25px] grid size-[110px] place-items-center rounded-[28px] bg-[linear-gradient(135deg,#1357ae,#59a4f6)] text-[2.4rem] font-black text-white">
+        BF
+      </div>
 
-      <h1>Welcome to BenchFlow!</h1>
+      <h1 className="text-[2.7rem] phone:text-[2rem]">Welcome to BenchFlow!</h1>
 
       <p>Your experiments start here.</p>
 
-      <p className="muted">
+      <p className={`${mutedText} max-w-[450px]`}>
         A focused companion for step-by-step experimental workflows.
       </p>
 
-      <Link className="btn primary" to="/protocols">
+      <Link className={btn("primary", "my-5")} to="/protocols">
         Explore Protocol Library →
       </Link>
 
-      <p className="hint">
+      <p className={hintText}>
         Local-first · No account required · Demonstration protocols
       </p>
     </div>
@@ -98,7 +107,7 @@ export default function App() {
           <Route
             path="*"
             element={
-              <div className="panel">
+              <div className={panel}>
                 <h1>Page not found</h1>
                 <Link to="/">Go home</Link>
               </div>

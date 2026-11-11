@@ -1,720 +1,214 @@
-
-/* =========================================
-   01. GLOBAL STYLES
-========================================= */
-
-:root {
-  font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  color: #152742;
-  background: #f6f9fd;
-  font-synthesis: none;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-h1,
-h2,
-h3,
-p {
-  margin-top: 0;
-}
-
-h1 {
-  font-size: 2rem;
-  letter-spacing: -.045em;
-  margin-bottom: 8px;
-}
-
-h2 {
-  font-size: 1.2rem;
-}
-
-h3 {
-  font-size: 1rem;
-}
-
-p {
-  line-height: 1.55;
-}
-
-hr {
-  border: 0;
-  border-top: 1px solid #e7edf5;
-  margin: 24px 0;
-}
-
-
-/* =========================================
-   02. APPLICATION LAYOUT
-========================================= */
-
-.shell {
-  display: flex;
-  min-height: 100vh;
-}
-
-.sidebar {
-  width: 280px;
-  flex: none;
-  background: white;
-  border-right: 1px solid #e1e9f3;
-  padding: 30px 20px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 36px;
-}
-
-.brand {
-  font-size: 2rem;
-  letter-spacing: -.06em;
-  font-weight: 850;
-  color: #0c3c82;
-  padding: 6px 12px;
-}
-
-.brand span {
-  color: #398af0;
-}
-
-.sidebar nav {
-  display: grid;
-  gap: 12px;
-}
-
-.navlink {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  padding: 15px 13px;
-  border: 1px solid #d9e4f1;
-  border-radius: 10px;
-
-  font-size: .88rem;
-  font-weight: 600;
-  transition: .15s;
-}
-
-.navlink:hover,
-.navlink.active {
-  background: #eaf3ff;
-  color: #0755b4;
-  border-color: #b9d7ff;
-}
-
-.sidebar-foot {
-  margin-top: auto;
-  color: #8191a8;
-  font-size: .8rem;
-  padding-left: 12px;
-}
-
-.workspace {
-  flex: 1;
-  min-width: 0;
-}
-
-.topbar {
-  height: 65px;
-  background: white;
-  border-bottom: 1px solid #e2eaf4;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 0 34px;
-  color: #7d8ca3;
-  font-size: .84rem;
-}
-
-.main {
-  max-width: 1150px;
-  margin: 0 auto;
-  padding: 45px 36px 80px;
-}
-
-
-/* =========================================
-   03. TYPOGRAPHY & HEADINGS
-========================================= */
-
-.heading {
-  margin-bottom: 32px;
-}
-
-.heading p {
-  color: #728199;
-  font-size: 1.05rem;
-}
-
-.muted {
-  color: #8190a5;
-}
-
-.hint {
-  font-size: .82rem;
-  color: #8796aa;
-}
-
-.section-title,
-.session-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.section-title {
-  margin-bottom: 20px;
-}
-
-.section-title h2 {
-  margin: 0;
-}
-
-
-/* =========================================
-   04. CARDS & PANELS
-========================================= */
-
-.stack {
-  display: grid;
-  gap: 16px;
-}
-
-.listcard,
-.panel,
-.step-preview {
-  background: white;
-  border: 1px solid #e3eaf3;
-  border-radius: 14px;
-  box-shadow: 0 3px 16px #183d7310;
-}
-
-.listcard {
-  padding: 22px 24px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.listcard h3 {
-  font-size: 1.13rem;
-  margin: 0 0 8px;
-}
-
-.panel {
-  padding: 23px;
-}
-
-.panel h2,
-.panel h3 {
-  margin-bottom: 12px;
-}
-
-.panel ul,
-.panel ol {
-  padding-left: 23px;
-  line-height: 1.85;
-}
-
-
-/* =========================================
-   05. BUTTONS
-========================================= */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-
-  padding: 12px 17px;
-  border: 0;
-  border-radius: 9px;
-
-  font-weight: 700;
-  font-size: .89rem;
-  text-align: center;
-}
-
-.btn.primary {
-  background: #1258ac;
-  color: white;
-}
-
-.btn.primary:hover {
-  background: #0a448b;
-}
-
-.btn.soft {
-  background: #e8f2ff;
-  color: #13559d;
-}
-
-.btn.soft:hover {
-  background: #d6e8ff;
-}
-
-.btn:disabled {
-  opacity: .5;
-  cursor: not-allowed;
-}
-
-.btn.wide {
-  width: 100%;
-}
-
-.ghost {
-  border: 0;
-  background: #eaf3ff;
-  color: #2764a5;
-  border-radius: 9px;
-  padding: 10px 14px;
-
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-
-/* =========================================
-   06. GRIDS & FORMS
-========================================= */
-
-.detailgrid,
-.two-cols {
-  display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: 24px;
-}
-
-.two-cols {
-  grid-template-columns: 1fr 1fr;
-}
-
-textarea,
-input,
-select {
-  border: 1px solid #d7e3f0;
-  border-radius: 8px;
-  padding: 11px 12px;
-  max-width: 100%;
-  background: white;
-  color: #172a44;
-}
-
-textarea {
-  width: 100%;
-  resize: vertical;
-  margin-bottom: 12px;
-}
-
-.fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin: 18px 0;
-}
-
-.fields label,
-.duration-label {
-  display: grid;
-  gap: 7px;
-  font-size: .85rem;
-  font-weight: 650;
-}
-
-.fields input,
-.fields select {
-  width: 100%;
-}
-
-
-/* =========================================
-   07. PROTOCOL LIBRARY
-========================================= */
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.chips span {
-  background: #eaf3ff;
-  border-radius: 9px;
-  padding: 10px 14px;
-  color: #215c9d;
-  font-weight: 700;
-  font-size: .84rem;
-}
-
-.chips span:nth-child(even) {
-  background: #f2edff;
-  color: #6956a6;
-}
-
-.step-preview {
-  padding: 13px 18px;
-}
-
-.step-preview summary {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  cursor: pointer;
-  list-style: none;
-}
-
-.step-preview summary::-webkit-details-marker {
-  display: none;
-}
-
-.step-preview small {
-  display: block;
-  color: #8592a6;
-  margin-top: 5px;
-}
-
-.step-number,
-.large-number {
-  background: #e1efff;
-  color: #1764bc;
-  border-radius: 50%;
-
-  width: 32px;
-  height: 32px;
-
-  display: inline-grid;
-  place-items: center;
-  font-weight: 800;
-  flex: none;
-}
-
-.large-number {
-  width: 60px;
-  height: 60px;
-  font-size: 1.8rem;
-}
-
-.step-preview ol {
-  color: #64748b;
-  line-height: 1.7;
-}
-
-
-/* =========================================
-   08. EXPERIMENTAL WORKFLOW
-========================================= */
-
-.session-info {
-  flex: 1;
-}
-
-.session-heading h3 {
-  margin: 0;
-}
-
-.status {
-  font-size: .76rem;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: #e8f7ef;
-  color: #21805b;
-}
-
-.status.paused {
-  background: #fff4da;
-  color: #a47418;
-}
-
-.status.completed {
-  background: #dff7eb;
-  color: #167a4e;
-}
-
-.sessioncard {
-  align-items: end;
-}
-
-.progress {
-  height: 8px;
-  border-radius: 20px;
-  background: #e8edf4;
-  margin-top: 13px;
-  overflow: hidden;
-}
-
-.progress div {
-  height: 100%;
-  background: #3c8fe7;
-  border-radius: 20px;
-}
-
-.breadcrumbs {
-  font-size: .88rem;
-  color: #6c88aa;
-  margin-bottom: 22px;
-}
-
-.step-heading {
-  display: flex;
-  gap: 17px;
-  align-items: center;
-}
-
-.instructions li {
-  padding: 9px 0;
-  border-bottom: 1px solid #edf1f6;
-}
-
-.footer-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 30px;
-}
-
-.footer-actions .btn {
-  flex: 1;
-}
-
-
-/* =========================================
-   09. SCIENTIFIC CALCULATOR
-========================================= */
-
-.section-title select {
-  background: #1258ac;
-  color: white;
-  border: 0;
-  border-radius: 8px;
-  padding: 12px 15px;
-  max-width: 240px;
-}
-
-.formula {
-  background: #eaf3ff;
-  color: #164e8d;
-  border-radius: 10px;
-  text-align: center;
-  padding: 20px;
-  margin: 18px 0;
-  font-size: 1.4rem;
-  font-weight: 800;
-}
-
-.success {
-  background: #e5f8eb;
-  color: #18683d;
-  padding: 12px;
-  border-radius: 9px;
-  margin-top: 14px;
-}
-
-.error {
-  background: #fff0ee;
-  color: #a02e25;
-  padding: 12px;
-  border-radius: 9px;
-}
-
-
-/* =========================================
-   10. TIMER
-========================================= */
-
-.timer {
-  text-align: center;
-}
-
-.clock {
-  font-size: 3.8rem;
-  color: #123d7a;
-  font-weight: 800;
-  letter-spacing: -.05em;
-  padding: 24px;
-}
-
-.button-row {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin: 15px 0;
-}
-
-.duration-label {
-  text-align: left;
-  max-width: 210px;
-  margin: 20px auto;
-}
-
-
-/* =========================================
-   11. HOME PAGE
-========================================= */
-
-.home {
-  min-height: 65vh;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-}
-
-.home-icon {
-  width: 110px;
-  height: 110px;
-  border-radius: 28px;
-
-  background: linear-gradient(135deg, #1357ae, #59a4f6);
-
-  display: grid;
-  place-items: center;
-
-  color: white;
-  font-size: 2.4rem;
-  font-weight: 900;
-  margin-bottom: 25px;
-}
-
-.home h1 {
-  font-size: 2.7rem;
-}
-
-.home > .btn {
-  margin: 20px 0;
-}
-
-.home .muted {
-  max-width: 450px;
-}
-
-
-/* =========================================
-   12. RESPONSIVE DESIGN
-========================================= */
-
-@media (max-width: 900px) {
-  .sidebar {
-    width: 225px;
-    padding: 20px 12px;
-  }
-
-  .main {
-    padding: 32px 20px;
-  }
-
-  .detailgrid,
-  .two-cols {
-    grid-template-columns: 1fr;
+/* ==================================================
+   BENCHFLOW — TAILWIND CSS (v4)
+   --------------------------------------------------
+   1. Design tokens  (@theme)      -> become utilities
+   2. Responsive variants           -> tablet / phone
+   3. Base layer                    -> global element defaults
+   Everything else is written as utility classes in the
+   components (see src/components/ui.ts for shared ones).
+================================================== */
+
+@import "tailwindcss";
+
+/* --------------------------------------------------
+   1. DESIGN TOKENS
+   Colors are named by role, so `bg-primary` or
+   `text-muted` reads the same everywhere.
+-------------------------------------------------- */
+
+@theme {
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Surfaces and text */
+  --color-ink: #152742;
+  --color-canvas: #f6f9fd;
+  --color-field-ink: #172a44;
+  --color-muted: #8190a5;
+  --color-hint: #8796aa;
+  --color-subtle: #728199;
+  --color-topbar-ink: #7d8ca3;
+  --color-foot: #8191a8;
+  --color-crumbs: #6c88aa;
+  --color-body-soft: #64748b;
+  --color-step-desc: #8592a6;
+  --color-dialog-ink: #475569;
+
+  /* Borders */
+  --color-line-card: #e3eaf3;
+  --color-line-side: #e1e9f3;
+  --color-line-top: #e2eaf4;
+  --color-line-hr: #e7edf5;
+  --color-line-row: #edf1f6;
+  --color-line-field: #d7e3f0;
+
+  /* Brand and buttons */
+  --color-brand-navy: #0c3c82;
+  --color-brand-sky: #398af0;
+  --color-primary: #1258ac;
+  --color-primary-hover: #0a448b;
+  --color-soft: #e8f2ff;
+  --color-soft-ink: #13559d;
+  --color-soft-hover: #d6e8ff;
+  --color-ghost: #eaf3ff;
+  --color-ghost-ink: #2764a5;
+
+  /* Navigation */
+  --color-nav-line: #d9e4f1;
+  --color-nav-active: #eaf3ff;
+  --color-nav-active-ink: #0755b4;
+  --color-nav-active-line: #b9d7ff;
+
+  /* Chips */
+  --color-chip-blue: #eaf3ff;
+  --color-chip-blue-line: #d3e5fb;
+  --color-chip-blue-ink: #215c9d;
+  --color-chip-violet: #f2edff;
+  --color-chip-violet-line: #e2d9fb;
+  --color-chip-violet-ink: #6956a6;
+
+  /* "Open me" (green) / "Close" (red) badge */
+  --color-open: #e3f6ea;
+  --color-open-line: #bfe6cd;
+  --color-open-hover: #d3f0de;
+  --color-open-ink: #1f7a45;
+  --color-close: #fde8e8;
+  --color-close-line: #f5c2c2;
+  --color-close-ink: #b42318;
+
+  /* Steps and sessions */
+  --color-step: #e1efff;
+  --color-step-ink: #1764bc;
+  --color-status-ok: #e8f7ef;
+  --color-status-ok-ink: #21805b;
+  --color-status-paused: #fff4da;
+  --color-status-paused-ink: #a47418;
+  --color-status-done: #dff7eb;
+  --color-status-done-ink: #167a4e;
+  --color-track: #e8edf4;
+  --color-fill: #3c8fe7;
+
+  /* Feedback */
+  --color-formula: #eaf3ff;
+  --color-formula-ink: #164e8d;
+  --color-ok: #e5f8eb;
+  --color-ok-ink: #18683d;
+  --color-err: #fff0ee;
+  --color-err-ink: #a02e25;
+  --color-alert: #fff4d6;
+  --color-alert-line: #f0c75e;
+  --color-alert-ink: #7a5200;
+  --color-clock: #123d7a;
+
+  /* Destructive actions */
+  --color-danger: #c62d21;
+  --color-danger-hover: #a3231a;
+  --color-danger-ink: #b42318;
+  --color-danger-line: #f1b8b3;
+  --color-danger-soft: #fdeceb;
+
+  --shadow-card: 0 3px 16px #183d7310;
+  --shadow-dialog: 0 20px 60px #0f2a5240;
+
+  /* End-of-timer alert pulse (NOTIF-01) */
+  --animate-timer-pulse: timer-pulse 1s ease-in-out 3;
+
+  @keyframes timer-pulse {
+    50% {
+      transform: scale(1.03);
+    }
   }
 }
 
-@media (max-width: 650px) {
-  .shell {
-    display: block;
+/* --------------------------------------------------
+   2. RESPONSIVE VARIANTS
+   `tablet:` <= 900px and `phone:` <= 650px.
+   Declared in this order so `phone:` wins over `tablet:`.
+-------------------------------------------------- */
+
+@custom-variant tablet (@media (max-width: 900px));
+@custom-variant phone (@media (max-width: 650px));
+
+/* --------------------------------------------------
+   3. BASE LAYER
+   Tailwind's preflight removes the browser defaults for
+   headings, paragraphs and form fields; they are set once
+   here so the components stay free of repeated styles.
+-------------------------------------------------- */
+
+@layer base {
+  html {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    line-height: normal;
+    font-synthesis: none;
   }
 
-  .sidebar {
-    width: 100%;
-    padding: 12px;
-    gap: 10px;
-    border-right: 0;
-    border-bottom: 1px solid #e1e9f3;
+  button:not(:disabled) {
+    cursor: pointer;
   }
 
-  .brand {
-    font-size: 1.4rem;
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
   }
 
-  .sidebar nav {
-    display: flex;
-    overflow-x: auto;
-    gap: 7px;
-  }
-
-  .navlink {
-    flex: none;
-    font-size: .74rem;
-    padding: 10px;
-  }
-
-  .sidebar-foot,
-  .topbar span {
-    display: none;
-  }
-
-  .topbar {
-    height: 46px;
-    justify-content: end;
-    padding: 0 12px;
-  }
-
-  .main {
-    padding: 22px 14px 60px;
-  }
-
-  .listcard {
-    padding: 16px;
-    align-items: start;
-  }
-
-  .listcard .btn {
-    font-size: .75rem;
-    padding: 10px;
-  }
-
-  .sessioncard {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .fields {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-actions {
-    flex-wrap: wrap;
-  }
-
-  .footer-actions .btn {
-    flex: 1 1 40%;
-  }
-
-  .home h1 {
+  h1 {
+    margin-bottom: 8px;
     font-size: 2rem;
+    letter-spacing: -0.045em;
+  }
+
+  h2 {
+    margin-bottom: 0.83em;
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    margin-bottom: 1em;
+    font-size: 1rem;
+  }
+
+  p {
+    margin-bottom: 1em;
+    line-height: 1.55;
+  }
+
+  hr {
+    margin: 24px 0;
+    border-top: 1px solid var(--color-line-hr);
+  }
+
+  input,
+  textarea,
+  select {
+    max-width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--color-line-field);
+    border-radius: 8px;
+    background: white;
+    color: var(--color-field-ink);
+  }
+
+  textarea {
+    width: 100%;
+    margin-bottom: 12px;
+    resize: vertical;
+  }
+
+  ::placeholder {
+    color: #757575;
+  }
+
+  input::file-selector-button {
+    margin-right: 8px;
+    padding: 3px 6px;
+    border: 1px solid var(--color-line-field);
+    border-radius: 4px;
+    background: var(--color-soft);
+    color: var(--color-soft-ink);
+    font-size: 13.333px;
+    font-weight: 700;
+    cursor: pointer;
   }
 }
