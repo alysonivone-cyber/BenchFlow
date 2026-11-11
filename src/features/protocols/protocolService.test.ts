@@ -105,6 +105,11 @@ describe("BenchFlow — Delete protocol", () => {
     expect(await db.customProtocols.count()).toBe(0);
   });
 
+  it("returns undefined for an unknown id", async () => {
+    // The pages rely on this: they turn it into `null` (= not found).
+    expect(await getProtocol("does-not-exist")).toBeUndefined();
+  });
+
   it("works when the protocol has no session", async () => {
     await db.customProtocols.put(customProtocol("solo"));
 

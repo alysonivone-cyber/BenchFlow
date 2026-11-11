@@ -232,17 +232,19 @@ export function SessionDetail() {
   const navigate = useNavigate();
 
   // Retrieve the active session.
+  // undefined = still loading, null = no such session.
   const session = useLiveQuery(
-    () => (id ? db.sessions.get(id) : undefined),
+    async () => (id ? ((await db.sessions.get(id)) ?? null) : null),
     [id]
   );
 
   // Retrieve the protocol associated with the session.
+  // Same convention: undefined = loading, null = not found.
   const protocol = useLiveQuery(
-    () =>
+    async () =>
       session?.protocolId
-        ? getProtocol(session.protocolId)
-        : undefined,
+        ? ((await getProtocol(session.protocolId)) ?? null)
+        : null,
     [session?.protocolId]
   );
 
@@ -267,7 +269,11 @@ export function SessionDetail() {
     setNoteText(note?.text ?? "");
   }, [note?.id, note?.text, step?.id]);
 
-  if (session === undefined) {
+  // Wait for the session, then for its protocol.
+  if (
+    session === undefined ||
+    (session !== null && protocol === undefined)
+  ) {
     return <p>Loading session…</p>;
   }
 

@@ -28,8 +28,11 @@ export function ProtocolDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // undefined = still loading, null = no such protocol.
+  // (getProtocol returns undefined when nothing is found, which
+  // useLiveQuery cannot tell apart from "loading": hence `?? null`.)
   const protocol = useLiveQuery(
-    () => (id ? getProtocol(id) : undefined),
+    async () => (id ? ((await getProtocol(id)) ?? null) : null),
     [id]
   );
 
