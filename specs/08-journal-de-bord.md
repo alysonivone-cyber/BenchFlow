@@ -68,6 +68,12 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 - **Commit Git :** `4fdd999` (code), `4e96da6` (specs).
 - **Prochaine étape :** retirer les `console.log` de `database.ts`.
 
+## 17 novembre 2026 — Nettoyage du code (séances du 12 au 16 novembre regroupées)
+
+- **Travail effectué :** les séances de nettoyage prévues du 12 au 16 novembre n'ont pas pu avoir lieu ; je les ai faites le 17 novembre, avec un commit par sujet à la date réelle. Retrait du diagnostic de développement de `database.ts` (dont les `console.log`) et de son appel dans `main.tsx` ; suppression du fichier `ProtocolPages.tsx`, jamais importé ; fonction `twoDigits` dédoublée, désormais dans `src/utils/format.ts` avec 2 tests.
+- **Imports inutilisés :** aucun à retirer, car `noUnusedLocals` et `noUnusedParameters` sont actifs dans `tsconfig.json` et le build échoue sinon.
+- **Tests exécutés et résultats :** 40 tests Vitest réussis, `tsc -b` et `vite build` réussis.
+- **Commits Git :** `f7730cf` (diagnostic), `f773e35` (fichier mort), `4db4b47` (doublon).
 ## Modèle à réutiliser pour les prochaines séances
 
 ### [Date] — [Fonctionnalité ou correction]
