@@ -6,9 +6,7 @@
 // Dexie for notes and timers). The readable name is computed from
 // `createdAt`, so no stored data has to change.
 
-function twoDigits(value: number): string {
-  return String(value).padStart(2, "0");
-}
+import { twoDigits } from "../../utils/format";
 
 /** Local date as YYYYMMDD, e.g. 20261111. */
 export function formatDateStamp(timestamp: number): string {

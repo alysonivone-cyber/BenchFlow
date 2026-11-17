@@ -8,6 +8,7 @@ import {
   mutedText,
 } from "../../components/ui";
 import type { LabTimer } from "../../types/models";
+import { twoDigits } from "../../utils/format";
 
 import {
   alertTimerFinished,
@@ -58,9 +59,6 @@ function formatRemaining(milliseconds: number): string {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-
-  const twoDigits = (value: number) =>
-    String(value).padStart(2, "0");
 
   return hours > 0
     ? `${twoDigits(hours)}:${twoDigits(minutes)}:${twoDigits(seconds)}`
