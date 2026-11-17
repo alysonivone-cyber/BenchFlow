@@ -7,6 +7,8 @@ import {
 
 import { Layout } from "./components/Layout";
 
+import logo from "./assets/benchflow-logo.png";
+
 import { ProtocolLibrary } from "./features/protocols/ProtocolLibrary";
 import { ProtocolDetail } from "./features/protocols/ProtocolDetail";
 import { NewProtocol } from "./features/protocols/NewProtocol";
@@ -32,9 +34,13 @@ import {
 function Home() {
   return (
     <div className="flex min-h-[65vh] flex-col items-center justify-center text-center">
-      <div className="mb-[25px] grid size-[110px] place-items-center rounded-[28px] bg-[linear-gradient(135deg,#1357ae,#59a4f6)] text-[2.4rem] font-black text-white">
-        BF
-      </div>
+      <img
+        className="mb-4 h-auto w-[320px] max-w-full"
+        src={logo}
+        width={720}
+        height={621}
+        alt="BenchFlow — Experimental Workflow Companion"
+      />
 
       <h1 className="text-[2.7rem] phone:text-[2rem]">Welcome to BenchFlow!</h1>
 
