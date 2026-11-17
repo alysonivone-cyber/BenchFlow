@@ -74,6 +74,12 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 - **Imports inutilisés :** aucun à retirer, car `noUnusedLocals` et `noUnusedParameters` sont actifs dans `tsconfig.json` et le build échoue sinon.
 - **Tests exécutés et résultats :** 40 tests Vitest réussis, `tsc -b` et `vite build` réussis.
 - **Commits Git :** `f7730cf` (diagnostic), `f773e35` (fichier mort), `4db4b47` (doublon).
+## 17 novembre 2026 (suite) — Logo et slogan (DT-18)
+
+- **Travail effectué :** le logo remplace le carré provisoire « BF » sur l'accueil, et les icônes de l'application reprennent le symbole du logo. Le logo a été préparé (fond transparent, recadré, réduit).
+- **Fichiers concernés :** `App.tsx`, `src/assets/benchflow-logo.png` (nouveau), `public/icons/icon-192.png` et `icon-512.png`.
+- **Tests exécutés et résultats :** `tsc -b` et `vite build` réussis, 12 fichiers dans le cache hors ligne ; test hors ligne à faire le 21 novembre.
+- **Commits Git :** `59d2a1d` (accueil), `0a1982a` (icônes).
 ## Modèle à réutiliser pour les prochaines séances
 
 ### [Date] — [Fonctionnalité ou correction]

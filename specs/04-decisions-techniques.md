@@ -168,6 +168,15 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Validation :** dans le navigateur (mode ordinateur), l'onglet s'appelle `20261111-1429 · Strawberry DNA Extraction` et contient l'`<embed>` du PDF ; en mode tactile, le PDF s'ouvre directement. **À confirmer sur Edge** : le rendu du PDF dans la page.
 
+## DT-18 — Logo et slogan sur l'écran d'accueil
+
+**Contexte :** l'accueil affichait un carré provisoire « BF ». Le slogan « Experimental Workflow Companion » existait déjà dans le bandeau et dans le manifeste de la PWA.
+
+**Décision :** afficher le logo complet (symbole, nom, slogan) à la place du carré, avec le texte alternatif « BenchFlow — Experimental Workflow Companion ». L'image est un PNG et non un WebP, car la liste des fichiers mis en cache hors ligne de `vite.config.ts` contient `png` mais pas `webp`. Le fond blanc d'origine a été rendu transparent, car le fond de la page est bleu très clair. L'image a été recadrée et réduite à 720 px de large (326 Ko au lieu de 1,3 Mo), puis placée dans `src/assets` et importée par le code : Vite lui donne un nom unique et la PWA la met en cache pour le hors ligne. Les icônes d'installation (192 et 512 px) reprennent le symbole sur fond blanc avec une marge, pour rester lisibles quand le système les rogne.
+
+**Limite :** le slogan fait partie de l'image : il n'est pas sélectionnable et reste petit sur téléphone ; le même texte existe en vrai texte dans le bandeau. Une variante simplifiée en SVG a été comparée puis écartée : le logo d'origine est conservé.
+
+**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (12 fichiers au lieu de 11) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production prévu le 21 novembre.
 ## Comment défendre une décision à l'oral
 
 Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.
