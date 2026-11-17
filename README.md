@@ -80,6 +80,7 @@ Anthropic Claude (Claude Sonnet 5.5) assisted on 11 November 2026 with: the fix 
 Anthropic Claude (Claude Sonnet 5.5) also assisted on 11 and 17 November 2026 with: the readable session names and protocol dates, the fix of the "not found" pages, opening the source PDF in a titled page, the code clean-up (removal of the development diagnostic, an unused file and a duplicated helper), the integration of the logo and of the app icons into the interface, and the matching entries of `specs/`. Its commits carry a `Co-Authored-By: Claude` trailer.
 
 The BenchFlow logo (`src/assets/benchflow-logo.png`, the emblem and the app icons derived from it) was generated with ChatGPT. Claude only prepared the image files (transparent background, cropping, resizing) and integrated them.
+
 The student reviews, tests and must be able to explain all submitted code.
 
 ## Suggested first Git commits
