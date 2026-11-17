@@ -15,6 +15,8 @@ import {
 
 import { cx } from "./ui";
 
+import emblem from "../assets/benchflow-emblem.png";
+
 // Main navigation links
 const links = [
   {
@@ -48,9 +50,16 @@ export function Layout() {
       <aside className="flex w-[280px] flex-none flex-col gap-9 border-r border-line-side bg-white px-5 py-[30px] tablet:w-[225px] tablet:px-3 tablet:py-5 phone:w-full phone:gap-[10px] phone:border-r-0 phone:border-b phone:px-3 phone:py-3">
         <NavLink
           to="/"
-          className="px-3 py-[6px] text-[2rem] font-[850] tracking-[-.06em] text-brand-navy phone:text-[1.4rem]"
+          className="flex items-center gap-2 px-3 py-[6px] text-[2rem] font-[850] tracking-[-.06em] text-brand-navy phone:text-[1.4rem]"
         >
-          Bench<span className="text-brand-sky">Flow</span>
+          <img
+            className="h-[42px] w-auto phone:h-[30px]"
+            src={emblem}
+            alt=""
+          />
+          <span>
+            Bench<span className="text-brand-sky">Flow</span>
+          </span>
         </NavLink>
 
         <nav
