@@ -99,4 +99,9 @@ export interface LabTimer {
   endsAt: number | null;
   status: TimerStatus;
   updatedAt: number;
+  /**
+   * Human-readable name, visible when inspecting IndexedDB, e.g.
+   * "20261118-1141 · DNA Extraction · Cell Lysis". Not indexed.
+   */
+  label?: string;
 }

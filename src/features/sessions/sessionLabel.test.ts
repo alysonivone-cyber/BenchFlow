@@ -5,6 +5,7 @@ import {
   formatDateStamp,
   formatSessionName,
   formatSessionStamp,
+  formatTimerLabel,
 } from "./sessionLabel";
 
 // Local-time constructor: the expected text does not depend
@@ -37,5 +38,17 @@ describe("BenchFlow — readable session names", () => {
   it("removes only the last extension of a file name", () => {
     expect(fileBaseName("protocol.v2.pdf")).toBe("protocol.v2");
     expect(fileBaseName("no-extension")).toBe("no-extension");
+  });
+});
+
+describe("formatTimerLabel", () => {
+  it("joins date-time, protocol title and step title", () => {
+    expect(
+      formatTimerLabel(
+        NOV_11_2026_14_23,
+        "DNA Extraction",
+        "Cell Lysis"
+      )
+    ).toBe("20261111-1423 · DNA Extraction · Cell Lysis");
   });
 });

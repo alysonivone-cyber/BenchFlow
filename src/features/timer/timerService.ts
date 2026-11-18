@@ -13,6 +13,7 @@ const DEFAULT_DURATION_MS = 30_000;
  */
 export const GLOBAL_TIMER_SESSION_ID = "global";
 export const GLOBAL_TIMER_STEP_ID = "calculator";
+export const GLOBAL_TIMER_LABEL = "Calculator timer";
 
 // --------------------------------------------------
 // CALCULATE REMAINING TIME
@@ -84,10 +85,12 @@ export async function setTimer(
 /**
  * Retrieve the timer associated with a session step.
  * Create a default 30-second timer if none exists.
+ * `label` is the readable name stored with the record.
  */
 export async function ensureTimer(
   sessionId: string,
-  stepId: string
+  stepId: string,
+  label?: string
 ): Promise<LabTimer> {
   const id = `${sessionId}:${stepId}`;
 
@@ -99,6 +102,16 @@ export async function ensureTimer(
     const existingTimer = await db.timers.get(id);
 
     if (existingTimer) {
+      // Timers saved before labels existed (or whose protocol was
+      // renamed) get their readable label here, in the same transaction.
+      if (label && existingTimer.label !== label) {
+        const labelled = { ...existingTimer, label };
+
+        await db.timers.put(labelled);
+
+        return labelled;
+      }
+
       return existingTimer;
     }
 
@@ -111,6 +124,7 @@ export async function ensureTimer(
       endsAt: null,
       status: "idle",
       updatedAt: Date.now(),
+      label,
     };
 
     await db.timers.add(timer);

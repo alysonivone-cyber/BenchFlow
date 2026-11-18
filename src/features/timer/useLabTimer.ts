@@ -23,6 +23,8 @@ export type TimerAction = "start" | "pause" | "reset";
 export type UseLabTimerOptions = {
   sessionId: string;
   stepId: string;
+  /** Readable name stored with the timer record. */
+  label?: string;
   /** Shown in the end-of-timer alert (e.g. "Cell Lysis"). */
   stepTitle?: string;
 };
@@ -33,6 +35,7 @@ const STORAGE_ERROR =
 function createLocalTimer(
   sessionId: string,
   stepId: string,
+  label?: string,
   seconds = 30
 ): LabTimer {
   return {
@@ -44,6 +47,7 @@ function createLocalTimer(
     endsAt: null,
     status: "idle",
     updatedAt: Date.now(),
+    label,
   };
 }
 
@@ -55,6 +59,7 @@ function createLocalTimer(
 export function useLabTimer({
   sessionId,
   stepId,
+  label,
   stepTitle,
 }: UseLabTimerOptions) {
   const [timer, setLocalTimer] = useState<LabTimer | null>(
@@ -81,14 +86,15 @@ export function useLabTimer({
 
     const fallback = createLocalTimer(
       sessionId,
-      stepId
+      stepId,
+      label
     );
 
     timerRef.current = fallback;
     setLocalTimer(fallback);
     setDuration(30);
 
-    ensureTimer(sessionId, stepId)
+    ensureTimer(sessionId, stepId, label)
       .then((savedTimer) => {
         if (!active) return;
 
@@ -111,7 +117,7 @@ export function useLabTimer({
     return () => {
       active = false;
     };
-  }, [sessionId, stepId]);
+  }, [sessionId, stepId, label]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {

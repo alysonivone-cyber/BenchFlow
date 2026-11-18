@@ -20,6 +20,7 @@ import { TimerPanel } from "../timer/TimerPanel";
 import {
   formatSessionName,
   formatSessionStamp,
+  formatTimerLabel,
 } from "./sessionLabel";
 import { Chip } from "../../components/Chip";
 import {
@@ -486,6 +487,11 @@ export function SessionDetail() {
               key={`${session.id}:${step.id}`}
               sessionId={session.id}
               stepId={step.id}
+              label={formatTimerLabel(
+                session.createdAt,
+                protocol.title,
+                step.title
+              )}
               stepTitle={step.title}
             />
           </section>

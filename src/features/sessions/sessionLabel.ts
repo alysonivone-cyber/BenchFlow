@@ -42,3 +42,12 @@ export function formatSessionName(
 export function fileBaseName(fileName: string): string {
   return fileName.replace(/\.[^./\\]+$/, "");
 }
+
+/** Readable name of a step timer: "20261118-1141 · Protocol · Step". */
+export function formatTimerLabel(
+  sessionCreatedAt: number,
+  protocolTitle: string,
+  stepTitle: string
+): string {
+  return `${formatSessionName(sessionCreatedAt, protocolTitle)} · ${stepTitle}`;
+}

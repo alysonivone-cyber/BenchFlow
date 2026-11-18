@@ -135,4 +135,24 @@ describe("BenchFlow — Timer IndexedDB Storage", () => {
     expect(savedCalculator?.endsAt).toBe(901_000);
     expect(savedCalculator?.id).toBe("global:calculator");
   });
+
+  it("stores a readable label and adds it to an older unlabelled timer", async () => {
+    const created = await ensureTimer(
+      "session-test",
+      "step-1",
+      "20261118-1141 · DNA Extraction · Cell Lysis"
+    );
+
+    expect(created.label).toBe(
+      "20261118-1141 · DNA Extraction · Cell Lysis"
+    );
+
+    // Timer saved before labels existed.
+    await db.timers.put({ ...created, id: "old:step", label: undefined });
+
+    const backfilled = await ensureTimer("old", "step", "Readable name");
+
+    expect(backfilled.label).toBe("Readable name");
+    expect((await db.timers.get("old:step"))?.label).toBe("Readable name");
+  });
 });
