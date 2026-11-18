@@ -5,6 +5,7 @@ import {
   getNotificationSupport,
   requestNotificationPermission,
   showSystemNotification,
+  timerFinishedMessage,
 } from "./timerAlerts";
 
 describe("BenchFlow — Timer alerts (NOTIF-01)", () => {
@@ -49,5 +50,12 @@ describe("BenchFlow — Timer alerts (NOTIF-01)", () => {
     });
 
     expect(await requestNotificationPermission()).toBe("default");
+  });
+
+  it("builds the alert text from the timer label", () => {
+    expect(timerFinishedMessage("20261118-1141 · DNA · Lysis")).toBe(
+      'Timer "20261118-1141 · DNA · Lysis" is complete.'
+    );
+    expect(timerFinishedMessage()).toBe("Your timer is complete.");
   });
 });

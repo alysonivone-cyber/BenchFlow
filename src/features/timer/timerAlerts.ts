@@ -173,3 +173,10 @@ export async function alertTimerFinished(
 
   return { sound, notification };
 }
+
+/** Text of the end-of-timer alert (system notification and banner). */
+export function timerFinishedMessage(label?: string): string {
+  return label
+    ? `Timer "${label}" is complete.`
+    : "Your timer is complete.";
+}
