@@ -168,7 +168,7 @@ export function ProtocolDetail() {
               className={detailsCard}
               key={step.id}
             >
-              <summary className="group/summary flex cursor-pointer list-none items-center gap-[14px] rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-open-ink [&::-webkit-details-marker]:hidden">
+              <summary className="group/summary flex cursor-pointer list-none items-center gap-[14px] rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-chip-grey-ink [&::-webkit-details-marker]:hidden">
                 <span className="inline-grid size-8 flex-none place-items-center rounded-full bg-step font-extrabold text-step-ink">
                   {index + 1}
                 </span>
@@ -180,12 +180,18 @@ export function ProtocolDetail() {
                   </small>
                 </span>
 
-                {/* Green badge: tells the user the step can be expanded. */}
-                <span className="inline-flex flex-none items-center gap-[5px] rounded-full border border-open-line bg-open px-3 py-[6px] text-[.8rem] font-bold text-open-ink [details:not([open])>summary:hover_&]:bg-open-hover group-open/step:border-close-line group-open/step:bg-close group-open/step:text-close-ink">
-                  <span className="group-open/step:hidden">Open me</span>
-                  <span className="hidden group-open/step:inline">Close</span>
+                {/* Round grey chip, like the step number on the left.
+                    The arrow shows the state; the text is only for
+                    screen readers. */}
+                <span className="inline-grid size-8 flex-none place-items-center rounded-full border border-chip-grey-line bg-chip-grey text-chip-grey-ink [summary:hover_&]:bg-chip-grey-hover">
+                  <span className="sr-only group-open/step:hidden">
+                    Open step
+                  </span>
+                  <span className="sr-only hidden group-open/step:inline">
+                    Close step
+                  </span>
                   <ChevronDown
-                    size={14}
+                    size={16}
                     aria-hidden="true"
                     className="transition-transform duration-200 group-open/step:rotate-180 motion-reduce:transition-none"
                   />

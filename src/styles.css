@@ -66,14 +66,11 @@
   --color-chip-violet-line: #e2d9fb;
   --color-chip-violet-ink: #6956a6;
 
-  /* "Open me" (green) / "Close" (red) badge */
-  --color-open: #e3f6ea;
-  --color-open-line: #bfe6cd;
-  --color-open-hover: #d3f0de;
-  --color-open-ink: #1f7a45;
-  --color-close: #fde8e8;
-  --color-close-line: #f5c2c2;
-  --color-close-ink: #b42318;
+  /* Neutral grey chip: step open/close toggle */
+  --color-chip-grey: #eef0f4;
+  --color-chip-grey-line: #dadee6;
+  --color-chip-grey-hover: #e2e6ed;
+  --color-chip-grey-ink: #4a5568;
 
   /* Steps and sessions */
   --color-step: #e1efff;
