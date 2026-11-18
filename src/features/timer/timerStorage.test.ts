@@ -5,6 +5,8 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { db } from "../../db/database";
 import {
   ensureTimer,
+  GLOBAL_TIMER_SESSION_ID,
+  GLOBAL_TIMER_STEP_ID,
   setTimer,
   updateTimer,
 } from "./timerService";
@@ -97,5 +99,40 @@ describe("BenchFlow — Timer IndexedDB Storage", () => {
     expect(
       await db.timers.where("sessionId").equals("session-race").count()
     ).toBe(1);
+  });
+
+  it("keeps the calculator timer independent from session timers", async () => {
+    const session = await ensureTimer(
+      "session-test",
+      "step-1"
+    );
+
+    const calculator = await ensureTimer(
+      GLOBAL_TIMER_SESSION_ID,
+      GLOBAL_TIMER_STEP_ID
+    );
+
+    await setTimer(
+      updateTimer(
+        { ...session, durationMs: 45_000, remainingMs: 45_000 },
+        "start",
+        1_000
+      )
+    );
+
+    await setTimer(
+      updateTimer(
+        { ...calculator, durationMs: 900_000, remainingMs: 900_000 },
+        "start",
+        1_000
+      )
+    );
+
+    const savedSession = await db.timers.get(session.id);
+    const savedCalculator = await db.timers.get(calculator.id);
+
+    expect(savedSession?.endsAt).toBe(46_000);
+    expect(savedCalculator?.endsAt).toBe(901_000);
+    expect(savedCalculator?.id).toBe("global:calculator");
   });
 });

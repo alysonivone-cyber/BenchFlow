@@ -5,6 +5,15 @@ type TimerAction = "start" | "pause" | "reset";
 
 const DEFAULT_DURATION_MS = 30_000;
 
+/**
+ * Identity of the standalone timer (Scientific Calculator page).
+ * It lives in the same `timers` table as the session timers but
+ * under a reserved session id, so the two never interfere and
+ * deleting a session or a protocol never touches it.
+ */
+export const GLOBAL_TIMER_SESSION_ID = "global";
+export const GLOBAL_TIMER_STEP_ID = "calculator";
+
 // --------------------------------------------------
 // CALCULATE REMAINING TIME
 // --------------------------------------------------

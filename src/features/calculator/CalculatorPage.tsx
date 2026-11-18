@@ -12,7 +12,7 @@ import type {
   VolumeUnit,
 } from "./calculations";
 
-import { TimerPanel } from "../timer/TimerPanel";
+import { GlobalTimer } from "../timer/GlobalTimer";
 import {
   btn,
   errorMessage,
@@ -353,11 +353,12 @@ export function CalculatorPage() {
           <h2>Laboratory Timer</h2>
 
           <p className={mutedText}>
-            Standalone timer. Timers in experimental
-            sessions are saved per step.
+            Standalone timer, saved on this device. It runs
+            independently from the timers of experimental
+            sessions.
           </p>
 
-          <TimerPanel />
+          <GlobalTimer />
         </section>
       </div>
     </>

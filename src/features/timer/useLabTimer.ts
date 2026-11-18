@@ -21,8 +21,8 @@ import {
 export type TimerAction = "start" | "pause" | "reset";
 
 export type UseLabTimerOptions = {
-  sessionId?: string;
-  stepId?: string;
+  sessionId: string;
+  stepId: string;
   /** Shown in the end-of-timer alert (e.g. "Cell Lysis"). */
   stepTitle?: string;
 };
@@ -31,15 +31,12 @@ const STORAGE_ERROR =
   "Timer storage unavailable. The timer will still work, but changes may not be saved.";
 
 function createLocalTimer(
-  sessionId = "",
-  stepId = "",
+  sessionId: string,
+  stepId: string,
   seconds = 30
 ): LabTimer {
   return {
-    id:
-      sessionId && stepId
-        ? `${sessionId}:${stepId}`
-        : "practice",
+    id: `${sessionId}:${stepId}`,
     sessionId,
     stepId,
     durationMs: seconds * 1000,
@@ -70,8 +67,6 @@ export function useLabTimer({
   const [notificationSupport, setNotificationSupport] =
     useState<NotificationSupport>(getNotificationSupport);
 
-  const persistent = Boolean(sessionId && stepId);
-
   const timerRef = useRef<LabTimer | null>(null);
 
   function updateLocalTimer(next: LabTimer) {
@@ -93,27 +88,25 @@ export function useLabTimer({
     setLocalTimer(fallback);
     setDuration(30);
 
-    if (sessionId && stepId) {
-      ensureTimer(sessionId, stepId)
-        .then((savedTimer) => {
-          if (!active) return;
+    ensureTimer(sessionId, stepId)
+      .then((savedTimer) => {
+        if (!active) return;
 
-          const restored = reconcileTimer(savedTimer);
+        const restored = reconcileTimer(savedTimer);
 
-          updateLocalTimer(restored);
-          setDuration(
-            Math.max(
-              1,
-              Math.round(restored.durationMs / 1000)
-            )
-          );
-        })
-        .catch(() => {
-          if (!active) return;
+        updateLocalTimer(restored);
+        setDuration(
+          Math.max(
+            1,
+            Math.round(restored.durationMs / 1000)
+          )
+        );
+      })
+      .catch(() => {
+        if (!active) return;
 
-          setError(STORAGE_ERROR);
-        });
-    }
+        setError(STORAGE_ERROR);
+      });
 
     return () => {
       active = false;
@@ -131,8 +124,6 @@ export function useLabTimer({
   }, []);
 
   async function persist(next: LabTimer) {
-    if (!persistent) return;
-
     // A failure is reported but never disables saving:
     // the next action simply tries again.
     try {

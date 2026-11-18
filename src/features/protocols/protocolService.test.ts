@@ -12,7 +12,11 @@ import {
   restoreDemoProtocols,
 } from "./protocolService";
 import { createSession, saveNote } from "../sessions/sessionService";
-import { ensureTimer } from "../timer/timerService";
+import {
+  ensureTimer,
+  GLOBAL_TIMER_SESSION_ID,
+  GLOBAL_TIMER_STEP_ID,
+} from "../timer/timerService";
 
 function customProtocol(id: string): Protocol {
   return {
@@ -73,6 +77,26 @@ describe("BenchFlow — Delete protocol", () => {
     expect(await db.sessions.get(b1.id)).toBeDefined();
     expect(await db.notes.count()).toBe(1);
     expect(await db.timers.count()).toBe(1);
+  });
+
+  it("keeps the global (calculator) timer when a protocol is deleted", async () => {
+    await db.customProtocols.put(customProtocol("a"));
+
+    const session = await createSession("a");
+
+    await ensureTimer(session.id, "step");
+    await ensureTimer(
+      GLOBAL_TIMER_SESSION_ID,
+      GLOBAL_TIMER_STEP_ID
+    );
+
+    await deleteProtocol("a");
+
+    const remaining = await db.timers.toArray();
+
+    expect(remaining.map((timer) => timer.sessionId)).toEqual([
+      GLOBAL_TIMER_SESSION_ID,
+    ]);
   });
 
   it("deletes a built-in demo protocol (hidden) with its sessions, and can restore it", async () => {
