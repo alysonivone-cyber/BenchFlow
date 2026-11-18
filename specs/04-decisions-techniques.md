@@ -206,6 +206,20 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Validation :** tests unitaires (étiquette à la création et ajoutée à un ancien timer ; `finishDueTimers` ne signale un timer qu'une fois, ignore ceux qui ne sont pas échus, et ne signale pas un timer terminé depuis très longtemps ; texte de l'alerte). Vérification dans le navigateur : un timer de la calculatrice terminé pendant qu'on est sur une autre page déclenche le bandeau, qui se ferme avec « Close ». Solution présentée à l'enseignant le 18 novembre 2026, qui l'a validée. **Reste à vérifier** lors des tests manuels du 21 novembre : notifications système, hors ligne et affichage à 375 px.
 
+## DT-21 — Bouton d'ouverture des étapes : pastille ronde grise
+
+**Contexte :** le 11 novembre, j'avais ajouté sur chaque étape d'un protocole un badge vert « Open me » et rouge « Close », pour montrer qu'une étape peut être dépliée. Lors de la présentation du 18 novembre, l'enseignant a fait remarquer que le rouge évoque une action dangereuse alors que le bouton ne fait que replier l'étape, et que ce badge ne suit pas le style des pastilles colorées du reste de l'application (« 6 steps » en bleu, durée en violet).
+
+**Décision :** remplacer le badge par une pastille **neutre grise**, dans la même famille de teintes pâles que les autres pastilles (fond, bordure et texte grisés, survol un peu plus foncé), **identique pour les deux états**. L'état est donné par la flèche qui se retourne, pas par la couleur. Dans un second temps, le même jour, j'ai retiré le texte visible : la pastille est un cercle de 32 px, comme le numéro de l'étape à gauche, ce qui donne une ligne symétrique. Le texte « Open step » / « Close step » est conservé pour les lecteurs d'écran (classe `sr-only`). Les couleurs sont des variables de `styles.css` (`--color-chip-grey*`) ; les anciennes variables vertes et rouges ont été supprimées, car plus aucun élément ne les utilisait.
+
+**Justification :** une couleur de danger ne convient pas à une action sans risque ; une teinte neutre est cohérente avec les autres pastilles ; l'information ne repose pas sur la seule couleur (flèche et texte pour les lecteurs d'écran). Le contraste du gris foncé sur le gris clair est d'environ 6,6 : 1 (calcul sur les valeurs des variables), au-dessus du seuil de 3 : 1 demandé pour un élément d'interface.
+
+**Alternatives écartées :** garder le texte visible (plus explicite pour un nouvel utilisateur, mais plus chargé) ; deux gris différents selon l'état (une couleur de plus sans information utile).
+
+**Limite :** sans mot visible, la découvrabilité repose sur la flèche et sur le fait que toute la ligne de l'étape est cliquable.
+
+**Validation :** `tsc -b`, `vite build` et 47 tests réussis ; rendu vérifié sur les protocoles de démonstration et sur un protocole importé (commit `93bccc9`). **Reste à vérifier** lors des tests du 21 novembre : navigation au clavier (contour de focus) et lecteur d'écran.
+
 ## Comment défendre une décision à l'oral
 
 Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.

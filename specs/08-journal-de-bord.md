@@ -103,6 +103,8 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Validation :** solution présentée à l'enseignant le 18 novembre, qui l'a validée.
 
+**Interface (18 novembre, après-midi) :** sur le conseil de l'enseignant, le badge vert « Open me » / rouge « Close » des étapes est remplacé par une pastille ronde grise, sans texte visible (commit `93bccc9`, voir DT-21).
+
 **Planning :** le scénario de test 1 (résultats dans `specs/05`) est reporté au 19 novembre, avec L-02 (temps restant dans le titre de l'onglet) ; 20 novembre : R-03 (« Notes enregistrées ») ; 21 novembre : tests manuels (hors ligne, 375 px, timers, notifications). **Encore à vérifier :** le titre de l'onglet d'un PDF fraîchement importé (DT-17).
 
 ## Modèle à réutiliser pour les prochaines séances

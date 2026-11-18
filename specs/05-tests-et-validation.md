@@ -54,6 +54,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | `npm.cmd run build` (`tsc -b` + `vite build`), commits 1 à 6 de la séance | Réussis à chaque commit |
 | Edge, chez moi (`npm.cmd run dev`) | Le timer de la calculatrice continue après un rafraîchissement ; plusieurs timers peuvent tourner en même temps, avec des durées différentes |
 | Chrome (script automatisé, environnement de l'assistant) | Timer de la calculatrice conservé après rafraîchissement ; alerte déclenchée et bandeau affiché pendant qu'on est sur une autre page, bandeau fermé avec « Close » ; 20 rafraîchissements successifs : 0 clignotement et 0 seconde en trop (avant le correctif : 20 clignotements et 1 seconde en trop) |
+| `npm.cmd run build` et `npm.cmd test` chez moi, commit `93bccc9` (pastille grise des étapes) | Build réussi, 47 tests réussis ; rendu observé dans le navigateur sur un protocole importé |
 | Présentation à l'enseignant | Fonctionnement présenté le 18 novembre, solution validée par l'enseignant |
 | Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, titre de l'onglet d'un PDF fraîchement importé : prévus lors des tests manuels du 21 novembre |
 
