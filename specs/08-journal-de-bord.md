@@ -80,6 +80,31 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 - **Fichiers concernés :** `App.tsx`, `src/assets/benchflow-logo.png` (nouveau), `public/icons/icon-192.png` et `icon-512.png`.
 - **Tests exécutés et résultats :** `tsc -b` et `vite build` réussis, 12 fichiers dans le cache hors ligne ; test hors ligne à faire le 21 novembre.
 - **Commits Git :** `59d2a1d` (accueil), `0a1982a` (icônes).
+
+## 18 novembre 2026 — Timers indépendants, étiquettes lisibles et alertes globales (DT-19, DT-20)
+
+**Constat :** en testant devant l'enseignant, le timer de la page Scientific Calculator repartait à zéro au rafraîchissement, alors que les timers des sessions étaient bien conservés. Cause : ce timer n'était pas enregistré (composant utilisé sans identifiants, donc en mémoire seulement). Je voulais aussi deux timers complètement indépendants, capables de tourner en même temps avec des durées différentes, un nom lisible des timers dans l'inspecteur (comme pour les PDF), et une alerte de fin même quand on change de page.
+
+**Décisions (prises avec l'enseignant) :** garder `TimerPanel` pour les sessions et ajouter un fichier de timer global ; la logique partagée passe dans un hook ; ajouter un champ `label` au format `date-heure · titre du protocole · étape` ; surveiller tous les timers au même endroit pour les alertes. L'enseignant a aussi nommé la notion de **couplage** : le but est un faible couplage entre les timers (voir DT-19).
+
+**Réalisation avec l'assistant IA Claude (un commit par étape) :**
+- `7af23e6` — `refactor(timer)` : logique dans `useLabTimer`, affichage dans `TimerView`, `TimerPanel` allégé.
+- `a8b0e2d` — `feat(timer)` : `GlobalTimer` (identifiant `global:calculator`), timer de la calculatrice enregistré, suppression du mode « en mémoire ».
+- `2fec44d` — `feat(timer)` : champ `label` lisible (ajouté aussi aux anciens timers).
+- `ada49ec` — `feat(timer)` : surveillance globale des alertes (`TimerWatcher` dans `Layout`), alerte déclenchée une seule fois.
+- `7e1e707` — `feat(timer)` : bandeau dans l'application, qui reste jusqu'à ce qu'on le ferme.
+- `4cd042c` — `fix(timer)` : plus de clignotement `00:00` / `00:30` ni de seconde en trop après un rafraîchissement.
+- `e98ce95` — `style(protocols)` : une ligne vide en trop supprimée.
+- `f1d8d4a` et `d162f47` — documentation : DT-19, DT-20 et déclaration d'IA du README.
+
+**Tests :** 40 → 47 tests unitaires (indépendance des deux timers, timer global conservé à la suppression d'un protocole, étiquette, `finishDueTimers` une seule fois, texte de l'alerte). `tsc -b` et `vite build` réussis à chaque commit. Dans le navigateur : rafraîchissement de la calculatrice, deux timers simultanés (session 45 s et calculatrice 15 min), bandeau sur une autre page. Le défaut d'affichage au rafraîchissement a été reproduit puis corrigé (20 rafraîchissements automatisés : 0 anomalie après, contre 20 clignotements et 1 seconde en trop avant).
+
+**Limites connues :** alerte locale uniquement (application fermée : aucune alerte, pas de Web Push) ; pas de test unitaire pour l'affichage au rafraîchissement (aucune bibliothèque de test d'interface installée).
+
+**Validation :** solution présentée à l'enseignant le 18 novembre, qui l'a validée.
+
+**Planning :** le scénario de test 1 (résultats dans `specs/05`) est reporté au 19 novembre, avec L-02 (temps restant dans le titre de l'onglet) ; 20 novembre : R-03 (« Notes enregistrées ») ; 21 novembre : tests manuels (hors ligne, 375 px, timers, notifications). **Encore à vérifier :** le titre de l'onglet d'un PDF fraîchement importé (DT-17).
+
 ## Modèle à réutiliser pour les prochaines séances
 
 ### [Date] — [Fonctionnalité ou correction]
