@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { cx } from "./ui";
+import { TimerWatcher } from "../features/timer/TimerWatcher";
 
 import emblem from "../assets/benchflow-emblem.png";
 
@@ -115,6 +116,8 @@ export function Layout() {
           <Outlet />
         </main>
       </div>
+
+      <TimerWatcher />
     </div>
   );
 }

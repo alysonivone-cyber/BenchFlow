@@ -134,6 +134,52 @@ export async function ensureTimer(
 }
 
 // --------------------------------------------------
+// FINISH DUE TIMERS (global watcher)
+// --------------------------------------------------
+
+/**
+ * A timer that ended while the app was closed is marked finished
+ * silently once it is older than this: an alert hours late would
+ * only be confusing.
+ */
+export const LATE_ALERT_WINDOW_MS = 5 * 60_000;
+
+/**
+ * Mark every running timer whose deadline has passed as finished,
+ * and return the ones that should raise an alert.
+ *
+ * Read and write happen in ONE read-write transaction, so each
+ * timer is returned exactly once, even if several callers (or
+ * several browser tabs) run this at the same time.
+ */
+export async function finishDueTimers(
+  now = Date.now()
+): Promise<LabTimer[]> {
+  return db.transaction("rw", db.timers, async () => {
+    const timers = await db.timers.toArray();
+    const toAlert: LabTimer[] = [];
+
+    for (const timer of timers) {
+      if (
+        timer.status !== "running" ||
+        timer.endsAt === null ||
+        timer.endsAt > now
+      ) {
+        continue;
+      }
+
+      await db.timers.put(reconcileTimer(timer, now));
+
+      if (now - timer.endsAt <= LATE_ALERT_WINDOW_MS) {
+        toAlert.push(timer);
+      }
+    }
+
+    return toAlert;
+  });
+}
+
+// --------------------------------------------------
 // UPDATE TIMER STATE
 // --------------------------------------------------
 

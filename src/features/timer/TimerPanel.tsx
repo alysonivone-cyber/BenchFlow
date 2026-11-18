@@ -6,7 +6,7 @@ type TimerPanelProps = {
   stepId: string;
   /** Readable name stored with the timer record. */
   label?: string;
-  /** Shown in the end-of-timer alert (e.g. "Cell Lysis"). */
+  /** Shown in the "Timer completed" banner (e.g. "Cell Lysis"). */
   stepTitle?: string;
 };
 
@@ -16,12 +16,7 @@ export function TimerPanel({
   label,
   stepTitle,
 }: TimerPanelProps) {
-  const lab = useLabTimer({
-    sessionId,
-    stepId,
-    label,
-    stepTitle,
-  });
+  const lab = useLabTimer({ sessionId, stepId, label });
 
   return <TimerView {...lab} stepTitle={stepTitle} />;
 }

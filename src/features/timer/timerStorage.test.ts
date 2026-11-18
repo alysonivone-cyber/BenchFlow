@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { db } from "../../db/database";
 import {
   ensureTimer,
+  finishDueTimers,
   GLOBAL_TIMER_SESSION_ID,
   GLOBAL_TIMER_STEP_ID,
   setTimer,
@@ -154,5 +155,52 @@ describe("BenchFlow — Timer IndexedDB Storage", () => {
 
     expect(backfilled.label).toBe("Readable name");
     expect((await db.timers.get("old:step"))?.label).toBe("Readable name");
+  });
+
+  it("finishes due timers once and alerts only recent ones", async () => {
+    const due = updateTimer(
+      await ensureTimer("s", "due", "Due"),
+      "start",
+      0
+    ); // ends at 30 000
+    const later = updateTimer(
+      await ensureTimer("s", "later", "Later"),
+      "start",
+      0
+    );
+    const old = updateTimer(
+      await ensureTimer("s", "old", "Old"),
+      "start",
+      0
+    );
+
+    await setTimer(due);
+    await setTimer({ ...later, endsAt: 900_000 });
+    await setTimer({ ...old, endsAt: 1_000 });
+
+    const alerts = await finishDueTimers(40_000);
+
+    expect(alerts.map((timer) => timer.stepId).sort()).toEqual([
+      "due",
+      "old",
+    ]);
+    expect((await db.timers.get("s:due"))?.status).toBe("finished");
+    expect((await db.timers.get("s:later"))?.status).toBe("running");
+
+    // Second call: nothing left to alert (exactly-once).
+    expect(await finishDueTimers(40_000)).toEqual([]);
+  });
+
+  it("marks a long-expired timer finished without alerting", async () => {
+    const timer = updateTimer(
+      await ensureTimer("s", "stale"),
+      "start",
+      0
+    );
+
+    await setTimer(timer);
+
+    expect(await finishDueTimers(10 * 60_000)).toEqual([]);
+    expect((await db.timers.get("s:stale"))?.status).toBe("finished");
   });
 });

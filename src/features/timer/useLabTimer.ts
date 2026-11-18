@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import type { LabTimer } from "../../types/models";
 
 import {
-  alertTimerFinished,
   getNotificationSupport,
   requestNotificationPermission,
   unlockAudio,
@@ -25,8 +24,6 @@ export type UseLabTimerOptions = {
   stepId: string;
   /** Readable name stored with the timer record. */
   label?: string;
-  /** Shown in the end-of-timer alert (e.g. "Cell Lysis"). */
-  stepTitle?: string;
 };
 
 const STORAGE_ERROR =
@@ -60,7 +57,6 @@ export function useLabTimer({
   sessionId,
   stepId,
   label,
-  stepTitle,
 }: UseLabTimerOptions) {
   const [timer, setLocalTimer] = useState<LabTimer | null>(
     null
@@ -159,9 +155,10 @@ export function useLabTimer({
     };
   }, []);
 
-  // Detect the running -> finished transition while the app
-  // is open. The ref check guarantees the alert fires once,
-  // even if this effect runs twice (React StrictMode).
+  // Show the running -> finished transition on screen. Marking
+  // the record as finished and raising the alert is the job of
+  // TimerWatcher (mounted in the Layout), so it also works on the
+  // pages where this timer is not displayed.
   useEffect(() => {
     const current = timerRef.current;
 
@@ -169,16 +166,7 @@ export function useLabTimer({
       current?.status === "running" &&
       remainingTime(current, now) === 0
     ) {
-      const finished = reconcileTimer(current, now);
-
-      updateLocalTimer(finished);
-      void persist(finished);
-
-      void alertTimerFinished(
-        stepTitle
-          ? `Step "${stepTitle}" is complete.`
-          : "Your timer is complete."
-      );
+      updateLocalTimer(reconcileTimer(current, now));
     }
   }, [now]);
 
