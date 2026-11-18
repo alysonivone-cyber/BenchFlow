@@ -58,17 +58,19 @@ export function TimerView({
         className="p-6 text-[3.8rem] font-extrabold tracking-[-.05em] text-clock"
         aria-live="off"
       >
-        {formatRemaining(remaining)}
+        {timer ? formatRemaining(remaining) : "--:--"}
       </div>
 
       <p className={mutedText}>
-        {timer?.status === "finished"
-          ? "Time is up!"
-          : timer?.status === "running"
-            ? "Timer running"
-            : timer?.status === "paused"
-              ? "Timer paused"
-              : "Ready to start"}
+        {!timer
+          ? "Loading timer…"
+          : timer.status === "finished"
+            ? "Time is up!"
+            : timer.status === "running"
+              ? "Timer running"
+              : timer.status === "paused"
+                ? "Timer paused"
+                : "Ready to start"}
       </p>
 
       {timer?.status === "finished" && (

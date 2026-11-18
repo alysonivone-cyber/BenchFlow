@@ -80,22 +80,23 @@ export function useLabTimer({
 
     setError("");
 
-    const fallback = createLocalTimer(
-      sessionId,
-      stepId,
-      label
-    );
-
-    timerRef.current = fallback;
-    setLocalTimer(fallback);
+    // Nothing is displayed until the saved timer is loaded: a
+    // temporary 30 s timer would flash on screen after a refresh.
+    timerRef.current = null;
+    setLocalTimer(null);
     setDuration(30);
 
     ensureTimer(sessionId, stepId, label)
       .then((savedTimer) => {
         if (!active) return;
 
-        const restored = reconcileTimer(savedTimer);
+        // Take the time NOW: the `now` state may be up to 250 ms old,
+        // which made the display show one second too much and then
+        // drop by one second at the next tick.
+        const loadedAt = Date.now();
+        const restored = reconcileTimer(savedTimer, loadedAt);
 
+        setNow(loadedAt);
         updateLocalTimer(restored);
         setDuration(
           Math.max(
@@ -107,6 +108,10 @@ export function useLabTimer({
       .catch(() => {
         if (!active) return;
 
+        // The timer still works in memory, but is not saved.
+        updateLocalTimer(
+          createLocalTimer(sessionId, stepId, label)
+        );
         setError(STORAGE_ERROR);
       });
 
