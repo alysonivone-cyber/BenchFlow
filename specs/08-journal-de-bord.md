@@ -116,12 +116,13 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 - `823989d` — `feat` R-03 : message « ✓ Notes saved » sous le bouton « Save Notes ».
 - `a2db064` — `fix(protocols)` : ligne vide supprimée sous le titre d'une étape sans description ; cartes d'étapes qui ne sont plus étirées (la colonne des étapes était étirée à la hauteur de la colonne de gauche, et la grille répartissait l'espace dans les cartes) ; libellé « Attach / replace PDF » sur sa propre ligne, séparé du bouton « View Original PDF ».
 - `610c03d` — `fix(protocols)` : import PDF. En important un protocole de test créé avec l'assistant (dosage de la vitamine C par titrage à l'iode, 6 étapes), l'application n'en affichait que 4. Cause : après une ligne « Duration: 5 minutes » placée en tête d'étape, les lignes suivantes étaient lues comme des durées et non comme des instructions ; les étapes restées sans instructions étaient supprimées sans message, et une mention « 20 seconds » dans une instruction avait écrasé la durée d'une étape. Corrigé : seule la ligne de la durée est lue comme durée ; l'import redonne les 6 étapes avec leurs instructions.
+- `ffc7422` — `feat(sessions)` : en testant NOTE-01, je ne retrouvais pas ma note en revenant à la première session. Deux sessions du même protocole lancées dans la même minute portaient exactement le même nom dans la liste ; en rouvrant la carte du bas (la plus ancienne), la note était bien là. Les données étaient correctes (notes indépendantes par session) ; le défaut était l'affichage. La liste affiche maintenant l'heure de début avec les secondes, et le fil d'Ariane de la session ouverte aussi (DT-15).
 
 **Un défaut trouvé en testant moi-même :** le message de R-03 pouvait disparaître tout de suite, car l'enregistrement modifie la note et cela le remettait à zéro. Je l'ai signalé à l'assistant avant le commit ; la correction est incluse dans le même commit. J'ai aussi vérifié que « Next » et « Previous » enregistrent déjà la note de l'étape, ce qui explique qu'un texte reste quand on revient en arrière.
 
-**Tests :** 47 → 53 tests unitaires (`formatClock` et `timerTabTitle`). `tsc -b` et `vite build` réussis. Scénario du test 1 (session, timers, fermeture complète du navigateur, réouverture) réussi sur le build de production. Détail dans `specs/05`.
+**Tests :** 47 → 54 tests unitaires (`formatClock`, `timerTabTitle` et l'heure de début des sessions). `tsc -b` et `vite build` réussis. Scénario du test 1 (session, timers, fermeture complète du navigateur, réouverture) réussi sur le build de production. Détail dans `specs/05`.
 
-**Encore à faire :** tests manuels hors ligne (prévus le mardi 24 novembre), puis NOTE-01 et la pause / réinitialisation du timer (T14) à la main. Faits le 22 novembre : 375 px, clavier sur la pastille grise et titre de l'onglet d'un PDF fraîchement importé.
+**Encore à faire :** test manuel hors ligne (prévu le mardi 24 novembre). Faits le 22 novembre : 375 px, clavier sur la pastille grise, titre de l'onglet d'un PDF fraîchement importé, NOTE-01 et pause / réinitialisation du timer (T14).
 
 ## Modèle à réutiliser pour les prochaines séances
 

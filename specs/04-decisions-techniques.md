@@ -140,7 +140,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Décision :** l'`id` reste un UUID aléatoire (c'est la clé Dexie des notes et des timers) ; le nom affiché est calculé à partir de `createdAt` : `20261111-1423 · Titre du protocole`. Les protocoles reçoivent un champ optionnel `importedAt` (date d'ajout, affichée « Added 20261111 »), et le titre d'un PDF sans titre exploitable reprend le nom du fichier.
 
-**Pourquoi ne pas utiliser le nom lisible comme identifiant :** deux sessions du même protocole le même jour auraient le même nom, et changer les clés casserait les notes et timers déjà enregistrés. Aucune migration Dexie n'est nécessaire (`importedAt` n'est pas indexé).
+**Pourquoi ne pas utiliser le nom lisible comme identifiant :** deux sessions du même protocole le même jour auraient le même nom, et changer les clés casserait les notes et timers déjà enregistrés. Aucune migration Dexie n'est nécessaire (`importedAt` n'est pas indexé). **Limite et correctif du 22 novembre 2026 :** le nom s'arrête à la minute, donc deux sessions du même protocole lancées dans la même minute portent le même nom et se confondent dans la liste (constaté en testant NOTE-01). La liste des sessions affiche donc aussi l'heure de début avec les secondes (`Started 15:39:31`) et le fil d'Ariane d'une session la rappelle (commit `ffc7422`). Le nom lui-même ne change pas : l'onglet du PDF et les étiquettes de timers restent identiques.
 
 **Suite possible :** une page de synthèse (durées, étapes terminées) à partir de `createdAt`, `updatedAt` et `completedStepIds`, hors périmètre V1 déclaré.
 
