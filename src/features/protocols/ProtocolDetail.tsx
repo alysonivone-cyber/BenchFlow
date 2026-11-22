@@ -136,7 +136,7 @@ export function ProtocolDetail() {
               </p>
             )}
 
-            <label>
+            <label className="mt-3 block">
               Attach / replace PDF (max 15 MB)
               <input
                 type="file"
@@ -149,7 +149,7 @@ export function ProtocolDetail() {
           </section>
         </div>
 
-        <div className={stack}>
+        <div className={`${stack} content-start`}>
           <div className="mb-5 flex flex-wrap items-center gap-[10px]">
             <Chip tone="blue">
               <ListOrdered size={16} aria-hidden="true" />
@@ -175,9 +175,11 @@ export function ProtocolDetail() {
 
                 <span className="min-w-0 flex-1">
                   <strong>{step.title}</strong>
-                  <small className="mt-[5px] block text-[13.333px] text-step-desc">
-                    {step.description}
-                  </small>
+                  {step.description.trim() && (
+                    <small className="mt-[5px] block text-[13.333px] text-step-desc">
+                      {step.description}
+                    </small>
+                  )}
                 </span>
 
                 {/* Round grey chip, like the step number on the left.

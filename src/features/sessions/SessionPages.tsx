@@ -419,7 +419,7 @@ export function SessionDetail() {
 
         <div>
           <h1>{step.title}</h1>
-          <p>{step.description}</p>
+          {step.description.trim() && <p>{step.description}</p>}
         </div>
       </div>
 
