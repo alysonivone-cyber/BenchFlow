@@ -104,7 +104,7 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T16 | Utiliser le calculateur scientifique | Résultats corrects pour des exemples de référence | À tester |
 | T17 | Passer hors ligne après mise en cache | Interface et données locales restent accessibles | À tester |
 | T18 | Effacer le stockage local dans un environnement de test | Perte des données expliquée et comportement maîtrisé | À tester |
-| T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système vue le 22 novembre après avoir accordé la permission dans Edge (constat : elle n'est apparue qu'à la première utilisation, à analyser) |
+| T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système vue le 22 novembre après avoir accordé la permission dans Edge (la demande de permission n'apparaît qu'à la première utilisation) ; avec deux timers à la suite, chaque fin de timer a bien affiché sa notification |
 | T20 | Supprimer un protocole avec sessions | Confirmation, suppression des sessions, notes et timers | Réussi (test automatisé et script) |
 | T21 | Supprimer puis restaurer un protocole de démonstration | Masqué puis de nouveau visible | Réussi (test automatisé et script) |
 | T23 | Nom lisible d'une session | Affichage `AAAAMMJJ-HHmm · Titre`, sans changer l'id | Réussi (5 tests unitaires + script, 11/11) |
