@@ -115,12 +115,13 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 - `ed9ed56` — `feat` L-02 : titre de l'onglet `⏱ mm:ss · BenchFlow`, géré par `TimerWatcher` ; fonction pure `timerTabTitle` et fonction `formatClock` déplacée dans `utils/format.ts` (DT-22).
 - `823989d` — `feat` R-03 : message « ✓ Notes saved » sous le bouton « Save Notes ».
 - `a2db064` — `fix(protocols)` : ligne vide supprimée sous le titre d'une étape sans description ; cartes d'étapes qui ne sont plus étirées (la colonne des étapes était étirée à la hauteur de la colonne de gauche, et la grille répartissait l'espace dans les cartes) ; libellé « Attach / replace PDF » sur sa propre ligne, séparé du bouton « View Original PDF ».
+- `610c03d` — `fix(protocols)` : import PDF. En important un protocole de test créé avec l'assistant (dosage de la vitamine C par titrage à l'iode, 6 étapes), l'application n'en affichait que 4. Cause : après une ligne « Duration: 5 minutes » placée en tête d'étape, les lignes suivantes étaient lues comme des durées et non comme des instructions ; les étapes restées sans instructions étaient supprimées sans message, et une mention « 20 seconds » dans une instruction avait écrasé la durée d'une étape. Corrigé : seule la ligne de la durée est lue comme durée ; l'import redonne les 6 étapes avec leurs instructions.
 
 **Un défaut trouvé en testant moi-même :** le message de R-03 pouvait disparaître tout de suite, car l'enregistrement modifie la note et cela le remettait à zéro. Je l'ai signalé à l'assistant avant le commit ; la correction est incluse dans le même commit. J'ai aussi vérifié que « Next » et « Previous » enregistrent déjà la note de l'étape, ce qui explique qu'un texte reste quand on revient en arrière.
 
 **Tests :** 47 → 53 tests unitaires (`formatClock` et `timerTabTitle`). `tsc -b` et `vite build` réussis. Scénario du test 1 (session, timers, fermeture complète du navigateur, réouverture) réussi sur le build de production. Détail dans `specs/05`.
 
-**Encore à faire :** tests manuels hors ligne (prévus le mardi 24 novembre), puis 375 px, clavier et titre de l'onglet d'un PDF fraîchement importé.
+**Encore à faire :** tests manuels hors ligne (prévus le mardi 24 novembre), puis NOTE-01 et la pause / réinitialisation du timer (T14) à la main. Faits le 22 novembre : 375 px, clavier sur la pastille grise et titre de l'onglet d'un PDF fraîchement importé.
 
 ## Modèle à réutiliser pour les prochaines séances
 

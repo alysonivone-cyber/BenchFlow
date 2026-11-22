@@ -166,7 +166,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Alternatives écartées :** un bouton « Télécharger » avec le bon nom de fichier (ce n'est plus « ouvrir dans le navigateur ») ; un service worker qui servirait le PDF à une adresse lisible (trop complexe pour le gain).
 
-**Validation :** dans le navigateur (mode ordinateur), l'onglet s'appelle `20261111-1429 · Strawberry DNA Extraction` et contient l'`<embed>` du PDF ; en mode tactile, le PDF s'ouvre directement. **À confirmer sur Edge** : le rendu du PDF dans la page.
+**Validation :** dans le navigateur (mode ordinateur), l'onglet s'appelle `20261111-1429 · Strawberry DNA Extraction` et contient l'`<embed>` du PDF ; en mode tactile, le PDF s'ouvre directement. **Confirmé sur Edge le 22 novembre 2026** sur un PDF fraîchement importé (`vitamin-c-juice-titration.pdf`, dont le titre interne est volontairement différent) : l'onglet s'appelle `20261122-1515 · Vitamin C Content of Orange Juice by Iodine Titration` et le PDF s'affiche dans la page.
 
 ## DT-18 — Logo et slogan sur l'écran d'accueil
 
@@ -204,7 +204,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limites :** il s'agit d'une alerte locale (pas de Web Push, qui exigerait un serveur, hors du périmètre V1, comme dans le cahier des fonctionnalités) : application fermée, aucune alerte. Un timer terminé depuis plus de 5 minutes à l'ouverture de l'application passe à « terminé » sans alerte, pour éviter une alerte très en retard. Le nom d'un timer de session est recalculé à l'ouverture de son étape (un protocole renommé met l'étiquette à jour à ce moment-là).
 
-**Validation :** tests unitaires (étiquette à la création et ajoutée à un ancien timer ; `finishDueTimers` ne signale un timer qu'une fois, ignore ceux qui ne sont pas échus, et ne signale pas un timer terminé depuis très longtemps ; texte de l'alerte). Vérification dans le navigateur : un timer de la calculatrice terminé pendant qu'on est sur une autre page déclenche le bandeau, qui se ferme avec « Close ». Solution présentée à l'enseignant le 18 novembre 2026, qui l'a validée. **Reste à vérifier** avant le gel du code du 29 novembre : affichage à 375 px et hors ligne (prévu le 24 novembre). La notification système a été vue le 22 novembre (voir `05`, T19).
+**Validation :** tests unitaires (étiquette à la création et ajoutée à un ancien timer ; `finishDueTimers` ne signale un timer qu'une fois, ignore ceux qui ne sont pas échus, et ne signale pas un timer terminé depuis très longtemps ; texte de l'alerte). Vérification dans le navigateur : un timer de la calculatrice terminé pendant qu'on est sur une autre page déclenche le bandeau, qui se ferme avec « Close ». Solution présentée à l'enseignant le 18 novembre 2026, qui l'a validée. Affichage à 375 px vérifié le 22 novembre 2026. **Reste à vérifier** avant le gel du code du 29 novembre : hors ligne (prévu le 24 novembre). La notification système a été vue le 22 novembre (voir `05`, T19).
 
 ## DT-21 — Bouton d'ouverture des étapes : pastille ronde grise
 
@@ -218,7 +218,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limite :** sans mot visible, la découvrabilité repose sur la flèche et sur le fait que toute la ligne de l'étape est cliquable.
 
-**Validation :** `tsc -b`, `vite build` et 47 tests réussis ; rendu vérifié sur les protocoles de démonstration et sur un protocole importé (commit `93bccc9`). **Reste à vérifier** avant le gel du code du 29 novembre : navigation au clavier (contour de focus) et lecteur d'écran.
+**Validation :** `tsc -b`, `vite build` et 47 tests réussis ; rendu vérifié sur les protocoles de démonstration et sur un protocole importé (commit `93bccc9`). Navigation au clavier vérifiée le 22 novembre 2026 (`Tab` atteint la pastille, `Entrée` et `Espace` ouvrent et ferment l'étape, contour de focus visible). **Reste à vérifier** avant le gel du code du 29 novembre : lecteur d'écran.
 
 ## DT-22 — Temps restant dans le titre de l'onglet du navigateur (L-02)
 
