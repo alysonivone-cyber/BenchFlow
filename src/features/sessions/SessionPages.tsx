@@ -20,6 +20,7 @@ import { TimerPanel } from "../timer/TimerPanel";
 import {
   formatSessionName,
   formatSessionStamp,
+  formatStartTime,
   formatTimerLabel,
 } from "./sessionLabel";
 import { Chip } from "../../components/Chip";
@@ -169,6 +170,9 @@ export function SessionsPage() {
                     /{protocol.steps.length}
                     {" · "}
                     {percent}%
+                    {" · "}
+                    Started{" "}
+                    {formatStartTime(session.createdAt)}
                   </p>
 
                   <div className="mt-[13px] h-2 overflow-hidden rounded-[20px] bg-track">
@@ -410,6 +414,8 @@ export function SessionDetail() {
         </Link>
         {" › "}
         Session {formatSessionStamp(session.createdAt)}
+        {" · started "}
+        {formatStartTime(session.createdAt)}
       </div>
 
       <div className={`${heading} flex items-center gap-[17px]`}>

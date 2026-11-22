@@ -30,6 +30,21 @@ export function formatSessionStamp(timestamp: number): string {
   );
 }
 
+/**
+ * Local time with seconds, e.g. "14:23:07". The session name stops at
+ * the minute, so two sessions started within the same minute share
+ * the same name: the seconds tell them apart in the list.
+ */
+export function formatStartTime(timestamp: number): string {
+  const date = new Date(timestamp);
+
+  return (
+    `${twoDigits(date.getHours())}:` +
+    `${twoDigits(date.getMinutes())}:` +
+    twoDigits(date.getSeconds())
+  );
+}
+
 /** Readable session name: "20261111-1423 · Protocol title". */
 export function formatSessionName(
   timestamp: number,

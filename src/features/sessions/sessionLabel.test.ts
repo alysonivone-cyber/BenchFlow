@@ -5,6 +5,7 @@ import {
   formatDateStamp,
   formatSessionName,
   formatSessionStamp,
+  formatStartTime,
   formatTimerLabel,
 } from "./sessionLabel";
 
@@ -27,6 +28,15 @@ describe("BenchFlow — readable session names", () => {
     const early = new Date(2026, 0, 5, 7, 4).getTime();
 
     expect(formatSessionStamp(early)).toBe("20260105-0704");
+  });
+
+  it("shows the start time with seconds to tell apart two sessions of the same minute", () => {
+    const first = new Date(2026, 10, 22, 15, 33, 4).getTime();
+    const second = new Date(2026, 10, 22, 15, 33, 52).getTime();
+
+    expect(formatSessionStamp(first)).toBe(formatSessionStamp(second));
+    expect(formatStartTime(first)).toBe("15:33:04");
+    expect(formatStartTime(second)).toBe("15:33:52");
   });
 
   it("builds the name from date and protocol title", () => {
