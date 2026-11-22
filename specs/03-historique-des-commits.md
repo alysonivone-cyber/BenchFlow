@@ -1,8 +1,8 @@
 # 03 — Historique des commits et chronologie du développement
 
 **Projet :** BenchFlow — Experimental Workflow Companion  
-**Période documentée :** 20 octobre – 11 novembre 2026  
-**Dernière mise à jour documentaire :** 11 novembre 2026  
+**Période documentée :** 20 octobre – 22 novembre 2026  
+**Dernière mise à jour documentaire :** 22 novembre 2026  
 **Document complémentaire :** `08-journal-de-bord.md`
 
 **Objectif :** documenter l'évolution du projet BenchFlow, les différentes étapes de développement, les décisions techniques, les difficultés rencontrées ainsi que le suivi des versions Git.
@@ -173,6 +173,10 @@ Leur création documentaire et leur premier commit doivent donc être distingué
 
 **Prochaines étapes :** maintenir les documents à jour, vérifier les informations techniques et enregistrer les modifications documentaires dans Git.
 
+### Précision sur le travail du 1er au 10 novembre
+
+Du 1er au 3 novembre, j'ai écrit seule, à la main, la première version de ces spécifications : trois jours consacrés à la rédaction. Je sauvegardais mes fichiers localement (Ctrl + S), sans passer par Git, ce qui explique qu'ils soient restés *untracked* jusqu'au 11 novembre. Du 4 au 10 novembre, j'ai surtout vérifié les spécifications par rapport au code et planifié l'organisation des semaines suivantes. Je n'ai pas commité pendant cette période : c'est le défaut de méthode que je reconnais dans la section 4 bis. Ces dates reposent sur mon journal de bord, pas sur les métadonnées des fichiers.
+
 ---
 
 ## 4 bis. 11 novembre 2026 — Corrections, nouvelles fonctions et enregistrement dans Git
@@ -201,6 +205,64 @@ Chaque groupe contient des fichiers entiers ; un fichier qui touche plusieurs su
 Obtenir les hashes : `git log --oneline -12`.
 
 Détail des décisions : voir `04-decisions-techniques.md` (DT-10 à DT-14).
+
+---
+
+## 4 ter. 17 novembre 2026 — Nettoyage du code, logo et icône de l'application
+
+Aucun commit n'a été fait entre le 12 et le 16 novembre : le travail de ces jours a été regroupé dans les commits du 17 novembre (voir le journal de bord). Je le reconnais comme un défaut de méthode, comme pour la période du 29 octobre au 10 novembre.
+
+### Commits du 17 novembre 2026
+
+| Commit | Message | Contenu |
+|---|---|---|
+| `f7730cf` | `chore(db)` | Suppression du diagnostic de base de données, utile seulement pendant le développement |
+| `f773e35` | `chore` | Suppression d'un fichier inutilisé (`ProtocolPages`, qui ne faisait que ré-exporter) |
+| `4db4b47` | `refactor` | Une seule fonction `twoDigits` partagée, au lieu d'une copie dans chaque fichier |
+| `700bc0c` | `docs(specs)` | Journal de la séance de nettoyage |
+| `59d2a1d` | `feat(home)` | Logo BenchFlow sur la page d'accueil |
+| `0a1982a` | `feat(pwa)` | Emblème BenchFlow comme icône de l'application |
+| `209f602` | `docs(specs)` | DT-18 (logo et slogan) et entrée du journal |
+| `2d2d3ea` | `fix(pwa)` | Contournement du cache du navigateur pour l'icône de l'onglet |
+| `a49213a` | `feat(layout)` | Emblème à côté du nom BenchFlow dans la barre latérale |
+| `afef00c` | `docs(readme)` | Déclaration de l'aide de Claude jusqu'au 17 novembre et de l'origine du logo |
+| `2906358` | `docs(readme)` | Paragraphes de la déclaration d'IA séparés |
+
+---
+
+## 4 quater. 18 novembre 2026 — Timers indépendants, alertes globales et pastille grise
+
+### Commits du 18 novembre 2026
+
+| Commit | Message | Contenu |
+|---|---|---|
+| `e98ce95` | `style(protocols)` | Ligne vide en trop supprimée dans `ProtocolDetail` |
+| `7af23e6` | `refactor(timer)` | Logique du timer extraite dans le hook `useLabTimer` |
+| `a8b0e2d` | `feat(timer)` | Timer de la calculatrice enregistré séparément des timers de session (DT-19) |
+| `2fec44d` | `feat(timer)` | Étiquette lisible sur chaque timer enregistré (DT-20) |
+| `ada49ec` | `feat(timer)` | Surveillance globale des alertes dans `Layout` |
+| `7e1e707` | `feat(timer)` | Bandeau dans l'application à la fin d'un timer |
+| `4cd042c` | `fix(timer)` | Plus de clignotement ni de seconde en trop après un rafraîchissement |
+| `f1d8d4a` | `docs(specs)` | DT-19 et DT-20 |
+| `d162f47` | `docs(readme)` | Déclaration de l'aide de l'IA du 18 novembre |
+| `d93b052` | `docs(specs)` | Entrée du 18 novembre dans le journal de bord |
+| `cf2c332` | `docs(specs)` | Résultats des tests du 18 novembre |
+| `93bccc9` | `style(protocols)` | Pastille ronde grise pour ouvrir et fermer les étapes |
+| `ac2b8e5` | `docs(specs)` | DT-21 (pastille grise) |
+
+---
+
+## 4 quinquies. 22 novembre 2026 — Temps restant dans l'onglet et confirmation des notes
+
+### Commits du 22 novembre 2026
+
+| Commit | Message | Contenu |
+|---|---|---|
+| `ed9ed56` | `feat` L-02 | Temps restant du timer dans le titre de l'onglet (DT-22) |
+| `823989d` | `feat` R-03 | Message « ✓ Notes saved » sous « Save Notes » |
+| `e3a8963` | `docs(specs)` | DT-22, résultats des tests et journal du 22 novembre |
+
+Le commit qui met à jour ce document, la déclaration d'IA du README et la préparation de l'oral est le dernier de cette série (voir `git log`).
 
 ---
 
@@ -279,6 +341,20 @@ La création des spécifications du 1er au 3 novembre m'a ensuite permis de form
 ### Pourquoi les fichiers SPECS n'ont-ils pas immédiatement de commit Git ?
 
 Les fichiers ont d'abord été créés, révisés et organisés localement. Leur intégration dans Git constitue une étape distincte, qui sera documentée avec la date et le hash du commit correspondant.
+
+---
+
+## 7 bis. Retour d'expérience sur ma méthode de travail
+
+**Les spécifications.** Les spécifications jusqu'au 10 novembre, je les ai écrites seule, à la main, surtout du 1er au 3 novembre ; du 4 au 10 novembre, je les ai surtout vérifiées par rapport au code et j'ai planifié l'organisation des semaines suivantes. À partir du 11 novembre, j'ai demandé à Claude de m'aider à les compléter au fil des sessions (aide déclarée dans le README). Les écrire moi-même m'a aidée à repérer où préciser davantage que le document des fonctionnalités, et à préparer l'oral.
+
+**Le calendrier prévisionnel.** Avoir commencé à coder seule dans mon coin m'a aidée à rédiger le document des fonctionnalités, parce que je savais ce qui était réalisable. En revanche, mon calendrier supposait que je travaillerais seule : je n'avais pas anticipé que l'IA m'aiderait pendant le développement. Par exemple, les notes, le calculateur et le timer, prévus pour fin novembre, existaient déjà dès la phase exploratoire, et les notifications, prévues début décembre, ont été ajoutées le 11 novembre. Pour ces fonctions, l'écart entre le plan et la réalité est donc une avance, pas un retard.
+
+**Les commits.** Les critères d'évaluation demandent des commits nombreux et étalés dans le temps. Cela m'a obligée à structurer mon travail et à planifier mon temps en tenant compte du fait que je code avec l'IA. Je travaille d'habitude beaucoup seule : ces exigences m'ont permis de me challenger et de voir autrement ma manière de travailler, en particulier avec l'IA. Je relis, teste et dois pouvoir expliquer tout le code soumis, comme l'indique le README.
+
+**Ce que je ferais autrement.** Faire un commit après chaque fonction terminée dès le début du projet, et construire le calendrier prévisionnel en tenant compte de l'aide de l'IA.
+
+**Réponse courte à l'oral.** « J'ai d'abord codé et écrit mes spécifications seule, sans commits, ce que je reconnais comme un défaut de méthode. Mon calendrier ne tenait pas compte de l'aide de l'IA : plusieurs fonctions étaient prêtes plus tôt que prévu. Les critères de commits réguliers m'ont obligée à mieux planifier mon temps et à changer ma façon de travailler avec l'IA. »
 
 ---
 

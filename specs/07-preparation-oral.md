@@ -71,9 +71,13 @@ Le développement avait commencé localement avant l'initialisation de Git. Le p
 
 ### Pourquoi deux semaines sans commit, puis une série de commits le 11 novembre ?
 
-« J'ai continué à modifier le code en local sans enregistrer d'étapes, c'est un défaut de méthode. Le 11 novembre j'ai enregistré ce travail par sujets, après l'avoir testé, et je le dis dans `03`. Depuis, je commite après chaque fonction terminée. »
+« J'ai continué à modifier le code en local sans enregistrer d'étapes, c'est un défaut de méthode. Le 11 novembre j'ai enregistré ce travail par sujets, après l'avoir testé, et je le dis dans `03`. Depuis, je commite par fonction terminée (quelques séances ont toutefois été regroupées entre le 12 et le 16 novembre, voir le journal). »
 
 **À ne pas affirmer :** qu'un commit du 28 octobre prouve, à lui seul, qu'un fichier existait déjà le 20 octobre. Pour étayer cette période, s'appuyer sur le journal de bord et, si disponibles, les historiques locaux ou sauvegardes.
+
+### Que retirez-vous de votre méthode de travail ?
+
+« J'ai d'abord codé et écrit mes spécifications seule, sans commits : je le reconnais comme un défaut de méthode. Mon calendrier ne tenait pas compte de l'aide de l'IA, donc plusieurs fonctions étaient prêtes plus tôt que prévu (les notes, le calculateur et le timer, prévus fin novembre, existaient dès la phase exploratoire). Les critères de commits réguliers m'ont obligée à mieux planifier mon temps et à changer ma façon de travailler avec l'IA. Je relis, teste et sais expliquer tout le code soumis, comme le déclare le README. Aujourd'hui, je ferais un commit après chaque fonction dès le début et je construirais le calendrier en tenant compte de l'IA. Le détail est dans `specs/03`, section 7 bis. »
 
 ### Comment savez-vous que l'application fonctionne ?
 
