@@ -155,8 +155,11 @@ function parse(lines: string[], filename: string, pageCount: number): ExtractedP
       else if (section === "description") append("description", inline);
       else if (section === "results") append("expectedResults", inline);
       else if (section === "duration") {
-        if (current) current.estimatedMinutes = toMinutes(inline) || current.estimatedMinutes;
-        else append("duration", inline);
+        if (current) {
+          current.estimatedMinutes = toMinutes(inline) || current.estimatedMinutes;
+          // "Duration: 5 minutes" is a one-line detail: the lines that follow are still instructions.
+          if (inline) section = "instructions";
+        } else append("duration", inline);
       } else if (section === "materials") addMaterials(inline);
       else if (section === "notes" && current && inline) current.description += (current.description ? "\n" : "") + inline;
       continue;
@@ -167,8 +170,11 @@ function parse(lines: string[], filename: string, pageCount: number): ExtractedP
     if (section === "description") { append("description", line); continue; }
     if (section === "results") { append("expectedResults", line); continue; }
     if (section === "duration") {
-      if (current) current.estimatedMinutes = toMinutes(line) || current.estimatedMinutes;
-      else append("duration", line);
+      if (current) {
+        current.estimatedMinutes = toMinutes(line) || current.estimatedMinutes;
+        // Only the line right after a lone "Duration:" label belongs to the duration.
+        section = "instructions";
+      } else append("duration", line);
       continue;
     }
     if (section === "materials") { addMaterials(line); continue; }
