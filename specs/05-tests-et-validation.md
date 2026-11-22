@@ -56,7 +56,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | Chrome (script automatisé, environnement de l'assistant) | Timer de la calculatrice conservé après rafraîchissement ; alerte déclenchée et bandeau affiché pendant qu'on est sur une autre page, bandeau fermé avec « Close » ; 20 rafraîchissements successifs : 0 clignotement et 0 seconde en trop (avant le correctif : 20 clignotements et 1 seconde en trop) |
 | `npm.cmd run build` et `npm.cmd test` chez moi, commit `93bccc9` (pastille grise des étapes) | Build réussi, 47 tests réussis ; rendu observé dans le navigateur sur un protocole importé |
 | Présentation à l'enseignant | Fonctionnement présenté le 18 novembre, solution validée par l'enseignant |
-| Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, titre de l'onglet d'un PDF fraîchement importé : prévus lors des tests manuels du 21 novembre |
+| Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, titre de l'onglet d'un PDF fraîchement importé : tests reportés, voir les résultats du 22 novembre |
 
 ### Résultats du 22 novembre 2026 (temps restant dans l'onglet : L-02 ; confirmation « Notes saved » : R-03)
 
@@ -97,14 +97,14 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T09 | PDF avec étapes numérotées | Chaque instruction reste rattachée à la bonne étape | Prioritaire |
 | T10 | PDF avec retours à la ligne, colonnes ou tableaux | Le résultat est vérifié ; limites signalées | Prioritaire |
 | T11 | Corriger une étape extraite | La correction est enregistrée et réaffichée | À tester |
-| T12 | Démarrer une session | L'étape active s'affiche | À revalider |
-| T13 | Enregistrer des notes | Les notes sont retrouvées après rechargement | À tester |
-| T14 | Démarrer, suspendre et réinitialiser le timer de session | États et durée cohérents | Démarrage vérifié le 11/11 (script) ; à refaire à la main |
-| T15 | Recharger pendant un timer actif | Temps restant recalculé correctement | Prioritaire |
+| T12 | Démarrer une session | L'étape active s'affiche | Réussi à la main (22/11, scénario du test 1) |
+| T13 | Enregistrer des notes | Les notes sont retrouvées après rechargement | Réussi à la main (22/11 : note conservée après la fermeture complète du navigateur, scénario du test 1) |
+| T14 | Démarrer, suspendre et réinitialiser le timer de session | États et durée cohérents | Démarrage vérifié le 11/11 (script), puis à la main les 18 et 22 novembre ; pause et réinitialisation à revérifier à la main |
+| T15 | Recharger pendant un timer actif | Temps restant recalculé correctement | Réussi à la main (18/11 et 22/11) et par script (20 rafraîchissements : aucun saut ni clignotement) |
 | T16 | Utiliser le calculateur scientifique | Résultats corrects pour des exemples de référence | À tester |
 | T17 | Passer hors ligne après mise en cache | Interface et données locales restent accessibles | À tester |
 | T18 | Effacer le stockage local dans un environnement de test | Perte des données expliquée et comportement maîtrisé | À tester |
-| T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; test manuel à faire |
+| T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système à tester |
 | T20 | Supprimer un protocole avec sessions | Confirmation, suppression des sessions, notes et timers | Réussi (test automatisé et script) |
 | T21 | Supprimer puis restaurer un protocole de démonstration | Masqué puis de nouveau visible | Réussi (test automatisé et script) |
 | T23 | Nom lisible d'une session | Affichage `AAAAMMJJ-HHmm · Titre`, sans changer l'id | Réussi (5 tests unitaires + script, 11/11) |

@@ -71,7 +71,7 @@ Le développement avait commencé localement avant l'initialisation de Git. Le p
 
 ### Pourquoi deux semaines sans commit, puis une série de commits le 11 novembre ?
 
-« J'ai continué à modifier le code en local sans enregistrer d'étapes, c'est un défaut de méthode. Le 11 novembre j'ai enregistré ce travail par sujets, après l'avoir testé, et je le dis dans `03`. Depuis, je commite par fonction terminée (quelques séances ont toutefois été regroupées entre le 12 et le 16 novembre, voir le journal). »
+« J'ai continué à modifier le code en local sans enregistrer d'étapes, c'est un défaut de méthode. Le 11 novembre j'ai enregistré ce travail par sujets, après l'avoir testé, et je le dis dans `03`. Depuis, je commite par fonction terminée (les séances de nettoyage prévues du 12 au 16 novembre ont été reportées au 17 novembre, voir le journal). »
 
 **À ne pas affirmer :** qu'un commit du 28 octobre prouve, à lui seul, qu'un fichier existait déjà le 20 octobre. Pour étayer cette période, s'appuyer sur le journal de bord et, si disponibles, les historiques locaux ou sauvegardes.
 

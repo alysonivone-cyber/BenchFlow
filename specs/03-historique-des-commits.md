@@ -210,7 +210,7 @@ Détail des décisions : voir `04-decisions-techniques.md` (DT-10 à DT-14).
 
 ## 4 ter. 17 novembre 2026 — Nettoyage du code, logo et icône de l'application
 
-Aucun commit n'a été fait entre le 12 et le 16 novembre : le travail de ces jours a été regroupé dans les commits du 17 novembre (voir le journal de bord). Je le reconnais comme un défaut de méthode, comme pour la période du 29 octobre au 10 novembre.
+Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nettoyage prévues ces jours-là n'ont pas pu avoir lieu. Je les ai faites le 17 novembre, avec un commit par sujet à la date réelle (voir le journal de bord).
 
 ### Commits du 17 novembre 2026
 

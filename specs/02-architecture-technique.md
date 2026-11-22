@@ -135,7 +135,7 @@ Session + Step ID → ensureTimer() → IndexedDB (une transaction : lecture + c
 
 L'usage d'une échéance (`endsAt`) évite que le décompte dépende uniquement de la fréquence des rafraîchissements de l'interface.
 
-**Fin de minuterie (NOTIF-01) :** quand l'état passe de `running` à `finished` pendant que l'application est ouverte, `alertTimerFinished()` affiche une bannière, joue trois bips (Web Audio, débloqué par le clic sur Start) et, si l'utilisateur a accepté la permission, envoie une notification système via le service worker. Sans backend ni serveur push, **aucune alerte ne peut partir si l'application est complètement fermée** ; à la réouverture, le timer s'affiche terminé sans bip.
+**Fin de minuterie (NOTIF-01) :** quand l'état passe de `running` à `finished` pendant que l'application est ouverte, `alertTimerFinished()` affiche une bannière, joue trois bips (Web Audio, débloqué par le clic sur Start) et, si l'utilisateur a accepté la permission, envoie une notification système via le service worker. Sans backend ni serveur push, **aucune alerte ne peut partir si l'application est complètement fermée** ; à la réouverture, un timer terminé depuis moins de 5 minutes déclenche l'alerte (bandeau et bips) ; au-delà, il s'affiche simplement terminé, sans alerte (DT-20). Le titre de l'onglet du navigateur affiche le temps restant du timer qui se termine le plus tôt (DT-22).
 
 ## 6. Fonctionnement hors ligne
 

@@ -62,7 +62,7 @@ Les erreurs d'extraction ne doivent jamais être masquées par des valeurs inven
 
 | Priorité | Sujet | Justification |
 |---|---|---|
-| Fait (11/11) | Timer de session et persistance | Corrigé, test de régression ; test manuel à refaire |
+| Fait (11/11) | Timer de session et persistance | Corrigé, test de régression ; test manuel réussi les 18 et 22 novembre |
 | Critique V1 | Exactitude et édition des étapes extraites | Risque de mauvaise compréhension du protocole |
 | Haute V1 | Sauvegarde notes/sessions et fonctionnement hors ligne | Promesse centrale de l'application |
 | Haute V1 | Tests de régression et gestion d'erreurs | Stabilité de la démonstration |
