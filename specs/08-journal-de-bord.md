@@ -117,9 +117,9 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Un défaut trouvé en testant moi-même :** le message de R-03 pouvait disparaître tout de suite, car l'enregistrement modifie la note et cela le remettait à zéro. Je l'ai signalé à l'assistant avant le commit ; la correction est incluse dans le même commit. J'ai aussi vérifié que « Next » et « Previous » enregistrent déjà la note de l'étape, ce qui explique qu'un texte reste quand on revient en arrière.
 
-**Tests :** 47 → 53 tests unitaires (`formatClock` et `timerTabTitle`). `tsc -b` et `vite build` réussis. Détail dans `specs/05`.
+**Tests :** 47 → 53 tests unitaires (`formatClock` et `timerTabTitle`). `tsc -b` et `vite build` réussis. Scénario du test 1 (session, timers, fermeture complète du navigateur, réouverture) réussi sur le build de production. Détail dans `specs/05`.
 
-**Encore à faire :** scénario de test 1, tests manuels (hors ligne, 375 px, clavier, notifications), titre de l'onglet d'un PDF fraîchement importé, mise à jour de la déclaration d'IA du README.
+**Encore à faire :** tests manuels hors ligne (prévus le mardi 24 novembre), puis 375 px, clavier, notifications et titre de l'onglet d'un PDF fraîchement importé.
 
 ## Modèle à réutiliser pour les prochaines séances
 

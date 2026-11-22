@@ -82,7 +82,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Compromis :** il faut réconcilier l'état à la reprise et gérer correctement les erreurs IndexedDB.
 
-**Statut :** le bug « Timer storage unavailable » est corrigé et couvert par un test de régression (voir DT-13). Test manuel sur ma machine à refaire.
+**Statut :** le bug « Timer storage unavailable » est corrigé et couvert par un test de régression (voir DT-13). Test manuel sur ma machine réussi le 18 novembre, puis de nouveau le 22 novembre (`npm.cmd run dev` : timers créés et conservés sans erreur de stockage).
 
 ## DT-08 — Limiter la V1 et reporter les fonctions avancées
 

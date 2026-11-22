@@ -67,7 +67,16 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | L-02 à la main, Edge (`npm.cmd run dev`) | Titre `⏱ mm:ss · BenchFlow` pendant le décompte ; le décompte continue quand je change d'onglet ; avec deux timers (Smart Experimental Workflow et Scientific Calculator), le titre suit le plus court puis passe à l'autre quand le premier est terminé ; retour à `BenchFlow` à la fin ; bannière et son toujours déclenchés ; rafraîchissement en plein décompte sans saut |
 | R-03 à la main, Edge | « ✓ Notes saved » s'affiche après « Save Notes » et disparaît dès qu'on retape du texte ; **défaut trouvé pendant ce test** : le message pouvait disparaître juste après être apparu, car l'enregistrement met la note à jour et cela relançait la remise à zéro du message. Corrigé avant le commit (la remise à zéro ne dépend plus que du changement d'étape) |
 | Précision sur « Next » / « Previous » | Ces boutons enregistrent la note de l'étape avant de changer d'étape (comportement prévu depuis le début) : un texte non enregistré à la main n'est donc pas perdu en changeant d'étape |
-| Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, navigation au clavier sur la pastille grise, titre de l'onglet d'un PDF fraîchement importé |
+| Pas encore testé | Hors ligne sur le build de production : prévu le mardi 24 novembre. À faire aussi avant le gel du code du 29 novembre : affichage à 375 px, navigation au clavier sur la pastille grise, notifications système, titre de l'onglet d'un PDF fraîchement importé |
+
+### Scénario du test 1 — session, timers, fermeture complète et réouverture (22 novembre 2026, build de production, Edge)
+
+| Étape | Résultat |
+|---|---|
+| Démarrer une session, écrire une note sur l'étape 1 et l'enregistrer | Conforme |
+| Lancer un timer de 1 min sur l'étape 1, passer à l'étape 2 avec « Next », lancer un timer de 5 min | Conforme |
+| Fermer complètement Edge, attendre environ 2 minutes, rouvrir l'application et la session (« Resume Session ») | Conforme : la note de l'étape 1 est conservée ; la session reprend à l'étape 2 ; le timer de 5 min est conservé avec son temps restant ; le timer de 1 min, terminé pendant la fermeture, affiche `00:00` avec une alerte de rattrapage (bandeau et bips), car il s'est terminé depuis moins de 5 minutes (DT-20) |
+| Constat avant le test | Edge affichait d'abord une ancienne version de l'application (ancien accueil sans logo), servie par le cache du service worker de `localhost:4173`. Après désinscription du service worker (onglet Application) et rechargement forcé, la version actuelle s'est affichée ; la base IndexedDB n'a pas été effacée. C'est le comportement attendu d'une PWA en mise à jour automatique (`autoUpdate`) : la nouvelle version s'affiche à la visite suivante |
 
 Ces vérifications ne remplacent pas un test manuel sur ma machine.
 
