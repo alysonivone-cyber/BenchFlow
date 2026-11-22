@@ -119,7 +119,7 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Tests :** 47 → 53 tests unitaires (`formatClock` et `timerTabTitle`). `tsc -b` et `vite build` réussis. Scénario du test 1 (session, timers, fermeture complète du navigateur, réouverture) réussi sur le build de production. Détail dans `specs/05`.
 
-**Encore à faire :** tests manuels hors ligne (prévus le mardi 24 novembre), puis 375 px, clavier, notifications et titre de l'onglet d'un PDF fraîchement importé.
+**Encore à faire :** tests manuels hors ligne (prévus le mardi 24 novembre), puis 375 px, clavier et titre de l'onglet d'un PDF fraîchement importé.
 
 ## Modèle à réutiliser pour les prochaines séances
 

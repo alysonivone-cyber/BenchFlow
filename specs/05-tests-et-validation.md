@@ -67,7 +67,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | L-02 à la main, Edge (`npm.cmd run dev`) | Titre `⏱ mm:ss · BenchFlow` pendant le décompte ; le décompte continue quand je change d'onglet ; avec deux timers (Smart Experimental Workflow et Scientific Calculator), le titre suit le plus court puis passe à l'autre quand le premier est terminé ; retour à `BenchFlow` à la fin ; bannière et son toujours déclenchés ; rafraîchissement en plein décompte sans saut |
 | R-03 à la main, Edge | « ✓ Notes saved » s'affiche après « Save Notes » et disparaît dès qu'on retape du texte ; **défaut trouvé pendant ce test** : le message pouvait disparaître juste après être apparu, car l'enregistrement met la note à jour et cela relançait la remise à zéro du message. Corrigé avant le commit (la remise à zéro ne dépend plus que du changement d'étape) |
 | Précision sur « Next » / « Previous » | Ces boutons enregistrent la note de l'étape avant de changer d'étape (comportement prévu depuis le début) : un texte non enregistré à la main n'est donc pas perdu en changeant d'étape |
-| Pas encore testé | Hors ligne sur le build de production : prévu le mardi 24 novembre. À faire aussi avant le gel du code du 29 novembre : affichage à 375 px, navigation au clavier sur la pastille grise, notifications système, titre de l'onglet d'un PDF fraîchement importé |
+| Pas encore testé | Hors ligne sur le build de production : prévu le mardi 24 novembre. À faire aussi avant le gel du code du 29 novembre : affichage à 375 px, navigation au clavier sur la pastille grise, titre de l'onglet d'un PDF fraîchement importé |
 
 ### Scénario du test 1 — session, timers, fermeture complète et réouverture (22 novembre 2026, build de production, Edge)
 
@@ -104,7 +104,7 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T16 | Utiliser le calculateur scientifique | Résultats corrects pour des exemples de référence | À tester |
 | T17 | Passer hors ligne après mise en cache | Interface et données locales restent accessibles | À tester |
 | T18 | Effacer le stockage local dans un environnement de test | Perte des données expliquée et comportement maîtrisé | À tester |
-| T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système à tester |
+| T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système vue le 22 novembre après avoir accordé la permission dans Edge (constat : elle n'est apparue qu'à la première utilisation, à analyser) |
 | T20 | Supprimer un protocole avec sessions | Confirmation, suppression des sessions, notes et timers | Réussi (test automatisé et script) |
 | T21 | Supprimer puis restaurer un protocole de démonstration | Masqué puis de nouveau visible | Réussi (test automatisé et script) |
 | T23 | Nom lisible d'une session | Affichage `AAAAMMJJ-HHmm · Titre`, sans changer l'id | Réussi (5 tests unitaires + script, 11/11) |
