@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import { db } from "../../db/database";
 import { alertTimerFinished, timerFinishedMessage } from "./timerAlerts";
+import { BASE_TAB_TITLE, timerTabTitle } from "./tabTitle";
 import { finishDueTimers } from "./timerService";
 
 type FinishedBanner = { id: string; message: string };
@@ -71,6 +72,30 @@ export function TimerWatcher() {
       window.clearTimeout(timeoutId);
       document.removeEventListener("visibilitychange", checkWhenVisible);
       window.removeEventListener("focus", checkWhenVisible);
+    };
+  }, [nextDeadline]);
+
+  // Remaining time of the soonest-finishing timer in the tab
+  // title, refreshed every second; restored when none runs.
+  useEffect(() => {
+    if (nextDeadline == null) {
+      document.title = BASE_TAB_TITLE;
+      return;
+    }
+
+    function updateTitle() {
+      document.title = timerTabTitle(
+        (nextDeadline as number) - Date.now()
+      );
+    }
+
+    updateTitle();
+
+    const intervalId = window.setInterval(updateTitle, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+      document.title = BASE_TAB_TITLE;
     };
   }, [nextDeadline]);
 

@@ -4,7 +4,7 @@ import {
   errorMessage,
   mutedText,
 } from "../../components/ui";
-import { twoDigits } from "../../utils/format";
+import { formatClock } from "../../utils/format";
 
 import type { useLabTimer } from "./useLabTimer";
 
@@ -26,20 +26,6 @@ const TIMER_PRESETS = [
   { label: "3 hours", seconds: 10800 },
 ];
 
-function formatRemaining(milliseconds: number): string {
-  const totalSeconds = Math.ceil(
-    Math.max(0, milliseconds) / 1000
-  );
-
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-
-  return hours > 0
-    ? `${twoDigits(hours)}:${twoDigits(minutes)}:${twoDigits(seconds)}`
-    : `${twoDigits(minutes)}:${twoDigits(seconds)}`;
-}
-
 export function TimerView({
   timer,
   remaining,
@@ -58,7 +44,7 @@ export function TimerView({
         className="p-6 text-[3.8rem] font-extrabold tracking-[-.05em] text-clock"
         aria-live="off"
       >
-        {timer ? formatRemaining(remaining) : "--:--"}
+        {timer ? formatClock(remaining) : "--:--"}
       </div>
 
       <p className={mutedText}>
