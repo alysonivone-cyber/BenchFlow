@@ -250,6 +250,7 @@ export function SessionDetail() {
   );
 
   const [noteText, setNoteText] = useState("");
+  const [notesSaved, setNotesSaved] = useState(false);
   const [error, setError] = useState("");
 
   // Identify the current experimental step.
@@ -269,6 +270,13 @@ export function SessionDetail() {
   useEffect(() => {
     setNoteText(note?.text ?? "");
   }, [note?.id, note?.text, step?.id]);
+
+  // The "saved" confirmation belongs to one step only. It must not
+  // depend on the note itself: saving updates the note, which would
+  // clear the confirmation right after showing it.
+  useEffect(() => {
+    setNotesSaved(false);
+  }, [step?.id]);
 
   // Wait for the session, then for its protocol.
   if (
@@ -302,7 +310,9 @@ export function SessionDetail() {
       );
 
       setError("");
+      setNotesSaved(true);
     } catch {
+      setNotesSaved(false);
       setError(
         "Unable to save notes. Check browser storage."
       );
@@ -466,9 +476,10 @@ export function SessionDetail() {
             <textarea
               rows={6}
               value={noteText}
-              onChange={(event) =>
-                setNoteText(event.target.value)
-              }
+              onChange={(event) => {
+                setNoteText(event.target.value);
+                setNotesSaved(false);
+              }}
               placeholder="Record your observations, volumes, remarks…"
             />
 
@@ -478,6 +489,13 @@ export function SessionDetail() {
             >
               Save Notes
             </button>
+
+            <p
+              role="status"
+              className="m-0 min-h-[1.4em] text-[.9rem] font-bold text-ok-ink"
+            >
+              {notesSaved ? "✓ Notes saved" : ""}
+            </p>
           </section>
 
           <section className={panel}>
