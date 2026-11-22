@@ -14,6 +14,25 @@
 
 **Limite fondamentale :** il n'est pas réaliste de garantir une lecture « parfaite » de tous les PDF avec des expressions régulières. Le logiciel doit reconnaître ses incertitudes.
 
+**Ce que l'import lit aujourd'hui (état du 22 novembre 2026) :**
+- le texte sélectionnable uniquement, lu page par page, pour un fichier de 15 Mo au plus ;
+- les étapes, reconnues par un titre de la forme « Step 1: titre », « Étape 1 : titre », « Phase 1 » ou « 1. titre » (130 caractères au plus, sans point, point d'exclamation ni point d'interrogation final), numérotées dans l'ordre à partir de 1 : une ligne numérotée hors séquence reste une instruction ;
+- les sections reconnues par leur intitulé, en anglais ou en français : objectif, description, matériel, résultats attendus, durée, procédure, notes ;
+- la durée d'une étape, lue seulement dans son titre ou sur une ligne « Duration: … » : une durée citée au milieu d'une instruction ne crée pas de timer ;
+- les lignes « Note: », « Observation: », « Warning: » ou « Safety: », conservées dans les instructions de l'étape ; les numéros de page sont ignorés.
+
+**Ce que l'import ne lit pas, ou lit mal :**
+- les photos, schémas, tableaux et formules sous forme d'image : seul le texte est lu, et le PDF d'origine reste consultable depuis le protocole ;
+- les PDF scannés (images sans texte) : l'application affiche un message d'erreur, il n'y a pas d'OCR ;
+- les mises en page en colonnes ou en tableaux : l'ordre des lignes peut être mélangé ;
+- les étapes non numérotées ou numérotées dans un autre style : si aucune étape fiable n'est trouvée, l'application le dit et invite à saisir les étapes à la main ;
+- **une étape sans aucune instruction est supprimée sans message** : le choix évite de créer des étapes vides, mais l'utilisatrice n'est pas prévenue du nombre d'étapes retirées ;
+- une mise en page inconnue peut donner un résultat incomplet sans aucune erreur : le protocole importé doit être relu et corrigé avec le PDF d'origine sous les yeux (correction d'une étape : T11 dans `05`, encore à tester).
+
+**Pourquoi cette limite est assumée :** lire correctement des protocoles réels, avec photos et mises en page variées, demanderait un traitement distant (modèle de lecture de documents), donc un backend et une clé d'API protégée, ce qui sort du périmètre V1 (voir la section 2). La V1 choisit un parser local, qui reste honnête sur ses limites.
+
+**Exemple concret (22 novembre 2026) :** un PDF de test fabriqué pour l'occasion (6 étapes) n'en donnait que 4 : une ligne « Duration » placée en tête d'étape faisait lire ses instructions comme une durée, et les étapes restées vides étaient supprimées sans message. Le défaut a été corrigé (commit `610c03d`, voir `05`). Il illustre qu'un parser à règles a des angles morts, d'où la relecture humaine prévue par la réponse V1.
+
 ## 2. Absence de backend
 
 **Contrainte V1 :** pas de serveur applicatif.
