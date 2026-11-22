@@ -58,6 +58,17 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | Présentation à l'enseignant | Fonctionnement présenté le 18 novembre, solution validée par l'enseignant |
 | Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, titre de l'onglet d'un PDF fraîchement importé : prévus lors des tests manuels du 21 novembre |
 
+### Résultats du 22 novembre 2026 (temps restant dans l'onglet : L-02 ; confirmation « Notes saved » : R-03)
+
+| Vérification | Résultat |
+|---|---|
+| `npm.cmd test`, commit `ed9ed56` (L-02) | 53 tests réussis (8 fichiers) : s'y ajoutent `formatClock` (minutes, heures, arrondi vers le haut, jamais négatif) et `timerTabTitle` |
+| `npm.cmd run build`, commits `ed9ed56` et `823989d` | Réussis |
+| L-02 à la main, Edge (`npm.cmd run dev`) | Titre `⏱ mm:ss · BenchFlow` pendant le décompte ; le décompte continue quand je change d'onglet ; avec deux timers (Smart Experimental Workflow et Scientific Calculator), le titre suit le plus court puis passe à l'autre quand le premier est terminé ; retour à `BenchFlow` à la fin ; bannière et son toujours déclenchés ; rafraîchissement en plein décompte sans saut |
+| R-03 à la main, Edge | « ✓ Notes saved » s'affiche après « Save Notes » et disparaît dès qu'on retape du texte ; **défaut trouvé pendant ce test** : le message pouvait disparaître juste après être apparu, car l'enregistrement met la note à jour et cela relançait la remise à zéro du message. Corrigé avant le commit (la remise à zéro ne dépend plus que du changement d'étape) |
+| Précision sur « Next » / « Previous » | Ces boutons enregistrent la note de l'étape avant de changer d'étape (comportement prévu depuis le début) : un texte non enregistré à la main n'est donc pas perdu en changeant d'étape |
+| Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, navigation au clavier sur la pastille grise, titre de l'onglet d'un PDF fraîchement importé |
+
 Ces vérifications ne remplacent pas un test manuel sur ma machine.
 
 Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, consigner la date, le commit testé et le résultat réel ; ne pas attribuer rétroactivement un résultat à un commit non identifié.

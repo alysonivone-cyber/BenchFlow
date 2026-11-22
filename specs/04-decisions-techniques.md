@@ -220,6 +220,20 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Validation :** `tsc -b`, `vite build` et 47 tests réussis ; rendu vérifié sur les protocoles de démonstration et sur un protocole importé (commit `93bccc9`). **Reste à vérifier** lors des tests du 21 novembre : navigation au clavier (contour de focus) et lecteur d'écran.
 
+## DT-22 — Temps restant dans le titre de l'onglet du navigateur (L-02)
+
+**Contexte :** pendant une manipulation, on consulte souvent un autre onglet (protocole PDF, document de cours). Sans rien dans le titre de l'onglet BenchFlow, il faut revenir sur l'application pour savoir où en est le timer.
+
+**Décision :** `TimerWatcher` (déjà monté dans `Layout`, voir DT-19) met à jour `document.title` chaque seconde tant qu'un timer tourne, au format `⏱ 04:32 · BenchFlow`. Quand plusieurs timers tournent (session et calculatrice), le titre affiche celui qui **se termine le plus tôt** ; quand il se termine, le titre passe au suivant, puis revient à `BenchFlow` quand plus aucun timer ne tourne. Le texte est fabriqué par une fonction pure, `timerTabTitle` (`tabTitle.ts`), et le formatage de l'horloge a été déplacé dans `utils/format.ts` (`formatClock`), pour être partagé avec l'affichage du timer au lieu d'être dupliqué.
+
+**Justification :** `TimerWatcher` connaît déjà l'échéance la plus proche (requête Dexie en direct), donc aucune nouvelle source de données ni nouveau composant ; la fonction pure se teste sans navigateur ; le timer reste calculé à partir de son échéance (DT-07), donc le titre est juste après un rafraîchissement.
+
+**Alternatives écartées :** afficher le temps de tous les timers dans le titre (trop long pour un onglet) ; lire puis modifier le titre existant (fragile : une constante `BenchFlow` suffit, l'application n'a qu'un titre).
+
+**Limite :** les navigateurs peuvent ralentir les minuteries d'un onglet caché, donc le titre peut se mettre à jour moins souvent qu'une fois par seconde. Ce n'est qu'un affichage : l'alerte de fin de timer ne dépend pas de lui.
+
+**Validation :** 53 tests réussis (+ 4 pour `formatClock`, + 2 pour `timerTabTitle`), `tsc -b` et `vite build` réussis ; test manuel sur ma machine (titre pendant le décompte, changement d'onglet, deux timers, retour à `BenchFlow` à la fin, rafraîchissement en plein décompte) ; contrôle automatisé dans le navigateur par l'assistant (commit `ed9ed56`).
+
 ## Comment défendre une décision à l'oral
 
 Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.

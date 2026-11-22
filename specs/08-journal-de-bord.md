@@ -107,6 +107,20 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Planning :** le scénario de test 1 (résultats dans `specs/05`) est reporté au 19 novembre, avec L-02 (temps restant dans le titre de l'onglet) ; 20 novembre : R-03 (« Notes enregistrées ») ; 21 novembre : tests manuels (hors ligne, 375 px, timers, notifications). **Encore à vérifier :** le titre de l'onglet d'un PDF fraîchement importé (DT-17).
 
+## 22 novembre 2026 — Temps restant dans l'onglet (L-02) et confirmation d'enregistrement des notes (R-03)
+
+**Constat :** les séances prévues du 19 au 21 novembre ont été reportées ; je les ai regroupées le 22 novembre. Deux points de la liste restaient à faire : voir le temps restant d'un timer sans revenir sur l'application (L-02), et savoir si les notes d'une étape sont bien enregistrées (R-03).
+
+**Réalisation avec l'assistant IA Claude (un commit par fonction) :**
+- `ed9ed56` — `feat` L-02 : titre de l'onglet `⏱ mm:ss · BenchFlow`, géré par `TimerWatcher` ; fonction pure `timerTabTitle` et fonction `formatClock` déplacée dans `utils/format.ts` (DT-22).
+- `823989d` — `feat` R-03 : message « ✓ Notes saved » sous le bouton « Save Notes ».
+
+**Un défaut trouvé en testant moi-même :** le message de R-03 pouvait disparaître tout de suite, car l'enregistrement modifie la note et cela le remettait à zéro. Je l'ai signalé à l'assistant avant le commit ; la correction est incluse dans le même commit. J'ai aussi vérifié que « Next » et « Previous » enregistrent déjà la note de l'étape, ce qui explique qu'un texte reste quand on revient en arrière.
+
+**Tests :** 47 → 53 tests unitaires (`formatClock` et `timerTabTitle`). `tsc -b` et `vite build` réussis. Détail dans `specs/05`.
+
+**Encore à faire :** scénario de test 1, tests manuels (hors ligne, 375 px, clavier, notifications), titre de l'onglet d'un PDF fraîchement importé, mise à jour de la déclaration d'IA du README.
+
 ## Modèle à réutiliser pour les prochaines séances
 
 ### [Date] — [Fonctionnalité ou correction]
