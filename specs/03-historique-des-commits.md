@@ -261,8 +261,14 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `ed9ed56` | `feat` L-02 | Temps restant du timer dans le titre de l'onglet (DT-22) |
 | `823989d` | `feat` R-03 | Message « ✓ Notes saved » sous « Save Notes » |
 | `e3a8963` | `docs(specs)` | DT-22, résultats des tests et journal du 22 novembre |
+| `a76b242` | `docs` | Historique des commits (sections 4 ter à 4 quinquies), retour d'expérience, préparation de l'oral et déclaration d'IA |
+| `fc5e331` | `docs(specs)` | Scénario du test 1 et index des specs |
+| `42f554c` | `docs(specs)` | Phrases périmées corrigées, dates et statuts des tests |
+| `4319ad5` | `docs(specs)` | Test des notifications système |
+| `684cd3e` | `docs(specs)` | Correction du résultat de T19 |
+| `a2db064` | `fix(protocols)` | Description d'étape vide masquée, cartes d'étapes non étirées, libellé du PDF sur sa propre ligne |
 
-Le commit qui met à jour ce document, la déclaration d'IA du README et la préparation de l'oral est le dernier de cette série (voir `git log`).
+Le commit qui enregistre ces ajouts dans la documentation n'est pas listé ici (voir `git log`).
 
 ---
 

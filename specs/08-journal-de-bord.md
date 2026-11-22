@@ -114,6 +114,7 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 **Réalisation avec l'assistant IA Claude (un commit par fonction) :**
 - `ed9ed56` — `feat` L-02 : titre de l'onglet `⏱ mm:ss · BenchFlow`, géré par `TimerWatcher` ; fonction pure `timerTabTitle` et fonction `formatClock` déplacée dans `utils/format.ts` (DT-22).
 - `823989d` — `feat` R-03 : message « ✓ Notes saved » sous le bouton « Save Notes ».
+- `a2db064` — `fix(protocols)` : ligne vide supprimée sous le titre d'une étape sans description ; cartes d'étapes qui ne sont plus étirées (la colonne des étapes était étirée à la hauteur de la colonne de gauche, et la grille répartissait l'espace dans les cartes) ; libellé « Attach / replace PDF » sur sa propre ligne, séparé du bouton « View Original PDF ».
 
 **Un défaut trouvé en testant moi-même :** le message de R-03 pouvait disparaître tout de suite, car l'enregistrement modifie la note et cela le remettait à zéro. Je l'ai signalé à l'assistant avant le commit ; la correction est incluse dans le même commit. J'ai aussi vérifié que « Next » et « Previous » enregistrent déjà la note de l'étape, ce qui explique qu'un texte reste quand on revient en arrière.
 
