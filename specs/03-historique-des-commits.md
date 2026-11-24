@@ -1,8 +1,8 @@
-﻿# 03 — Historique des commits et chronologie du développement
+# 03 — Historique des commits et chronologie du développement
 
 **Projet :** BenchFlow — Experimental Workflow Companion  
-**Période documentée :** 20 octobre – 22 novembre 2026  
-**Dernière mise à jour documentaire :** 22 novembre 2026  
+**Période documentée :** 20 octobre – 24 novembre 2026  
+**Dernière mise à jour documentaire :** 24 novembre 2026  
 **Document complémentaire :** `08-journal-de-bord.md`
 
 **Objectif :** documenter l'évolution du projet BenchFlow, les différentes étapes de développement, les décisions techniques, les difficultés rencontrées ainsi que le suivi des versions Git.
