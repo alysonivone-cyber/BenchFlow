@@ -21,7 +21,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | Vérification | Observation | Interprétation |
 |---|---|---|
 | `npm.cmd run build` après intégration de PDF.js | Compilation TypeScript et build Vite réussis dans un journal partagé | La version correspondante compilait ; cela ne prouve pas l'absence de bugs fonctionnels |
-| Build PWA | Génération de `dist/sw.js` et du manifest observée | Les fichiers PWA ont été générés ; l'installation et le mode hors ligne restent à tester |
+| Build PWA | Génération de `dist/sw.js` et du manifest observée | Les fichiers PWA ont été générés ; le mode hors ligne a été testé le 24 novembre 2026 (voir les résultats de cette date), l'installation reste à tester |
 | Taille des bundles (28/10) | Avertissement Vite pour des chunks de plus de 500 Ko | Résolu le 11/11 par le chargement différé de pdf.js |
 | PDF de démonstration | Objectif et matériel affichés après amélioration | Une partie de l'extraction fonctionne sur ce document |
 | Extraction des étapes | Instructions parfois mal regroupées ou tronquées | Régression / limite à traiter avec des cas de test représentatifs |
@@ -75,7 +75,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | NOTE-01 à la main (22 novembre) | Note écrite et enregistrée à l'étape 1 d'une première session ; seconde session du même protocole démarrée : son étape 1 est vide ; en rouvrant la première session, la note est toujours là. Vérifié aussi par un script le même jour. **Point d'attention** : deux sessions lancées dans la même minute portent exactement le même nom (`AAAAMMJJ-HHMM · titre`) dans la liste des sessions : la carte du bas (la plus ancienne) contient la note, celle du haut (la plus récente) est vide. **Corrigé** par le commit `ffc7422` (voir la ligne suivante) |
 | Heure de début des sessions (commit `ffc7422`, 22 novembre) | Deux sessions du même protocole créées à quelques secondes d'écart : la liste affiche `Started hh:mm:ss` avec des secondes différentes sur chaque carte, et le fil d'Ariane de la session ouverte affiche `· started hh:mm:ss`. Vérifié à la main dans Edge ; rendu à 375 px vérifié par une capture dans l'environnement de l'assistant. Un test unitaire ajouté (deux sessions de la même minute : même nom, heures de début différentes) ; `tsc -b`, `vite build` et 54 tests réussis |
 | T14 à la main (22 novembre) | Pause : le temps reste figé et le titre de l'onglet ne décompte plus ; réinitialisation : le timer revient à sa durée de départ et le titre redevient `BenchFlow` |
-| Pas encore testé | Hors ligne sur le build de production : prévu le mardi 24 novembre, seul test restant avant le gel du code du 29 novembre |
+| Pas encore testé | Hors ligne sur le build final : à refaire une fois les dernières modifications faites, avant le gel du code et le tag v1.0 |
 
 ### Scénario du test 1 — session, timers, fermeture complète et réouverture (22 novembre 2026, build de production, Edge)
 
@@ -89,6 +89,17 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 Ces vérifications ne remplacent pas un test manuel sur ma machine.
 
 Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, consigner la date, le commit testé et le résultat réel ; ne pas attribuer rétroactivement un résultat à un commit non identifié.
+
+### Résultats du 24 novembre 2026 (hors ligne sur le build de production : T17)
+
+| Vérification | Résultat |
+|---|---|
+| Préparation | `npm.cmd run build` puis `npm.cmd run preview` (`http://localhost:4173/`), Edge. Service worker réinstallé (« Annuler l'inscription » puis rechargement forcé). Cache de précache de 11 fichiers uniques : le build annonce 13 entrées, mais les deux icônes y sont déclarées deux fois. Les fichiers modifiés portent l'horodatage du nouveau build |
+| Chargement hors ligne (case « Hors ligne » des outils de développement), version d'avant le correctif | L'application s'affiche et mes données sont présentes. Protocole, session, note enregistrée, timer, « View Original PDF », calculatrice et rechargement `F5` d'une session fonctionnent. **Défaut trouvé** : la console affichait `GET /icons/icon-192.png?v=2 net::ERR_INTERNET_DISCONNECTED`. `index.html` demande l'icône de l'onglet avec `?v=2`, mais le cache contient le fichier sans ce paramètre : la requête n'était pas reconnue et partait vers le réseau. Sans conséquence sur les fonctions, mais visible dans la console |
+| Correctif (commit `d0344ea`) | `ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/]` dans la configuration Workbox de `vite.config.ts`. Vérifié dans l'environnement de l'assistant (navigateur de test, build de production, hors ligne) : `icon-192.png?v=2` et `icon-512.png?v=2` passent de « échec » à « 200 ». Vérifié chez moi sur la version corrigée : plus aucune ligne rouge dans la console hors ligne. `tsc -b`, `vite build` et 54 tests réussis |
+| Test strict (serveur arrêté) | Serveur `vite preview` arrêté (VS Code fermé complètement), onglet fermé, adresse `http://localhost:4173/` ressaisie dans un nouvel onglet : l'application se charge et fonctionne depuis le cache |
+| Observation sur la mise à jour du service worker | Après une reconstruction, l'ancienne version est restée active et la nouvelle « en attente d'activation ». La nouvelle version n'a été utilisée qu'après la fermeture des autres onglets de l'application et l'ouverture d'un nouvel onglet. Cela rejoint la précaution notée le 22 novembre : une version périmée peut s'afficher une fois après une mise à jour |
+| Non testé | Installation de l'application (bouton d'installation du navigateur) ; autres navigateurs et téléphone. Les vérifications fonctionnelles hors ligne (note, timer, PDF, calculatrice, `F5`) ont été faites sur la version d'avant le correctif et n'ont pas été rejouées sur la version corrigée : seuls le chargement hors ligne et le test strict l'ont été |
 
 ## 4. Matrice de tests fonctionnels
 
@@ -110,7 +121,7 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T14 | Démarrer, suspendre et réinitialiser le timer de session | États et durée cohérents | Démarrage vérifié le 11/11 (script), puis à la main les 18 et 22 novembre ; pause et réinitialisation vérifiées à la main le 22 novembre |
 | T15 | Recharger pendant un timer actif | Temps restant recalculé correctement | Réussi à la main (18/11 et 22/11) et par script (20 rafraîchissements : aucun saut ni clignotement) |
 | T16 | Utiliser le calculateur scientifique | Résultats corrects pour des exemples de référence | À tester |
-| T17 | Passer hors ligne après mise en cache | Interface et données locales restent accessibles | À tester |
+| T17 | Passer hors ligne après mise en cache | Interface et données locales restent accessibles | Réussi le 24/11 (build de production, `vite preview`, Edge) : chargement hors ligne et test strict serveur arrêté ; défaut d'icône trouvé et corrigé (`d0344ea`) |
 | T18 | Effacer le stockage local dans un environnement de test | Perte des données expliquée et comportement maîtrisé | À tester |
 | T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système vue le 22 novembre après avoir accordé la permission dans Edge (la demande de permission n'apparaît qu'à la première utilisation) ; avec deux timers à la suite, chaque fin de timer a bien affiché sa notification |
 | T20 | Supprimer un protocole avec sessions | Confirmation, suppression des sessions, notes et timers | Réussi (test automatisé et script) |
@@ -158,7 +169,7 @@ Statut : ouvert / corrigé / validé
 - [ ] Timer de session opérationnel, y compris après rechargement.
 - [ ] Import PDF avec correction humaine possible.
 - [ ] Limites des PDF non pris en charge clairement affichées.
-- [ ] Vérification hors ligne sur une version de production.
+- [x] Vérification hors ligne sur une version de production (24 novembre 2026 ; à refaire sur le build final).
 - [ ] Aucun paramètre scientifique inventé par le parseur.
 
 ## 8. Collecte des preuves

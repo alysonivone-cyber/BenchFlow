@@ -123,7 +123,23 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Tests :** 47 → 54 tests unitaires (`formatClock`, `timerTabTitle` et l'heure de début des sessions). `tsc -b` et `vite build` réussis. Scénario du test 1 (session, timers, fermeture complète du navigateur, réouverture) réussi sur le build de production. Détail dans `specs/05`.
 
-**Encore à faire :** test manuel hors ligne (prévu le mardi 24 novembre). Faits le 22 novembre : 375 px, clavier sur la pastille grise, titre de l'onglet d'un PDF fraîchement importé, NOTE-01 et pause / réinitialisation du timer (T14).
+**Encore à faire :** rien de plus pour le 22 novembre ; le test hors ligne a été fait le 24 novembre (voir l'entrée suivante). Faits le 22 novembre : 375 px, clavier sur la pastille grise, titre de l'onglet d'un PDF fraîchement importé, NOTE-01 et pause / réinitialisation du timer (T14).
+
+## 24 novembre 2026 — Test hors ligne sur le build de production (T17)
+
+**Objectif :** vérifier que l'application démarre et fonctionne sans réseau.
+
+**Réalisation :**
+- build de production lancé avec `npm.cmd run build` puis `npm.cmd run preview` ; service worker et cache contrôlés dans les outils de développement (11 fichiers uniques dans le cache) ;
+- chargement hors ligne (case « Hors ligne ») : l'application s'affiche et mes données sont là ; protocole, session, note, timer, « View Original PDF », calculatrice et rechargement d'une session fonctionnent ;
+- test strict : serveur arrêté, VS Code fermé, onglet fermé, adresse `http://localhost:4173/` ressaisie : l'application se charge depuis le cache ;
+- `d0344ea` — `fix(pwa)` : défaut trouvé en testant. La console montrait une erreur sur `icon-192.png?v=2` : l'icône de l'onglet n'était pas reconnue hors ligne, parce que le cache contient le fichier sans `?v=2`. Corrigé par une ligne dans la configuration du service worker.
+
+**Observation :** après une reconstruction, l'ancienne version du service worker est restée active tant que les autres onglets de l'application restaient ouverts ; j'ai dû fermer les onglets et en ouvrir un nouveau pour tester la version corrigée.
+
+**Tests :** 54 tests unitaires, inchangés ; `tsc -b` et `vite build` réussis. Détail dans `specs/05`.
+
+**Encore à faire :** un dernier test hors ligne rapide sur le build final, avant le gel du code. L'installation de l'application et les autres navigateurs n'ont pas été testés.
 
 ## Modèle à réutiliser pour les prochaines séances
 

@@ -176,7 +176,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limite :** le slogan fait partie de l'image : il n'est pas sélectionnable et reste petit sur téléphone ; le même texte existe en vrai texte dans le bandeau. Une variante simplifiée en SVG a été comparée puis écartée : le logo d'origine est conservé.
 
-**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (12 fichiers au lieu de 11) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production prévu le 24 novembre.
+**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (12 fichiers au lieu de 11) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production réussi le 24 novembre 2026 (voir `05`, T17).
 
 ## DT-19 — Timer de la calculatrice indépendant, persistant, et logique partagée
 
@@ -204,7 +204,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limites :** il s'agit d'une alerte locale (pas de Web Push, qui exigerait un serveur, hors du périmètre V1, comme dans le cahier des fonctionnalités) : application fermée, aucune alerte. Un timer terminé depuis plus de 5 minutes à l'ouverture de l'application passe à « terminé » sans alerte, pour éviter une alerte très en retard. Le nom d'un timer de session est recalculé à l'ouverture de son étape (un protocole renommé met l'étiquette à jour à ce moment-là).
 
-**Validation :** tests unitaires (étiquette à la création et ajoutée à un ancien timer ; `finishDueTimers` ne signale un timer qu'une fois, ignore ceux qui ne sont pas échus, et ne signale pas un timer terminé depuis très longtemps ; texte de l'alerte). Vérification dans le navigateur : un timer de la calculatrice terminé pendant qu'on est sur une autre page déclenche le bandeau, qui se ferme avec « Close ». Solution présentée à l'enseignant le 18 novembre 2026, qui l'a validée. Affichage à 375 px vérifié le 22 novembre 2026. **Reste à vérifier** avant le gel du code du 29 novembre : hors ligne (prévu le 24 novembre). La notification système a été vue le 22 novembre (voir `05`, T19).
+**Validation :** tests unitaires (étiquette à la création et ajoutée à un ancien timer ; `finishDueTimers` ne signale un timer qu'une fois, ignore ceux qui ne sont pas échus, et ne signale pas un timer terminé depuis très longtemps ; texte de l'alerte). Vérification dans le navigateur : un timer de la calculatrice terminé pendant qu'on est sur une autre page déclenche le bandeau, qui se ferme avec « Close ». Solution présentée à l'enseignant le 18 novembre 2026, qui l'a validée. Affichage à 375 px vérifié le 22 novembre 2026. Hors ligne vérifié le 24 novembre 2026 (voir `05`, T17). **Reste à vérifier** avant le gel du code : un dernier test hors ligne sur le build final. La notification système a été vue le 22 novembre (voir `05`, T19).
 
 ## DT-21 — Bouton d'ouverture des étapes : pastille ronde grise
 

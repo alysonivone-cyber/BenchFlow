@@ -114,6 +114,7 @@ Améliorer la robustesse de l'extraction PDF, ajouter des tests sur plusieurs fo
 - [ ] Tester le timer et les notifications dans une session réelle (permission du navigateur).
 - [ ] Préparer une capture d'écran de secours pour chaque étape importante.
 - [ ] Prévoir une explication claire du mode hors ligne.
+  - Appui : test strict du 24 novembre 2026 (serveur arrêté, onglet fermé, application rechargée depuis le cache) ; défaut d'icône hors ligne trouvé et corrigé (`ignoreURLParametersMatching`, commit `d0344ea`).
 - [ ] Garder le README, le cahier des fonctionnalités et les specs accessibles.
 - [ ] Préparer une réponse transparente sur les limites.
 

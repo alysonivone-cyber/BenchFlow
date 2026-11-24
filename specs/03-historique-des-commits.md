@@ -271,6 +271,9 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `610c03d` | `fix(protocols)` | Import PDF : une ligne « Duration » en tête d'étape ne fait plus perdre les instructions qui suivent |
 | `b555877` | `docs` | Tests manuels du 22 novembre (375 px, clavier, titre de l'onglet du PDF) et correctif de l'import PDF |
 | `ffc7422` | `feat(sessions)` | Heure de début avec secondes sur chaque session pour distinguer deux sessions de la même minute |
+| `1bb64fc` | `docs` | NOTE-01, T14 et heure de début des sessions dans les specs |
+| `08107a8` | `docs` | Limites de l'import PDF dans `06` |
+| `d0344ea` | `fix(pwa)` | Icône de l'onglet reconnue par le cache hors ligne malgré `?v=2` |
 
 Le commit qui enregistre ces ajouts dans la documentation n'est pas listé ici (voir `git log`).
 
@@ -294,7 +297,7 @@ Un build réussi confirme la possibilité de compiler et de générer l'applicat
 
 - Tester l'extraction PDF sur plusieurs documents scientifiques.
 - Rejouer à la main, sur ma machine, le timer et les notifications (permission du navigateur, onglet en arrière-plan) : fait le 22 novembre 2026 (voir `05`, T14 et T19).
-- Vérifier le mode hors ligne sur un build de production installé.
+- Vérifier le mode hors ligne sur un build de production installé : fait le 24 novembre 2026 sur le build de production servi par `vite preview` (voir `05`, T17), sans installer l'application.
 - Tester l'indépendance des notes entre deux sessions (NOTE-01) : fait le 22 novembre 2026 (voir `05`).
 
 Les résultats seront ajoutés uniquement après exécution effective.

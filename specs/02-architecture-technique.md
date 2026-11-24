@@ -139,7 +139,7 @@ L'usage d'une échéance (`endsAt`) évite que le décompte dépende uniquement 
 
 ## 6. Fonctionnement hors ligne
 
-Le service worker met en cache les ressources de l'application prévues par la configuration PWA, y compris le worker de pdf.js (`.mjs`), afin que l'import de PDF fonctionne hors ligne. Les données métier sont enregistrées localement via IndexedDB. **La disponibilité hors ligne doit être vérifiée en conditions réelles** : chargement initial en ligne, installation ou mise en cache, coupure réseau, réouverture et récupération des données.
+Le service worker met en cache les ressources de l'application prévues par la configuration PWA, y compris le worker de pdf.js (`.mjs`), afin que l'import de PDF fonctionne hors ligne. Les données métier sont enregistrées localement via IndexedDB. **La disponibilité hors ligne doit être vérifiée en conditions réelles** : chargement initial en ligne, installation ou mise en cache, coupure réseau, réouverture et récupération des données. **Vérifié le 24 novembre 2026** sur le build de production servi par `vite preview` : chargement hors ligne puis test strict avec le serveur arrêté (voir `05`, T17). L'installation de l'application n'a pas été testée.
 
 Les données restent liées au navigateur et à son stockage local. Une suppression des données du site, un mode privé ou un changement d'appareil peut entraîner leur perte. Ne pas promettre de synchronisation ni de sauvegarde cloud dans la V1.
 
@@ -156,5 +156,5 @@ Les données restent liées au navigateur et à son stockage local. Une suppress
 - [ ] Vérifier les versions exactes des dépendances dans `package.json`.
 - [ ] Confirmer les champs et migrations Dexie dans `database.ts`.
 - [ ] Vérifier la configuration du service worker et les icônes de la PWA.
-- [ ] Tester le fonctionnement hors ligne après un build de production.
+- [x] Tester le fonctionnement hors ligne après un build de production (fait le 24 novembre 2026, voir `05`, T17 ; à refaire sur le build final).
 - [ ] Confirmer les fonctionnalités effectivement livrées, sans confondre V1 et V2.
