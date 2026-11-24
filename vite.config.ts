@@ -72,6 +72,12 @@ export default defineConfig({
 
         // Allow React Router navigation offline.
         navigateFallback: "/index.html",
+
+        // index.html asks for "icon-192.png?v=2" (a cache-busting
+        // parameter for the browser's tab icon). Without this line the
+        // precached "icon-192.png" is not recognised offline and the
+        // request fails. utm_* and fbclid are Workbox's defaults.
+        ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/],
       },
     }),
   ],
