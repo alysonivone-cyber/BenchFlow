@@ -1,4 +1,4 @@
-# 03 — Historique des commits et chronologie du développement
+﻿# 03 — Historique des commits et chronologie du développement
 
 **Projet :** BenchFlow — Experimental Workflow Companion  
 **Période documentée :** 20 octobre – 22 novembre 2026  
@@ -273,7 +273,15 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `ffc7422` | `feat(sessions)` | Heure de début avec secondes sur chaque session pour distinguer deux sessions de la même minute |
 | `1bb64fc` | `docs` | NOTE-01, T14 et heure de début des sessions dans les specs |
 | `08107a8` | `docs` | Limites de l'import PDF dans `06` |
+
+## 4 sexies. 24 novembre 2026 — Test hors ligne et icône de l'onglet
+
+### Commits du 24 novembre 2026
+
+| Commit | Message | Contenu |
+|---|---|---|
 | `d0344ea` | `fix(pwa)` | Icône de l'onglet reconnue par le cache hors ligne malgré `?v=2` |
+| `6e634a4` | `docs` | Test hors ligne (T17) et correctif de l'icône dans les specs et le README |
 
 Le commit qui enregistre ces ajouts dans la documentation n'est pas listé ici (voir `git log`).
 
