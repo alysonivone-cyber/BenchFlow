@@ -131,3 +131,17 @@ Améliorer la robustesse de l'extraction PDF, ajouter des tests sur plusieurs fo
 **Question possible :** « Les commits prouvent-ils que tout a été codé entre le 20 et le 28 octobre ? »
 
 **Réponse proposée :** « Non. Git date les versions enregistrées, pas nécessairement la première rédaction des fichiers avant leur suivi. Mon journal de bord présente la période de développement ; les commits servent ensuite de preuves des versions enregistrées. »
+
+## Réponses courtes sur les ajouts du 25 novembre
+
+**Pourquoi l'application n'est-elle pas publiée en ligne ?** « L'examen du 10 décembre se fait en localhost : une publication ne changerait rien à la démonstration. Je l'ai classée hors V1 dans `06`. L'application est déjà installable et fonctionne hors ligne depuis le build local. »
+
+**À quoi sert l'écran d'erreur (R-01) ?** « C'est une extension de TECH-01 : si l'interface plante pendant l'affichage, un écran de récupération remplace la page blanche et rappelle que les protocoles, sessions et notes restent sur l'appareil. React impose un composant de classe pour cela (`getDerivedStateFromError`). Sa limite, écrite dans `06` : il ne rattrape pas les erreurs des gestionnaires d'événements ni des opérations asynchrones, donc pas un échec d'écriture Dexie. »
+
+**Comment fonctionne l'écran allumé (L-01) ?** « C'est une extension de TIME-01 et de WORK-01 : l'API Screen Wake Lock garde l'écran allumé pendant une session, le verrou est relâché quand on quitte la page et repris quand on revient sur l'onglet. Je l'ai vérifié dans Edge avec un journal de console. Si le navigateur ne le gère pas, il ne se passe rien et l'application continue de fonctionner. Limite : il reste actif même sans timer. »
+
+**À quoi sert l'intégration continue ?** « Un workflow GitHub Actions construit l'application et lance les tests automatiques (55 aujourd'hui) à chaque push sur `main`, sous Linux avec Node 22. La première exécution a réussi en 30 secondes : cela montre que le projet se construit sur une machine propre. »
+
+**L'application est-elle installable (TECH-02) ?** « Le 25 novembre, sur le build de production, Edge a proposé l'installation et l'application s'est ouverte dans sa propre fenêtre, avec ses données. Je ne l'ai pas testée sur téléphone ni dans d'autres navigateurs. »
+
+**Que se passe-t-il si le stockage échoue (TECH-01) ?** « J'ai testé l'effacement complet du stockage : l'application redémarre proprement avec les protocoles de démonstration. Je n'ai pas provoqué un échec d'écriture isolé, comme un quota plein : c'est une limite que je documente dans `06`. »
