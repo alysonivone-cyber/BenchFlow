@@ -27,7 +27,7 @@
 - les mises en page en colonnes ou en tableaux : l'ordre des lignes peut être mélangé ;
 - les étapes non numérotées ou numérotées dans un autre style : si aucune étape fiable n'est trouvée, l'application le dit et invite à saisir les étapes à la main ;
 - **une étape sans aucune instruction est supprimée sans message** : le choix évite de créer des étapes vides, mais l'utilisatrice n'est pas prévenue du nombre d'étapes retirées ;
-- une mise en page inconnue peut donner un résultat incomplet sans aucune erreur : le protocole importé doit être relu et corrigé avec le PDF d'origine sous les yeux (correction d'une étape : T11 dans `05`, encore à tester).
+- une mise en page inconnue peut donner un résultat incomplet sans aucune erreur : le protocole importé doit être relu et corrigé avec le PDF d'origine sous les yeux (correction d'une étape : T11 dans `05`, réussi le 25 novembre).
 
 **Pourquoi cette limite est assumée :** lire correctement des protocoles réels, avec photos et mises en page variées, demanderait un traitement distant (modèle de lecture de documents), donc un backend et une clé d'API protégée, ce qui sort du périmètre V1 (voir la section 2). La V1 choisit un parser local, qui reste honnête sur ses limites.
 

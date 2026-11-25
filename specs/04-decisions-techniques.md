@@ -218,7 +218,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limite :** sans mot visible, la découvrabilité repose sur la flèche et sur le fait que toute la ligne de l'étape est cliquable.
 
-**Validation :** `tsc -b`, `vite build` et 47 tests réussis ; rendu vérifié sur les protocoles de démonstration et sur un protocole importé (commit `93bccc9`). Navigation au clavier vérifiée le 22 novembre 2026 (`Tab` atteint la pastille, `Entrée` et `Espace` ouvrent et ferment l'étape, contour de focus visible). **Reste à vérifier** avant le gel du code du 29 novembre : lecteur d'écran.
+**Validation :** `tsc -b`, `vite build` et 47 tests réussis ; rendu vérifié sur les protocoles de démonstration et sur un protocole importé (commit `93bccc9`). Navigation au clavier vérifiée le 22 novembre 2026 (`Tab` atteint la pastille, `Entrée` et `Espace` ouvrent et ferment l'étape, contour de focus visible). **Reste à vérifier** avant le gel du code (au plus tard le 30 novembre) : lecteur d'écran.
 
 ## DT-22 — Temps restant dans le titre de l'onglet du navigateur (L-02)
 
