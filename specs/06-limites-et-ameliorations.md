@@ -49,7 +49,7 @@
 
 **Améliorations :** export de sauvegarde, import de restauration, messages d'erreur explicites et tests de migration de schéma.
 
-**Extension de TECH-01 réalisée le 25 novembre (R-01, DT-23) :** un écran de récupération remplace la page blanche lorsque l'interface plante pendant l'affichage. **Limites :** il ne rattrape ni les erreurs des gestionnaires d'événements, ni celles des opérations asynchrones, donc pas un échec d'écriture Dexie. Ce cas relève de la gestion d'erreurs propre à chaque opération (par exemple le message du timer) et du test T18 (effacer le stockage local), qui reste à faire.
+**Extension de TECH-01 réalisée le 25 novembre (R-01, DT-23) :** un écran de récupération remplace la page blanche lorsque l'interface plante pendant l'affichage. **Limites :** il ne rattrape ni les erreurs des gestionnaires d'événements, ni celles des opérations asynchrones, donc pas un échec d'écriture Dexie. Ce cas relève de la gestion d'erreurs propre à chaque opération (par exemple le message du timer) et du test T18 (effacer le stockage local), réussi le 25 novembre pour l'effacement complet (voir `05`). Un échec d'écriture isolé, par exemple un quota plein, n'a pas été provoqué.
 
 ## 4. Minuteries et exécution
 
