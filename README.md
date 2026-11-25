@@ -23,6 +23,8 @@ npm run preview
 
 **Important:** The service worker/offline behavior must be tested using `npm run build` then `npm run preview`, after first loading the app online. Vite development mode is not an offline acceptance test.
 
+Browser data (IndexedDB, caches) is separate for each port. To avoid a silent switch to another port, start the preview with `npm run preview -- --port 4173 --strictPort`.
+
 ## Folder guide
 
 | Folder | Purpose / why |
@@ -40,6 +42,9 @@ npm run preview
 | `src/components/ui.ts` | Shared Tailwind class helpers (buttons, cards…). |
 | `public/icons` | Installable PWA icons. |
 | `docs` | Original README, Balsamiq, submitted specification, professor instructions. |
+| `src/utils` | Shared helpers (`format.ts`: two-digit numbers, clock text). |
+| `specs` | Technical documentation: architecture, commit history, decisions, tests, limits, oral preparation, journal. |
+| `.github/workflows` | GitHub Actions workflow (build and tests on every push). |
 
 ## Current implementation
 
@@ -51,15 +56,20 @@ npm run preview
 - Styling with Tailwind CSS v4.
 - PWA: install manifest, icons, generated service worker for offline app shell after build.
 - Responsive layout: desktop and small-screen navigation.
+- Local PDF import (an extra beyond the submitted scope): text read with pdf.js, steps editable before saving, source PDF kept.
+- Independent timers (session steps and calculator), all persisted, with a global end-of-timer alert and the remaining time in the browser tab title.
+- Readable session names (`YYYYMMDD-HHMM · title`) and a start time with seconds.
+- Global error screen (error boundary) and screen kept on during a session (Screen Wake Lock API).
+- GitHub Actions workflow: build and tests on every push to `main`.
 
 ## Still to implement / validate before final V1 submission
 
-- **NOTIF-01:** implemented (in-app banner, beeps, permission-based system notification). A fully closed app cannot alert, because there is no backend/push server. Manual test on real devices still to do.
-- **TECH-04:** manual offline acceptance testing in browsers and devices, including first-load / reload and unavailable-resource cases.
-- **TECH-01:** robust storage quota/error handling and explicit recovery UX.
-- **TIME-01:** device/browser testing when backgrounded or fully closed; never promise a notification while fully closed.
-- **NOTE-01:** verify note isolation between at least two sessions with integration tests.
-- **WORK-01:** verify all navigation/validation edge cases with integration tests.
+- **NOTIF-01:** implemented (in-app banner, beeps, permission-based system notification). A fully closed app cannot alert, because there is no backend/push server. Tested manually in Edge on desktop (permission granted and blocked); real devices still to test.
+- **TECH-04:** offline acceptance tested manually in Edge on 24 November (production build, server stopped); other browsers and devices still to test, and a last quick check on the final build.
+- **TECH-01:** a global error screen replaces a blank page when rendering fails, and clearing the whole storage was tested; an isolated write failure (for example a full quota) was not provoked.
+- **TIME-01:** device/browser testing when backgrounded or fully closed; never promise a notification while fully closed. Closing and reopening Edge was tested on 22 November (a timer finished within 5 minutes gives a caught-up alert).
+- **NOTE-01:** note isolation between two sessions of the same protocol was verified manually on 22 November; no automated integration test.
+- **WORK-01:** ending a session (Complete Experiment) was tested manually on 25 November; other edge cases and integration tests remain.
 - **PDF import:** an extra added beyond the submitted V1 scope (which committed to structured demo protocols). Text is extracted locally with pdf.js and always reviewed by the user before saving. It is not a guaranteed reader for every PDF.
 - **Safety:** protocol examples are illustrative and must not be used as validated laboratory instructions.
 
@@ -68,7 +78,7 @@ npm run preview
 - No backend, account, cloud sync, AI or dashboard in V1. `CHECK-01` is explicitly excluded.
 - IndexedDB stores structured sessions/notes/timers. Service worker cache stores the app shell and bundled assets. `localStorage` is not used for experimental data.
 - Timers store a deadline (`endsAt`) instead of trusting repeated `setInterval` ticks. The interval only refreshes the display.
-- The stand-alone timer on the calculator screen is practice-only; step timers are persisted with `sessionId + stepId`.
+- The timer on the calculator screen is independent of the session timers and persisted too (record `global:calculator` in the same `timers` table); step timers are persisted with `sessionId + stepId`.
 - Demo protocol content is bundled in TypeScript rather than fetched remotely; it is available in the offline build.
 
 ## AI assistance disclosure (required by CREA)
@@ -77,7 +87,7 @@ OpenAI ChatGPT assisted with the initial project scaffolding, data models, demon
 
 Anthropic Claude (Claude Sonnet 5.5) assisted on 11 November 2026 with: the fix of the session timer (atomic `ensureTimer` transaction and regression test), the end-of-timer alerts (NOTIF-01), the "Open me" / "Close" step badge, deleting protocols with cascade, lazy-loading pdf.js, the migration of the styles to Tailwind CSS, and the update of the documentation in `specs/`. The commits of that session carry a `Co-Authored-By: Claude` trailer.
 
-Anthropic Claude (Claude Sonnet 5.5) also assisted on 11, 17, 18, 22, 24 and 25 November 2026 with: the readable session names and protocol dates, the fix of the "not found" pages, opening the source PDF in a titled page, the code clean-up (removal of the development diagnostic, an unused file and a duplicated helper), the integration of the logo and of the app icons into the interface, the independent and persisted calculator timer (shared `useLabTimer` hook, separate files for the session and global timers), the readable timer labels, the global end-of-timer alerts with an in-app banner, a display fix when the page is refreshed, the neutral round chip of the step toggle, the remaining timer time in the browser tab title, the "Notes saved" confirmation of the session notes, the layout fix of the step cards and of the PDF section, the fix of the PDF import (a duration line no longer hides the instructions that follow it), the start time with seconds that tells apart two sessions started in the same minute, the offline fix of the tab icon (the service worker now ignores the `v` parameter of its URL), the global error screen (an error boundary around the application), the screen kept on while a session is open (Screen Wake Lock API), the GitHub Actions workflow that builds and tests on every push, and the matching entries of `specs/`. Its commits carry a `Co-Authored-By: Claude` trailer.
+Anthropic Claude (Claude Sonnet 5.5) also assisted on 11, 17, 18, 22, 24 and 25 November 2026 with: the readable session names and protocol dates, the fix of the "not found" pages, opening the source PDF in a titled page, the code clean-up (removal of the development diagnostic, an unused file and a duplicated helper), the integration of the logo and of the app icons into the interface, the independent and persisted calculator timer (shared `useLabTimer` hook, separate files for the session and global timers), the readable timer labels, the global end-of-timer alerts with an in-app banner, a display fix when the page is refreshed, the neutral round chip of the step toggle, the remaining timer time in the browser tab title, the "Notes saved" confirmation of the session notes, the layout fix of the step cards and of the PDF section, the fix of the PDF import (a duration line no longer hides the instructions that follow it), the start time with seconds that tells apart two sessions started in the same minute, the offline fix of the tab icon (the service worker now ignores the `v` parameter of its URL), the global error screen (an error boundary around the application), the screen kept on while a session is open (Screen Wake Lock API), the GitHub Actions workflow that builds and tests on every push, and the matching entries of `specs/`, and the one-by-one review of the specs on 25 November (removing outdated statements and checking commits, tests and dates). Claude also created the test files used for the PDF checks (a vitamin C titration protocol PDF, an image-only PDF, a text file renamed to .pdf and a PDF over 15 MB). Its commits carry a `Co-Authored-By: Claude` trailer.
 
 The BenchFlow logo (`src/assets/benchflow-logo.png`, the emblem and the app icons derived from it) was generated with ChatGPT. Claude only prepared the image files (transparent background, cropping, resizing) and integrated them.
 
@@ -91,7 +101,7 @@ The student reviews, tests and must be able to explain all submitted code.
 4. `feat: add step notes and timestamp-based timers`
 5. `test: cover dilution and timer calculations`
 
-**Do not pretend these commits were made separately if importing the starter in one commit.** The real history is described in `specs/03-historique-des-commits.md`, including the commits that were recorded after the fact on 11 November.
+**Do not pretend these commits were made separately if importing the starter in one commit.** The real history is described in `specs/03-historique-des-commits.md`, including the two GitHub commits of 25 October and the commits that were recorded after the fact on 11 November.
 
 See `CAHIER_DES_FONCTIONNALITES.md` for the submitted scope and acceptance criteria.
 
@@ -101,6 +111,6 @@ See `CAHIER_DES_FONCTIONNALITES.md` for the submitted scope and acceptance crite
 - Four-variable dilution solver with concentration and volume unit conversions.
 - Source PDF attachment and viewing in Protocol Library (stored locally in IndexedDB).
 - Manual protocol creation with steps and optional source PDF, or creation from an imported PDF (reviewed by the user).
-- Session and step timers use the shared timestamp-based timer service.
+- Session, step and calculator timers use the shared timestamp-based timer logic (`useLabTimer`, `timerService`).
 
 **Note:** PDFs are analysed locally in the browser with rules (no AI, account or cloud storage). Large PDFs may exceed browser storage quota.
