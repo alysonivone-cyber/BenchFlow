@@ -23,7 +23,7 @@ Ces premiers essais m'ont permis de mieux identifier les fonctionnalités réali
 
 Ce travail exploratoire a ainsi contribué à préciser le périmètre de la V1 et à réévaluer certains éléments du cahier des fonctionnalités essentielles, dont le PDF intitulé « Document des fonctionnalités PWA » était à rendre pour le **27 octobre 2026**.
 
-Le 28 octobre 2026, j'ai procédé aux premiers commits Git afin d'enregistrer le travail développé localement et de commencer un suivi structuré des versions.
+Le 28 octobre 2026, j'ai procédé aux premiers commits Git locaux afin d'enregistrer le travail développé localement et de commencer un suivi structuré des versions (deux commits avaient déjà été créés sur GitHub le 25 octobre : voir la section 2).
 
 Le nombre de fichiers présents dans les premiers commits s'explique donc par l'existence d'une première base de développement réalisée avant l'initialisation de Git.
 
@@ -42,7 +42,8 @@ Les sections ci-dessous suivent l'ordre du temps, mais certaines périodes n'ont
 | Date | Ce qui s'est passé | Trace Git | Section |
 |---|---|---|---|
 | 20 au 28/10 | Développement local exploratoire | aucune (avant Git) | 1 et 3 |
-| 28/10 | Premiers commits (5) | `ef00ee4` à `40794ba` | 2 |
+| 25/10 | Deux commits créés sur GitHub (interface web), avant les commits locaux | `8c5779f`, `f1ef1cf` | 2 |
+| 28/10 | Premiers commits locaux (5) | `ef00ee4` à `40794ba` | 2 |
 | 1 au 3/11 | Rédaction des specs à la main | aucun commit (fichiers non suivis) | 4 |
 | 4 au 10/11 | Vérification des specs par rapport au code, planification | aucun commit | 4 |
 | 11/11 | Session avec Claude : 10 commits regroupés par sujet, puis 9 commits dans l'après-midi (noms de session, DT-16, DT-17, specs, fusion avec l'historique GitHub) ; 19 au total | `2f2b3dc` à `6ed7e62` | 4 bis |
@@ -71,6 +72,17 @@ Les premiers commits ont permis de sauvegarder la base fonctionnelle existante e
 | 28/10/2026 | `40794ba` | Polissage du schéma de base de données et des modèles | Stabiliser la couche de données |
 
 Ces cinq commits sont ceux présents dans `git log` pour le 28 octobre (entre 14 h 33 et 16 h 15). Les messages exacts et les fichiers concernés peuvent être consultés directement dans l'historique Git.
+
+### Commits du 25 octobre 2026 (créés sur GitHub)
+
+L'historique Git compte aussi deux commits antérieurs aux commits locaux. Ils ont été créés directement sur GitHub, avec l'interface web, et non depuis mon dossier local ; leur historique a été fusionné dans ma branche locale le 11 novembre (`b7e9399`, section 4 bis).
+
+| Date | Commit | Message |
+|---|---|---|
+| 25/10/2026 | `8c5779f` | `Add files via upload` |
+| 25/10/2026 | `f1ef1cf` | `Update GitHub link in CAHIER_DES_FONCTIONNALITES.md` |
+
+Les commits locaux commencent donc le 28 octobre.
 
 ### Commit `ef00ee4` — Premier enregistrement du projet
 
@@ -340,8 +352,12 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `92a7a55` | `docs` | Vérifications restantes de `03` et journal du 25 novembre |
 | `3ae4141` | `docs` | Correspondance cahier, code et tests dans `05` et trace dans `03` |
 | `0a15330` | `docs` | Réponses courtes sur les ajouts du 25 novembre dans `07` |
+| `0d8403c` | `docs` | Frise chronologique et dernière vérification restante dans `03` |
 | `33c04ce` | `docs` | Revue de `05` : statuts des cas PDF, défauts trouvés et corrigés, critères de validation de la V1 |
 | `f2d28f8` | `docs` | Revue de `06` : timers multiples faits, vérifications déjà réalisées, constats mineurs |
+| `76840d8` | `docs` | Revue de `03` : commits manquants du 25 novembre, réponse orale corrigée, conclusion |
+| `ec55c30` | `docs` | Revue de `04` : DT-26, ordre des décisions, timers multiples marqués comme faits |
+| `400c8fc` | `docs` | Les neuf commits de l'après-midi du 11 novembre dans `03` |
 
 Les commits qui enregistrent les révisions suivantes des specs (dont celui de cette section) ne sont pas encore listés ici (voir `git log`).
 
@@ -405,6 +421,10 @@ Ces commandes sont fournies comme références pour les prochaines vérification
 ### Pourquoi les premiers commits contiennent-ils autant de fichiers ?
 
 Le développement de BenchFlow a commencé localement avant l'initialisation de Git. Le premier commit enregistre donc une base de travail déjà constituée, et non uniquement du code écrit le jour de son enregistrement.
+
+### Pourquoi y a-t-il deux commits du 25 octobre, avant les premiers commits du 28 octobre ?
+
+Ces deux commits ont été créés sur GitHub avec l'interface web (dépôt de fichiers, puis mise à jour du lien GitHub dans `CAHIER_DES_FONCTIONNALITES.md`), avant que je commence à versionner mon dossier local. Leur historique a été fusionné dans ma branche locale le 11 novembre (`b7e9399`). Mes commits locaux, eux, commencent le 28 octobre.
 
 ### Pourquoi certains fichiers affichent-ils une date de création au 28 octobre ?
 
