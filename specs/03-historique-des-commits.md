@@ -364,6 +364,10 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `41a37f2` | `docs` | Revue de `07` : réponse sur l'IA, question du 25 octobre, checklist de démonstration |
 | `cc22364` | `docs(readme)` | README : statuts des fonctions, timer de la calculatrice, déclaration d'IA |
 | `4e41be0` | `docs` | Revue de `00-index` : commits du 25 octobre, DT-26 |
+| `349adcf` | `docs` | Fin de la revue de `03` : mention des commits non listés |
+| `5ba8075` | `docs` | Fin de la revue de `08` : journal du 25 novembre |
+| `fdf4dd7` | `docs` | Revue de `02` à `08` face à `vite.config.ts`, `database.ts` et `package.json` : précache, index, versions |
+| `be1da31` | `docs` | Revue de `05` et `06` face à `pdfExtractor.ts` : avertissements, listes numérotées, filtre d'en-têtes, PDF français non testé, heure de DT-17 |
 
 Les commits qui enregistrent les révisions suivantes des specs (dont celui de cette section) ne sont pas listés ici (voir `git log`) : un hash ne peut pas figurer dans le commit qui le crée.
 

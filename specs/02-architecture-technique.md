@@ -1,6 +1,6 @@
 # BenchFlow — Architecture technique
 
-> Document de travail pour la soutenance CREA. État documentaire : 25 novembre 2026. À confronter au code source avant la remise finale.
+> Document de travail pour la soutenance CREA. État documentaire : 25 novembre 2026. Confronté le 25 novembre à `vite.config.ts`, `database.ts`, `package.json` et `pdfExtractor.ts` ; le reste du code (interface, services, timers) sera confronté lors de la relecture ligne par ligne avant la remise finale.
 
 ## 1. Objectif architectural
 
