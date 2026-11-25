@@ -16,8 +16,8 @@
 
 **Ce que l'import lit aujourd'hui (état du 25 novembre 2026) :**
 - le texte sélectionnable uniquement, lu page par page, pour un fichier de 15 Mo au plus ;
-- les étapes, reconnues par un titre de la forme « Step 1: titre », « Étape 1 : titre », « Phase 1 » ou « 1. titre » (130 caractères au plus, sans point, point d'exclamation ni point d'interrogation final), numérotées dans l'ordre à partir de 1 : une ligne numérotée hors séquence reste une instruction ;
-- les sections reconnues par leur intitulé, en anglais ou en français : objectif, description, matériel, résultats attendus, durée, procédure, notes ;
+- les étapes, reconnues par un titre de la forme « Step 1: titre », « Étape 1 : titre », « Stage 1 », « Phase 1 » ou « 1. titre » (130 caractères au plus, sans point, point d'exclamation ni point d'interrogation final), numérotées dans l'ordre à partir de 1 : une ligne numérotée hors séquence reste une instruction ;
+- les sections reconnues par leur intitulé, en anglais ou en français : objectif, description, matériel, résultats attendus, durée, procédure, notes ; les intitulés avertissements, sécurité, précautions, références, annexe et contrôle qualité sont reconnus, mais leur section est ignorée (voir plus bas) ;
 - la durée d'une étape, lue seulement dans son titre ou sur une ligne « Duration: … » : une durée citée au milieu d'une instruction ne crée pas de timer ;
 - les lignes « Note: », « Observation: », « Warning: » ou « Safety: », conservées dans les instructions de l'étape ; les numéros de page sont ignorés.
 
@@ -27,6 +27,10 @@
 - les fichiers invalides ou trop lourds : un fichier texte renommé en .pdf est refusé (« Invalid PDF structure. »), de même qu'un PDF de plus de 15 Mo (« Select a PDF smaller than 15 MB. ») ; tests T06 et T07 dans `05` ;
 - les mises en page en colonnes ou en tableaux : l'ordre des lignes peut être mélangé ;
 - les étapes non numérotées ou numérotées dans un autre style : si aucune étape fiable n'est trouvée, l'application le dit et invite à saisir les étapes à la main ;
+- les avertissements présentés comme une section (« Warnings », « Safety », « Precautions », « References », « Appendix », « Quality control ») : l'intitulé ouvre une section volontairement ignorée, dont les lignes ne sont pas importées jusqu'à l'étape suivante ; seules les lignes commençant par « Note: », « Observation: », « Warning: » ou « Safety: » (au singulier, avec deux-points) sont conservées. Relevé dans le code, pas encore essayé sur un PDF ;
+- une liste numérotée à l'intérieur d'une étape : un élément qui porte le numéro attendu pour l'étape suivante et ne se termine pas par un point est pris pour une nouvelle étape ;
+- les en-têtes et pieds de page propres à un document : seuls les numéros de page et quelques phrases des PDF de test (fonction `isNoise` de `pdfExtractor.ts`) sont filtrés ; l'en-tête répété d'un autre document serait lu comme une ligne de texte ;
+- les PDF en français : le code reconnaît les intitulés français, mais seuls des PDF en anglais ont été essayés (cas 2 dans `05`, non testé) ;
 - **une étape sans aucune instruction est supprimée sans message** : le choix évite de créer des étapes vides, mais l'utilisatrice n'est pas prévenue du nombre d'étapes retirées ;
 - une mise en page inconnue peut donner un résultat incomplet sans aucune erreur : le protocole importé doit être relu et corrigé avec le PDF d'origine sous les yeux (correction d'une étape : T11 dans `05`, réussi le 25 novembre).
 
