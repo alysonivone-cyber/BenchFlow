@@ -41,7 +41,7 @@ Cette première série date du 28 octobre 2026. Les lignes marquées **Suite** i
 | `npx vitest run` (après DT-17, titre de l'onglet du PDF) | 38 tests réussis (6 fichiers) : aucun test ajouté, la vérification de DT-17 a été faite à la main dans Edge |
 | Navigateur, après DT-17 | Ordinateur, y compris avec écran tactile : onglet `20261111-1429 · Strawberry DNA Extraction` avec `<embed>` du PDF ; téléphone : PDF ouvert directement. Rendu réel dans Edge : confirmé le 22 novembre (voir les résultats du 22 novembre) |
 | Test de régression StrictMode | Appels simultanés d'`ensureTimer` : un seul timer créé |
-| `tsc -b` + `vite build` | Réussis ; 11 fichiers précachés |
+| `tsc -b` + `vite build` | Réussis ; 11 entrées précachées (nombre annoncé par le build) |
 | Chrome (script automatisé, environnement de l'assistant) | Timer de session démarré sans erreur ; suppression d'un protocole + restauration ; import PDF hors ligne |
 | Largeur 375 px | Plus de défilement horizontal |
 | Comparaison visuelle avant/après Tailwind | Rendu identique, écarts corrigés |
@@ -97,7 +97,7 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 
 | Vérification | Résultat |
 |---|---|
-| Préparation | `npm.cmd run build` puis `npm.cmd run preview` (`http://localhost:4173/`), Edge. Service worker réinstallé (« Annuler l'inscription » puis rechargement forcé). Cache de précache de 11 fichiers uniques : le build annonce 13 entrées, mais les deux icônes y sont déclarées deux fois. Les fichiers modifiés portent l'horodatage du nouveau build |
+| Préparation | `npm.cmd run build` puis `npm.cmd run preview` (`http://localhost:4173/`), Edge. Service worker réinstallé (« Annuler l'inscription » puis rechargement forcé). Cache de précache de 11 fichiers uniques : le build annonce 13 entrées, mais les deux icônes y sont déclarées deux fois (par `includeAssets` et par le motif `png` de `globPatterns`). Les fichiers modifiés portent l'horodatage du nouveau build |
 | Chargement hors ligne (case « Hors ligne » des outils de développement), version d'avant le correctif | L'application s'affiche et mes données sont présentes. Protocole, session, note enregistrée, timer, « View Original PDF », calculatrice et rechargement `F5` d'une session fonctionnent. **Défaut trouvé** : la console affichait `GET /icons/icon-192.png?v=2 net::ERR_INTERNET_DISCONNECTED`. `index.html` demande l'icône de l'onglet avec `?v=2`, mais le cache contient le fichier sans ce paramètre : la requête n'était pas reconnue et partait vers le réseau. Sans conséquence sur les fonctions, mais visible dans la console |
 | Correctif (commit `d0344ea`) | `ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/]` dans la configuration Workbox de `vite.config.ts`. Vérifié dans l'environnement de l'assistant (navigateur de test, build de production, hors ligne) : `icon-192.png?v=2` et `icon-512.png?v=2` passent de « échec » à « 200 ». Vérifié chez moi sur la version corrigée : plus aucune ligne rouge dans la console hors ligne. `tsc -b`, `vite build` et 54 tests réussis |
 | Test strict (serveur arrêté) | Serveur `vite preview` arrêté (VS Code fermé complètement), onglet fermé, adresse `http://localhost:4173/` ressaisie dans un nouvel onglet : l'application se charge et fonctionne depuis le cache |

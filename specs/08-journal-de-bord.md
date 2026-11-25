@@ -132,7 +132,7 @@ Je n'ai pas fait de commit pendant cette période : j'ai surtout vérifié les s
 
 - **Travail effectué :** le logo remplace le carré provisoire « BF » sur l'accueil, et les icônes de l'application reprennent le symbole du logo. Le logo a été préparé (fond transparent, recadré, réduit).
 - **Fichiers concernés :** `App.tsx`, `src/assets/benchflow-logo.png` (nouveau), `public/icons/icon-192.png` et `icon-512.png`.
-- **Tests exécutés et résultats :** `tsc -b` et `vite build` réussis, 12 fichiers dans le cache hors ligne ; test hors ligne prévu le 21 novembre, fait le 24 novembre (T17 dans `05`).
+- **Tests exécutés et résultats :** `tsc -b` et `vite build` réussis, 12 entrées dans le cache hors ligne ; test hors ligne prévu le 21 novembre, fait le 24 novembre (T17 dans `05`).
 - **Commits Git :** `59d2a1d` (accueil), `0a1982a` (icônes), `2d2d3ea` (`?v=2` ajouté à l'adresse de l'icône de l'onglet pour contourner le cache du navigateur), `a49213a` (emblème à côté du nom dans la barre latérale).
 
 ## 18 novembre 2026 — Timers indépendants, étiquettes lisibles et alertes globales (DT-19, DT-20)

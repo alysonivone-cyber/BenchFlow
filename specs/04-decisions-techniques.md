@@ -190,7 +190,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limite :** le slogan fait partie de l'image : il n'est pas sélectionnable et reste petit sur téléphone ; le même texte existe en vrai texte dans le bandeau. Une variante simplifiée en SVG a été comparée puis écartée : le logo d'origine est conservé.
 
-**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (12 fichiers au lieu de 11 selon le décompte du build du 17 novembre ; le décompte des fichiers uniques du 24 novembre est dans `05`) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production réussi le 24 novembre 2026 (voir `05`, T17).
+**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (le build annonce 12 entrées au lieu de 11 ; il en annonce 13 depuis l'ajout de l'emblème de la barre latérale, soit 11 fichiers uniques parce que les deux icônes sont comptées deux fois : voir `05`, T17) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production réussi le 24 novembre 2026 (voir `05`, T17).
 
 ## DT-19 — Timer de la calculatrice indépendant, persistant, et logique partagée
 

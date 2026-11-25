@@ -13,16 +13,20 @@ BenchFlow est une Progressive Web App (PWA) destinée à accompagner l'exécutio
 | Technologie | Rôle dans BenchFlow | Justification |
 |---|---|---|
 | React | Composants d'interface et états locaux | Réutilisation des écrans et séparation des responsabilités |
+| React Router | Navigation entre les écrans (`/protocols/…`, `/sessions/…`) | Pages adressables ; une session peut être rechargée avec `F5` |
+| `lucide-react` | Icônes de l'interface | Jeu d'icônes cohérent, sans images à gérer |
 | TypeScript | Typage des modèles, services et composants | Réduction des erreurs de structure et meilleure maintenabilité |
-| Vite | Serveur de développement et compilation | Itérations rapides et construction d'une version de production |
+| Vite | Serveur de développement et compilation ; `npm run dev` écoute sur toutes les interfaces réseau (`--host 0.0.0.0`) | Itérations rapides et construction d'une version de production |
 | Tailwind CSS v4 | Mise en forme de l'interface (classes utilitaires, jetons de design dans `@theme`) | Outil annoncé dans la spécification V1 ; un seul style cohérent, sans CSS global de 800 lignes |
-| Dexie / IndexedDB | Stockage local des protocoles personnalisés, protocoles de démonstration masqués, sessions, notes et timers | Persistance dans le navigateur sans serveur |
-| `vite-plugin-pwa` / Workbox | Manifest et service worker | Installation et mise en cache des ressources de l'application |
+| Dexie / IndexedDB (et `dexie-react-hooks`) | Stockage local des protocoles personnalisés, protocoles de démonstration masqués, sessions, notes et timers ; `useLiveQuery` met l'interface à jour quand les données changent | Persistance dans le navigateur sans serveur |
+| `vite-plugin-pwa` / Workbox | Manifest (affichage `standalone`, icônes de 192 et 512 px, `purpose: "any maskable"`) et service worker en mise à jour automatique (`registerType: "autoUpdate"`) | Installation et mise en cache des ressources de l'application |
 | `pdfjs-dist` | Lecture du texte des PDF dans le navigateur | Traitement local, sans transmission du document à un service externe |
-| Vitest | Tests automatisés de fonctions et services | Détection de régressions sur la logique métier |
+| Vitest (et `fake-indexeddb`) | Tests automatisés de fonctions et services ; `fake-indexeddb` simule IndexedDB dans les tests | Détection de régressions sur la logique métier |
 | GitHub Actions | Build et tests à chaque push sur `main` (D-02) | Vérification sur une machine propre, sous Linux |
 | API du navigateur | Web Audio (bips), notifications via le service worker, Screen Wake Lock | Alertes locales et écran allumé, sans serveur |
 | Git | Historique du développement | Traçabilité et retour à un état antérieur |
+
+Plages de versions déclarées dans `package.json` (relevées le 25 novembre 2026) : React ^19.1, TypeScript ~5.9, Vite ^7.1, Tailwind CSS ^4.3, Dexie ^4.2, `pdfjs-dist` ^6.4, `vite-plugin-pwa` ^1.0, Vitest ^3.2, React Router ^7.9. Les versions réellement installées sont dans `package-lock.json`.
 
 ## 3. Organisation du code
 
@@ -86,10 +90,11 @@ Les objets de référence comprennent :
 
 - **Protocol** : identifiant, titre, description, objectif, matériel global, résultats attendus, durée, étapes, éventuellement PDF source et date d'ajout `importedAt` facultative (DT-15).
 - **ProtocolStep** : identifiant, titre, description, matériel propre à l'étape, instructions et durée estimée facultative.
-- **Session** : progression d'une exécution expérimentale ; elle comprend notamment `createdAt`, `updatedAt` et `completedStepIds` (liste complète dans `src/types/models.ts`).
+- **Session** (`ExperimentSession`) : progression d'une exécution expérimentale ; elle comprend notamment `createdAt`, `updatedAt` et `completedStepIds` (liste complète dans `src/types/models.ts`).
+- **Note** (`ExperimentNote`) : note écrite pendant une session, classée par session et par étape (index `[sessionId+stepId]`).
 - **LabTimer** : session et étape associées, durée, temps restant, échéance, statut, date de mise à jour et étiquette lisible facultative `label` (DT-20). Le timer de la calculatrice est un enregistrement ordinaire de la table `timers`, sous l'identifiant `global:calculator` (DT-19).
 
-Schéma Dexie : v1 (sessions, notes, timers), v2 (+ `customProtocols`), v3 (+ `deletedProtocols`, qui mémorise les identifiants des protocoles de démonstration supprimés).
+Schéma Dexie : v1 (sessions, notes, timers), v2 (+ `customProtocols`), v3 (+ `deletedProtocols`, qui mémorise les identifiants des protocoles de démonstration supprimés). La base s'appelle `benchflow-v1`. Index : `sessions` (`id`, `protocolId`, `updatedAt`), `notes` et `timers` (`id`, `[sessionId+stepId]`, `sessionId`), `customProtocols` (`id`, `title`), `deletedProtocols` (`id`). Les champs facultatifs `importedAt` et `label` ne sont pas indexés : ils n'ont pas demandé de nouvelle version.
 
 Un protocole prédéfini peut être affiché depuis les données intégrées. Un protocole personnalisé est enregistré dans IndexedDB. La logique de lecture privilégie la version personnalisée lorsqu'un identifiant existe dans les deux sources ; ce comportement doit être conservé et testé.
 
@@ -158,7 +163,7 @@ L'usage d'une échéance (`endsAt`) évite que le décompte dépende uniquement 
 
 ## 6. Fonctionnement hors ligne
 
-Le service worker met en cache les ressources de l'application prévues par la configuration PWA, y compris le worker de pdf.js (`.mjs`), afin que l'import de PDF fonctionne hors ligne. Les données métier sont enregistrées localement via IndexedDB. **La disponibilité hors ligne doit être vérifiée en conditions réelles** : chargement initial en ligne, installation ou mise en cache, coupure réseau, réouverture et récupération des données. **Vérifié le 24 novembre 2026** sur le build de production servi par `vite preview` : chargement hors ligne puis test strict avec le serveur arrêté (voir `05`, T17). L'installation de l'application a été testée le 25 novembre 2026 (voir `05`, T29). Le service worker ignore le paramètre `v` des adresses lors de la recherche dans le cache, ce qui permet de retrouver l'icône de l'onglet hors ligne (DT-26). Une version périmée peut s'afficher une fois après une reconstruction, tant que d'autres onglets restent ouverts (mise à jour automatique, voir `05`).
+Le service worker met en cache les ressources de l'application prévues par la configuration PWA, y compris le worker de pdf.js (`.mjs`), afin que l'import de PDF fonctionne hors ligne. Les motifs mis en cache sont `js`, `mjs`, `css`, `html`, `svg`, `png`, `woff2` et `json` (pas `webp`, d'où le logo en PNG). Une navigation hors ligne vers une adresse interne retombe sur `index.html` (`navigateFallback`), ce qui laisse le routeur afficher la bonne page. Au 25 novembre, le build annonce 13 entrées de précache, soit 11 fichiers uniques : les deux icônes sont déclarées deux fois. Les données métier sont enregistrées localement via IndexedDB. **La disponibilité hors ligne doit être vérifiée en conditions réelles** : chargement initial en ligne, installation ou mise en cache, coupure réseau, réouverture et récupération des données. **Vérifié le 24 novembre 2026** sur le build de production servi par `vite preview` : chargement hors ligne puis test strict avec le serveur arrêté (voir `05`, T17). L'installation de l'application a été testée le 25 novembre 2026 (voir `05`, T29). Le service worker ignore le paramètre `v` des adresses lors de la recherche dans le cache, ce qui permet de retrouver l'icône de l'onglet hors ligne (DT-26). Une version périmée peut s'afficher une fois après une reconstruction, tant que d'autres onglets restent ouverts (mise à jour automatique, voir `05`).
 
 Les données restent liées au navigateur et à son stockage local. Une suppression des données du site, un mode privé ou un changement d'appareil peut entraîner leur perte. Ne pas promettre de synchronisation ni de sauvegarde cloud dans la V1.
 
@@ -172,8 +177,8 @@ Les données restent liées au navigateur et à son stockage local. Une suppress
 
 ## 8. Points à confirmer avant la soutenance
 
-- [ ] Vérifier les versions exactes des dépendances dans `package.json`.
-- [ ] Confirmer les champs et migrations Dexie dans `database.ts`.
-- [ ] Vérifier la configuration du service worker et les icônes de la PWA.
+- [x] Vérifier les versions exactes des dépendances dans `package.json` (plages déclarées relevées le 25 novembre 2026 ; versions installées dans `package-lock.json`).
+- [x] Confirmer les champs et migrations Dexie dans `database.ts` (schéma v1 à v3 et index relevés le 25 novembre 2026).
+- [x] Vérifier la configuration du service worker et les icônes de la PWA (`vite.config.ts` relu le 25 novembre 2026 ; installation T29, hors ligne T17).
 - [x] Tester le fonctionnement hors ligne après un build de production (fait le 24 novembre 2026, voir `05`, T17 ; à refaire sur le build final).
 - [x] Confirmer les fonctionnalités effectivement livrées, sans confondre V1 et V2 (tableau de correspondance cahier, code et tests dans `05`).

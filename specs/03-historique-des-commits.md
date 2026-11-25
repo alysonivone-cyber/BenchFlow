@@ -380,7 +380,7 @@ Un build réussi confirme la possibilité de compiler et de générer l'applicat
 ### Résultats observés le 11 novembre 2026
 
 - 32 tests automatisés réussis (Vitest) sur l'état final.
-- `tsc -b` et `vite build` réussis ; 11 fichiers précachés par le service worker.
+- `tsc -b` et `vite build` réussis ; 11 entrées précachées par le service worker (nombre annoncé par le build).
 - Parcours vérifiés dans Chrome par un script automatisé (démarrage d'un timer de session, suppression d'un protocole et restauration des protocoles de démonstration, import PDF hors ligne) ; ce script a été exécuté dans l'environnement de l'assistant, pas sur ma machine.
 
 ### Vérifications prévues et leur état au 25 novembre
