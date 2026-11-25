@@ -238,6 +238,36 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.
 
+## DT-23 — Écran d'erreur global (R-01)
+
+**Décision :** envelopper l'application dans un composant `ErrorBoundary` (`src/components/ErrorBoundary.tsx`) qui affiche un écran de récupération (« Something went wrong », boutons « Reload the app » et « Back to home », détails techniques repliables) au lieu d'une page blanche.
+
+**Raison :** une erreur d'affichage non gérée fait disparaître toute l'interface sans explication. React ne propose cette protection que par un composant de classe (`getDerivedStateFromError` choisit l'état d'erreur, `componentDidCatch` journalise l'erreur dans la console).
+
+**Limites :** ne rattrape que les erreurs levées pendant l'affichage ; pas celles des gestionnaires d'événements ni des opérations asynchrones (par exemple une requête Dexie qui échoue). Les styles sont des classes Tailwind neutres.
+
+**Validation :** commits `3a6f928` (composant et 1 test unitaire) et `8591419` (branchement dans `main.tsx`) ; 55 tests, `tsc -b` et `vite build` réussis ; écran vu à la main le 25 novembre 2026 en provoquant une erreur temporaire, retirée ensuite. Pas de test de composant : le projet n'a pas de bibliothèque de test du DOM.
+
+## DT-24 — Écran maintenu allumé pendant une session (L-01)
+
+**Décision :** un hook `useWakeLock` (`src/features/sessions/useWakeLock.ts`), appelé par `SessionDetail` avec `useWakeLock(true)`, demande `navigator.wakeLock.request("screen")`, relâche le verrou en quittant la page, le redemande quand l'onglet redevient visible, et ne fait rien si le navigateur ne propose pas l'API.
+
+**Raison :** en laboratoire, l'écran ne doit pas s'éteindre pendant qu'on suit un protocole ou qu'un timer tourne. Le navigateur retire lui-même le verrou quand l'onglet est caché, d'où la reprise au retour.
+
+**Limites :** l'API manque dans certains navigateurs et exige un contexte sécurisé (`localhost` ou HTTPS : absente sur une adresse réseau en http). Le navigateur peut refuser la demande (économiseur de batterie) : l'application continue de fonctionner. Le verrou est actif dès qu'une session est ouverte, même sans timer ; un raffinement possible serait de ne le garder que pendant un timer actif.
+
+**Validation :** commit `f1ba657` ; pas de test automatique (le projet n'a pas de bibliothèque de test des hooks). Vérifié à la main le 25 novembre 2026 avec une commande de console qui journalise `acquis` et `relâché` : ouverture d'une session (en développement, `React.StrictMode` monte l'effet deux fois : acquis, relâché, acquis), changement d'onglet (relâché puis acquis), sortie de la page (relâché). Téléphone et autres navigateurs non testés.
+
+## DT-25 — Intégration continue avec GitHub Actions (D-02)
+
+**Décision :** un workflow `.github/workflows/ci.yml` lance à chaque push sur `main` et à chaque pull request : `npm ci`, `npm run build` (TypeScript et Vite) et `npm test`, sous Ubuntu avec Node 22 et des permissions en lecture seule.
+
+**Raison :** vérifier automatiquement, sur une machine propre et différente de la mienne (Linux), que le projet compile et que les tests passent.
+
+**Limites :** ne teste pas l'interface dans un navigateur, ni le mode hors ligne, ni l'import de vrais PDF (tests manuels, voir `05`).
+
+**Validation :** commit `83c4665` ; exécution n° 1 réussie le 25 novembre 2026 (coche verte, 30 secondes).
+
 ## DT-09 — Faire évoluer le périmètre V1 à partir des tests exploratoires (20–28 octobre 2026)
 
 **Contexte :** avant la formalisation des premiers commits du 28 octobre, une phase de développement local a permis d'essayer les principales fonctions de BenchFlow et d'en apprécier la faisabilité dans le délai imparti.

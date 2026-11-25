@@ -101,6 +101,15 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | Observation sur la mise à jour du service worker | Après une reconstruction, l'ancienne version est restée active et la nouvelle « en attente d'activation ». La nouvelle version n'a été utilisée qu'après la fermeture des autres onglets de l'application et l'ouverture d'un nouvel onglet. Cela rejoint la précaution notée le 22 novembre : une version périmée peut s'afficher une fois après une mise à jour |
 | Non testé | Installation de l'application (bouton d'installation du navigateur) ; autres navigateurs et téléphone. Les vérifications fonctionnelles hors ligne (note, timer, PDF, calculatrice, `F5`) ont été faites sur la version d'avant le correctif et n'ont pas été rejouées sur la version corrigée : seuls le chargement hors ligne et le test strict l'ont été |
 
+### Résultats du 25 novembre 2026 (R-01, L-01 et intégration continue)
+
+| Vérification | Résultat |
+|---|---|
+| Écran d'erreur global (R-01), commits `3a6f928` et `8591419` | Erreur provoquée volontairement (un composant qui lève une exception, ajouté puis retiré avec `git checkout`) : l'écran « Something went wrong » s'est affiché avec « Reload the app », « Back to home » et « Technical details », et la console a affiché l'erreur de React puis `BenchFlow crashed while rendering`. 1 test unitaire ajouté (état d'erreur), 55 tests, `tsc -b` et `vite build` réussis. **Non testé** : les erreurs dans un gestionnaire d'événement ou une opération asynchrone, que ce mécanisme ne rattrape pas |
+| Écran maintenu allumé (L-01), commit `f1ba657` | Un premier essai n'a rien affiché : l'appel du hook n'était pas dans `SessionPages.tsx` (la modification n'avait pas été conservée ; refaite et vérifiée avec `git diff`). Ensuite, journal de console dans Edge sur `localhost` : ouverture d'une session (acquis, relâché, acquis : `React.StrictMode` monte l'effet deux fois en développement), changement d'onglet (relâché puis acquis), sortie de la page (relâché, sans nouvel acquis). Aucun test automatique. **Non testé** : téléphone, autres navigateurs, HTTPS |
+| Intégration continue (D-02), commit `83c4665` | Exécution n° 1 sur GitHub Actions : build et 55 tests réussis sous Linux (Ubuntu, Node 22) en 30 secondes. Capture conservée |
+| Observation en développement | Après modification de `main.tsx` pendant que le serveur de développement tourne, la console affiche « You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() » : le rechargement à chaud ré-exécute le point d'entrée. Sans effet sur l'application construite ; un rafraîchissement de la page l'efface |
+
 ## 4. Matrice de tests fonctionnels
 
 | ID | Scénario | Résultat attendu | Statut |
@@ -128,6 +137,9 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T21 | Supprimer puis restaurer un protocole de démonstration | Masqué puis de nouveau visible | Réussi (test automatisé et script) |
 | T23 | Nom lisible d'une session | Affichage `AAAAMMJJ-HHmm · Titre`, sans changer l'id | Réussi (5 tests unitaires + script, 11/11) ; précision du 22/11 : heure de début avec secondes dans la liste des sessions (1 test ajouté) |
 | T22 | Importer un PDF hors ligne (build de production) | L'analyse fonctionne | Réussi le 11/11 (script) après ajout de `.mjs` au précache |
+| T24 | Erreur d'affichage de l'interface | Écran de récupération au lieu d'une page blanche | Réussi à la main le 25/11 (erreur provoquée temporairement) ; 1 test unitaire de l'état d'erreur |
+| T25 | Garder l'écran allumé pendant une session | Verrou pris à l'ouverture, relâché en quittant la page, repris au retour dans l'onglet | Réussi à la main le 25/11 (Edge, `localhost`, journal de console) ; pas de test automatique ; téléphone non testé |
+| T26 | Intégration continue | Build et tests réussis sur une machine propre | Réussi le 25/11 (GitHub Actions, exécution n° 1, 30 secondes) |
 
 ## 5. Cas de test spécifiques au lecteur PDF
 

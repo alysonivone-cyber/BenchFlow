@@ -1,12 +1,12 @@
 # BenchFlow — Index des spécifications complémentaires
 
-**État documentaire : 24 novembre 2026**  
+**État documentaire : 25 novembre 2026**  
 Ce dossier complète le README et le cahier des fonctionnalités **déjà rédigés**, sans les remplacer.
 
 | Document | Contenu |
 | --- | --- |
 | `02-architecture-technique.md` | Architecture, données, composants et PWA |
-| `03-historique-des-commits.md` | Chronologie du 20 octobre au 24 novembre, commits et méthode de traçabilité |
+| `03-historique-des-commits.md` | Chronologie du 20 octobre au 25 novembre, commits et méthode de traçabilité |
 | `04-decisions-techniques.md` | Choix technologiques et compromis |
 | `05-tests-et-validation.md` | Tests, anomalies et critères de validation |
 | `06-limites-et-ameliorations.md` | Limites de la V1 et pistes V2 |
@@ -24,7 +24,7 @@ Le développement exploratoire est documenté du **20 au 28 octobre 2026** ; les
 - Développement local initial : **20–28 octobre 2026**.
 - Commits du 28 octobre : `ef00ee4`, `b0decdf`, `4fb1ae8`, `bb83d6a`, `40794ba`.
 - Commits du 11 novembre : voir `03`, section 4 bis.
-- Commits des 17, 18, 22 et 24 novembre : voir `03`, sections 4 ter, 4 quater, 4 quinquies et 4 sexies.
+- Commits des 17, 18, 22, 24 et 25 novembre : voir `03`, sections 4 ter, 4 quater, 4 quinquies, 4 sexies et 4 septies.
 - Ne pas attribuer de hash fictif aux travaux qui n'ont pas de commit identifié.
 - Distinguer **build réussi**, **test automatisé réussi** et **validation fonctionnelle**.
 - Mettre à jour les specs à chaque fonction terminée, avec le hash du commit.

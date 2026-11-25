@@ -1,8 +1,8 @@
 # 03 — Historique des commits et chronologie du développement
 
 **Projet :** BenchFlow — Experimental Workflow Companion  
-**Période documentée :** 20 octobre – 24 novembre 2026  
-**Dernière mise à jour documentaire :** 24 novembre 2026  
+**Période documentée :** 20 octobre – 25 novembre 2026  
+**Dernière mise à jour documentaire :** 25 novembre 2026  
 **Document complémentaire :** `08-journal-de-bord.md`
 
 **Objectif :** documenter l'évolution du projet BenchFlow, les différentes étapes de développement, les décisions techniques, les difficultés rencontrées ainsi que le suivi des versions Git.
@@ -282,6 +282,19 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 |---|---|---|
 | `d0344ea` | `fix(pwa)` | Icône de l'onglet reconnue par le cache hors ligne malgré `?v=2` |
 | `6e634a4` | `docs` | Test hors ligne (T17) et correctif de l'icône dans les specs et le README |
+| `019d286` | `docs` | Commits du 24 novembre déplacés dans leur propre section |
+| `e1c55ef` | `docs` | Dates et sections de commits mises à jour dans l'index des specs |
+
+## 4 septies. 25 novembre 2026 — Écran d'erreur, écran allumé et intégration continue
+
+### Commits du 25 novembre 2026
+
+| Commit | Message | Contenu |
+|---|---|---|
+| `3a6f928` | `feat(app)` | Écran d'erreur global : composant `ErrorBoundary` et son test (R-01) |
+| `8591419` | `feat(app)` | Application enveloppée dans l'écran d'erreur dans `main.tsx` (R-01) |
+| `f1ba657` | `feat(sessions)` | Écran maintenu allumé pendant une session : `useWakeLock` (L-01) |
+| `83c4665` | `ci` | Build et tests à chaque push sur `main` (D-02) |
 
 Le commit qui enregistre ces ajouts dans la documentation n'est pas listé ici (voir `git log`).
 

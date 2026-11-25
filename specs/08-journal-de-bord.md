@@ -141,6 +141,24 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Encore à faire :** un dernier test hors ligne rapide sur le build final, avant le gel du code. L'installation de l'application et les autres navigateurs n'ont pas été testés.
 
+## 25 novembre 2026 — Écran d'erreur (R-01), écran allumé (L-01) et intégration continue (D-02)
+
+**Objectif :** ajouter deux petites fonctions de robustesse et de confort et une vérification automatique, avant le gel du code.
+
+**Contexte :** échange avec l'enseignant le matin. Pas de publication sur Vercel : l'examen du 10 décembre se fait en localhost. Chaque ligne du code devra pouvoir être expliquée (exemple donné : `pdfExtractor.ts`, avec les expressions régulières, les types, les constantes et les fonctions).
+
+**Réalisation :**
+- `3a6f928` — `feat(app)` : composant `ErrorBoundary` (écran de récupération au lieu d'une page blanche) et son test ;
+- `8591419` — `feat(app)` : l'application est enveloppée dans l'écran d'erreur dans `main.tsx`. La modification de `main.tsx` n'avait pas été prise dans le premier commit : elle a fait l'objet d'un second commit ;
+- `f1ba657` — `feat(sessions)` : hook `useWakeLock`, appelé par la page d'une session, qui garde l'écran allumé ;
+- `83c4665` — `ci` : workflow GitHub Actions (installation, build, tests) à chaque push sur `main`.
+
+**Observation sur la méthode :** à deux reprises, une modification faite par un script sur un fichier ouvert dans VS Code n'a pas été conservée (`main.tsx`, puis `SessionPages.tsx`). La cause n'est pas établie (le fichier ouvert dans l'éditeur est soupçonné). Le `git diff` avant chaque commit a permis de le voir et de refaire la modification.
+
+**Tests :** 54 → 55 tests unitaires. `tsc -b` et `vite build` réussis. Écran d'erreur vu à la main, journal du verrou d'écran vérifié à la main, exécution n° 1 de la CI verte en 30 secondes. Détail dans `specs/05`, décisions DT-23 à DT-25 dans `specs/04`.
+
+**Encore à faire :** décider d'I-04 et d'I-06 (sinon feuille de route) ; Lighthouse (D-01, D-04) ; polish ; dernier test hors ligne sur le build final ; gel du code au plus tard le lundi 30 novembre.
+
 ## Modèle à réutiliser pour les prochaines séances
 
 ### [Date] — [Fonctionnalité ou correction]
