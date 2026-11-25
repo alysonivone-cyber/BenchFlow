@@ -21,7 +21,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | Vérification | Observation | Interprétation |
 |---|---|---|
 | `npm.cmd run build` après intégration de PDF.js | Compilation TypeScript et build Vite réussis dans un journal partagé | La version correspondante compilait ; cela ne prouve pas l'absence de bugs fonctionnels |
-| Build PWA | Génération de `dist/sw.js` et du manifest observée | Les fichiers PWA ont été générés ; le mode hors ligne a été testé le 24 novembre 2026 (voir les résultats de cette date), l'installation reste à tester |
+| Build PWA | Génération de `dist/sw.js` et du manifest observée | Les fichiers PWA ont été générés ; le mode hors ligne a été testé le 24 novembre 2026 (T17) et l'installation le 25 novembre 2026 (T29) |
 | Taille des bundles (28/10) | Avertissement Vite pour des chunks de plus de 500 Ko | Résolu le 11/11 par le chargement différé de pdf.js |
 | PDF de démonstration | Objectif et matériel affichés après amélioration | Une partie de l'extraction fonctionne sur ce document |
 | Extraction des étapes | Instructions parfois mal regroupées ou tronquées | Régression / limite à traiter avec des cas de test représentatifs |
