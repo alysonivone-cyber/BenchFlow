@@ -114,24 +114,24 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 
 | ID | Scénario | Résultat attendu | Statut |
 |---|---|---|---|
-| T01 | Ouvrir la bibliothèque | Les protocoles sont affichés | À revalider |
-| T02 | Ouvrir le détail d'un protocole | Titre, objectif, matériel, résultats et étapes s'affichent | À revalider |
+| T01 | Ouvrir la bibliothèque | Les protocoles sont affichés | Réussi à la main (22/11, avec le protocole vitamine C) ; revu le 25/11 : après effacement du stockage, les trois protocoles de démonstration reviennent |
+| T02 | Ouvrir le détail d'un protocole | Titre, objectif, matériel, résultats et étapes s'affichent | Réussi à la main (22/11, protocole vitamine C importé depuis son PDF) |
 | T03 | Ajouter un protocole manuellement | Le protocole est sauvegardé puis retrouvé | À tester |
-| T04 | Importer un PDF texte de moins de 15 Mo | Texte extrait, champs proposés à l'édition | À tester |
-| T05 | Importer un PDF scanné sans texte | Message explicite, sans instructions inventées | À tester |
-| T06 | Importer un fichier non PDF | Rejet avec message compréhensible | À tester |
-| T07 | Importer un PDF dépassant 15 Mo | Rejet avec message compréhensible | À tester |
-| T08 | PDF avec sections Objectif/Matériel/Résultats | Les champs globaux sont correctement affectés | À tester |
-| T09 | PDF avec étapes numérotées | Chaque instruction reste rattachée à la bonne étape | Prioritaire |
+| T04 | Importer un PDF texte de moins de 15 Mo | Texte extrait, champs proposés à l'édition | Réussi à la main (22/11 : PDF vitamine C ; 24/11 : PDF fraises) |
+| T05 | Importer un PDF scanné sans texte | Message explicite, sans instructions inventées | Réussi à la main le 25/11 (PDF composé d'une image) : message « No selectable text found. This PDF may be scanned or image-based. », formulaire laissé vide, aucune étape inventée |
+| T06 | Importer un fichier non PDF | Rejet avec message compréhensible | Réussi à la main le 25/11 : le sélecteur de fichier n'affiche que les PDF ; un fichier texte renommé en .pdf passe ce filtre et est refusé par l'analyse avec « Invalid PDF structure. » |
+| T07 | Importer un PDF dépassant 15 Mo | Rejet avec message compréhensible | Réussi à la main le 25/11 (fichier de 16 864 688 octets) : refus avec « Select a PDF smaller than 15 MB. » |
+| T08 | PDF avec sections Objectif/Matériel/Résultats | Les champs globaux sont correctement affectés | Réussi à la main (22/11, PDF vitamine C) |
+| T09 | PDF avec étapes numérotées | Chaque instruction reste rattachée à la bonne étape | Réussi à la main (22/11, PDF vitamine C : chaque instruction sous la bonne étape) |
 | T10 | PDF avec retours à la ligne, colonnes ou tableaux | Le résultat est vérifié ; limites signalées | Prioritaire |
 | T11 | Corriger une étape extraite | La correction est enregistrée et réaffichée | À tester |
 | T12 | Démarrer une session | L'étape active s'affiche | Réussi à la main (22/11, scénario du test 1) |
 | T13 | Enregistrer des notes | Les notes sont retrouvées après rechargement | Réussi à la main (22/11 : note conservée après la fermeture complète du navigateur, scénario du test 1) |
 | T14 | Démarrer, suspendre et réinitialiser le timer de session | États et durée cohérents | Démarrage vérifié le 11/11 (script), puis à la main les 18 et 22 novembre ; pause et réinitialisation vérifiées à la main le 22 novembre |
 | T15 | Recharger pendant un timer actif | Temps restant recalculé correctement | Réussi à la main (18/11 et 22/11) et par script (20 rafraîchissements : aucun saut ni clignotement) |
-| T16 | Utiliser le calculateur scientifique | Résultats corrects pour des exemples de référence | À tester |
+| T16 | Utiliser le calculateur scientifique | Résultats corrects pour des exemples de référence | Réussi à la main le 25/11 : dilution C1V1 = C2V2 (C1 = 10, C2 = 2, V2 = 100 donne V1 = 20 mL ; C1 = 10, V1 = 20, V2 = 100 donne C2 = 2 mg/mL) ; champ vide, valeur négative et zéro refusés avec « Enter three positive, valid values. » ; conversions 1000 µL = 1 mL, 1 mL = 1000 µL, 1000 mL = 1 000 000 µL |
 | T17 | Passer hors ligne après mise en cache | Interface et données locales restent accessibles | Réussi le 24/11 (build de production, `vite preview`, Edge) : chargement hors ligne et test strict serveur arrêté ; défaut d'icône trouvé et corrigé (`d0344ea`) |
-| T18 | Effacer le stockage local dans un environnement de test | Perte des données expliquée et comportement maîtrisé | À tester |
+| T18 | Effacer le stockage local dans un environnement de test | Perte des données expliquée et comportement maîtrisé | Réussi à la main le 25/11 (build de production, localhost:4173) : effacement complet (IndexedDB, caches, service worker) puis rechargement ; l'application redémarre avec les trois protocoles de démonstration, sans session (message « No saved sessions yet. »), logo présent, aucune page blanche |
 | T19 | Fin d'un timer (application ouverte) | Bannière, bips, notification si permission accordée | Tests unitaires réussis ; bannière et bips vérifiés à la main les 18 et 22 novembre ; notification système vue le 22 novembre après avoir accordé la permission dans Edge (la demande de permission n'apparaît qu'à la première utilisation) ; avec deux timers à la suite, chaque fin de timer a bien affiché sa notification |
 | T20 | Supprimer un protocole avec sessions | Confirmation, suppression des sessions, notes et timers | Réussi (test automatisé et script) |
 | T21 | Supprimer puis restaurer un protocole de démonstration | Masqué puis de nouveau visible | Réussi (test automatisé et script) |
@@ -140,6 +140,9 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 | T24 | Erreur d'affichage de l'interface | Écran de récupération au lieu d'une page blanche | Réussi à la main le 25/11 (erreur provoquée temporairement) ; 1 test unitaire de l'état d'erreur |
 | T25 | Garder l'écran allumé pendant une session | Verrou pris à l'ouverture, relâché en quittant la page, repris au retour dans l'onglet | Réussi à la main le 25/11 (Edge, `localhost`, journal de console) ; pas de test automatique ; téléphone non testé |
 | T26 | Intégration continue | Build et tests réussis sur une machine propre | Réussi le 25/11 (GitHub Actions, exécution n° 1, 30 secondes) |
+| T27 | Notifications système bloquées dans le navigateur (cahier NOTIF-01) | Alerte dans l'application ; le blocage est expliqué | Réussi à la main le 25/11 (Edge) : bannière « Timer ... is complete » affichée et message « System notifications are blocked: the in-app alert and sound remain active. » ; avec le son du site également bloqué, même affichage (l'audio est alors coupé par le navigateur) |
+| T28 | Terminer une session (cahier WORK-01) | Progression 4/4 et état terminé | Réussi à la main le 25/11 : bouton « Complete Experiment » à la dernière étape ; la liste affiche « Completed · Step 4/4 · 100% » avec « View Session » à la place de « Resume Session » |
+| T29 | Installer l'application (cahier TECH-02) | Elle s'ouvre dans sa propre fenêtre | Réussi à la main le 25/11 (Edge, build `vite preview` sur localhost:4173) : invitation « Installer l'appli BenchFlow », fenêtre sans barre d'adresse, données présentes |
 
 ## 5. Cas de test spécifiques au lecteur PDF
 
@@ -187,3 +190,15 @@ Statut : ouvert / corrigé / validé
 ## 8. Collecte des preuves
 
 Conserver des captures d'écran datées, les commandes de build/test, les cas de test PDF et le hash du commit testé. Une démonstration orale est plus convaincante lorsqu'elle est reliée à un résultat reproductible.
+
+## Résultats du 25 novembre : batterie de tests manuels
+
+Tests faits à la main dans Edge sur le build de production (`npm run build`, `npm run preview`, `localhost:4173`) : T05, T06, T07, T16, T18, T27, T28 et T29. Chaque ligne du tableau ci-dessus donne le message ou le comportement observé.
+
+Constats mineurs, non corrigés dans la V1 :
+
+- Le champ de durée du timer peut afficher `010` après une saisie commençant par un zéro ; le fonctionnement n'est pas affecté.
+- Sur la carte d'une session, le bouton « Delete protocol » supprime le protocole et, en cascade, ses sessions, notes et timers (avec confirmation) ; son libellé pourrait être plus explicite.
+- Une étape sans durée estimée affiche « ~ — min ».
+
+Précaution de test : un second `vite preview` démarre sur le port 4174 si le port 4173 est déjà pris, et les données du navigateur sont séparées par port. Pour éviter la confusion, lancer `npm run preview -- --port 4173 --strictPort`.
