@@ -16,7 +16,7 @@ Ces premiers essais m'ont permis de mieux identifier les fonctionnalités réali
 
 Ce travail exploratoire a ainsi contribué à préciser le périmètre de la V1 et à réévaluer certains éléments du cahier des fonctionnalités essentielles dont le pdf : « Document des fonctionnalités PWA » était à rendre pour le 27 octobre 2026.
 
-Le 28 octobre 2026, j'ai procédé aux premiers commits Git afin d'enregistrer le travail développé localement et de commencer un suivi structuré des versions.
+Le 28 octobre 2026, j'ai procédé aux premiers commits Git locaux afin d'enregistrer le travail développé localement et de commencer un suivi structuré des versions (deux commits avaient déjà été créés sur GitHub le 25 octobre : voir `03`, section 2).
 
 Le nombre de fichiers présents dans les premiers commits s'explique donc par l'existence d'une première base de développement réalisée avant l'initialisation de Git.
 
@@ -210,6 +210,8 @@ Je n'ai pas fait de commit pendant cette période : j'ai surtout vérifié les s
 **Observation sur la méthode :** à deux reprises, une modification faite par un script sur un fichier ouvert dans VS Code n'a pas été conservée (`main.tsx`, puis `SessionPages.tsx`). La cause n'est pas établie (le fichier ouvert dans l'éditeur est soupçonné). Le `git diff` avant chaque commit a permis de le voir et de refaire la modification.
 
 **Tests :** 54 → 55 tests unitaires. `tsc -b` et `vite build` réussis. Écran d'erreur vu à la main, journal du verrou d'écran vérifié à la main, exécution n° 1 de la CI verte en 30 secondes. Détail dans `specs/05`, décisions DT-23 à DT-25 dans `specs/04`. L'après-midi, batterie de tests manuels sur le build de production : T03, T05, T06, T07, T10, T11, T16, T18, T27, T28 et T29, tous réussis (messages et valeurs relevés dans `specs/05`). Constat : un second `vite preview` démarre sur le port 4174 quand le 4173 est pris, et les données du navigateur sont séparées par port ; je lance désormais `npm run preview -- --port 4173 --strictPort`.
+
+**Relecture des specs (fin d'après-midi) :** les specs ont été relues une par une avec l'assistant pour retirer les phrases périmées et combler les manques : `05` (`33c04ce`), `06` (`f2d28f8`), `03` (`76840d8`, `400c8fc`, `164f0c0`), `04` (`ec55c30`), `08` (`5808095`), `02` (`95cbda9`), `07` (`41a37f2`), README (`cc22364`) et `00-index` (`4e41be0`). Elle a fait apparaître 11 commits absents de `03` : 9 du 11 novembre et 2 du 25 octobre, créés sur GitHub.
 
 **Encore à faire :** décider d'I-04 et d'I-06 (sinon feuille de route) ; Lighthouse (D-01, D-04) ; polish ; dernier test hors ligne sur le build final ; gel du code au plus tard le lundi 30 novembre. Le critère TECH-01 « un échec de stockage affiche un message » n'a pas été testé : seul l'effacement du stockage l'a été (T18), voir `06`.
 
