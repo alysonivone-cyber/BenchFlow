@@ -35,6 +35,25 @@ La date d'un commit indique le moment où un état du projet a été **enregistr
 
 Pour la suite, je conserve les fichiers existants, je documente les réécritures importantes et je fais des commits ciblés après vérification.
 
+### Frise chronologique (vue d'ensemble)
+
+Les sections ci-dessous suivent l'ordre du temps, mais certaines périodes n'ont aucun commit. Ce tableau montre d'un coup d'œil où se trouve chaque période et ce qui prouve le travail dans Git. Les numéros de section (4 bis, 4 ter, etc.) ont été gardés tels quels, car d'autres documents y renvoient.
+
+| Date | Ce qui s'est passé | Trace Git | Section |
+|---|---|---|---|
+| 20 au 28/10 | Développement local exploratoire | aucune (avant Git) | 1 et 3 |
+| 28/10 | Premiers commits (5) | `ef00ee4` à `40794ba` | 2 |
+| 1 au 3/11 | Rédaction des specs à la main | aucun commit (fichiers non suivis) | 4 |
+| 4 au 10/11 | Vérification des specs par rapport au code, planification | aucun commit | 4 |
+| 11/11 | Session avec Claude : commits regroupés par sujet (10), dont les specs | `2f2b3dc` à `880c22d` | 4 bis |
+| 12 au 16/11 | Séances de nettoyage reportées | aucun commit | 4 ter |
+| 17/11 | Nettoyage du code, logo, icône (11) | `f7730cf` à `2906358` | 4 ter |
+| 18/11 | Timers indépendants, alertes globales, pastille grise (13) | `e98ce95` à `ac2b8e5` | 4 quater |
+| 19 au 21/11 | Séances reportées, regroupées le 22 | aucun commit | 4 quinquies |
+| 22/11 | Temps restant dans l'onglet, notes, import PDF (15) | `ed9ed56` à `08107a8` | 4 quinquies |
+| 24/11 | Test hors ligne et icône de l'onglet (4) | `d0344ea` à `e1c55ef` | 4 sexies |
+| 25/11 | Écran d'erreur, écran allumé, intégration continue, tests manuels et specs | `3a6f928` et suivants | 4 septies |
+
 ---
 
 ## 2. 28 octobre 2026 — Premiers commits Git
@@ -328,6 +347,7 @@ Un build réussi confirme la possibilité de compiler et de générer l'applicat
 - Rejouer à la main, sur ma machine, le timer et les notifications (permission du navigateur, onglet en arrière-plan) : fait le 22 novembre 2026 (voir `05`, T14 et T19).
 - Vérifier le mode hors ligne sur un build de production installé : fait le 24 novembre 2026 sur le build de production servi par `vite preview` (voir `05`, T17), sans installer l'application ; l'installation a été testée séparément le 25 novembre 2026 (voir `05`, T29).
 - Tester l'indépendance des notes entre deux sessions (NOTE-01) : fait le 22 novembre 2026 (voir `05`).
+- Dernier test hors ligne sur le build final, avant le gel du code et le tag v1.0 : à faire (voir `05`).
 
 Les résultats seront ajoutés uniquement après exécution effective.
 
