@@ -202,3 +202,26 @@ Constats mineurs, non corrigés dans la V1 :
 - Une étape sans durée estimée affiche « ~ — min ».
 
 Précaution de test : un second `vite preview` démarre sur le port 4174 si le port 4173 est déjà pris, et les données du navigateur sont séparées par port. Pour éviter la confusion, lancer `npm run preview -- --port 4173 --strictPort`.
+
+## Correspondance entre le cahier, le code et les tests
+
+Ce tableau relie chaque fonction du cahier des fonctionnalités (non modifié) aux fichiers qui la réalisent et aux tests qui la vérifient. Les extensions du 25 novembre sont rattachées à la fonction qu'elles prolongent.
+
+| Cahier | Code principal | Tests automatiques | Tests à la main |
+|---|---|---|---|
+| PROT-01 Protocoles | `src/features/protocols/` (`ProtocolLibrary`, `ProtocolDetail`, `NewProtocol`, `protocolService`, `pdfExtractor`, `pdfTitle`, `DeleteProtocolButton`, `useDeleteProtocol`), `src/data/protocols.ts`, `src/components/ConfirmDialog.tsx` | `protocolService.test.ts` | T01 à T11, T20 à T22 |
+| WORK-01 Sessions | `src/features/sessions/` (`SessionPages`, `sessionService`, `sessionLabel`) | `sessionLabel.test.ts` | T12, T23, T28 |
+| PROG-01 Progression | `SessionPages.tsx`, `sessionService.ts` | aucun | T28 |
+| NOTE-01 Notes | `SessionPages.tsx`, `sessionService.ts`, `src/db/database.ts` (notes classées par session et par étape) | aucun | T13 et vérification d'indépendance du 22 novembre |
+| CALC-01 Calculatrice | `src/features/calculator/` (`CalculatorPage`, `calculations`) | `calculations.test.ts` | T16 |
+| TIME-01 Minuteries | `src/features/timer/` (`timerService`, `useLabTimer`, `TimerPanel`, `TimerView`, `GlobalTimer`, `tabTitle`), `src/utils/format.ts` | `timerService.test.ts`, `timerStorage.test.ts`, `tabTitle.test.ts`, `format.test.ts` | T14, T15 |
+| NOTIF-01 Notifications | `TimerWatcher.tsx`, `timerAlerts.ts` | `timerAlerts.test.ts` | T19, T27 |
+| TECH-01 Persistance et fiabilité | `src/db/database.ts`, `src/types/models.ts`, `src/components/ErrorBoundary.tsx`, `src/main.tsx` | `ErrorBoundary.test.ts` | T13, T18, T24 ; échec d'écriture isolé non testé (voir `06`) |
+| TECH-02 Application installable | `vite.config.ts` (manifeste et icônes) | aucun | T29 |
+| TECH-03 Affichage mobile | `src/components/Layout.tsx`, `src/components/ui.ts`, `src/styles.css` | aucun | vérification à 375 px du 22 novembre |
+| TECH-04 Hors ligne | `vite.config.ts` (service worker), `src/db/database.ts` | aucun | T17, T22 |
+| L-01 Écran allumé (extension de TIME-01 et WORK-01) | `src/features/sessions/useWakeLock.ts`, `SessionPages.tsx` | aucun | T25 |
+| L-02 Titre de l'onglet (extension de TIME-01) | `src/features/timer/tabTitle.ts` | `tabTitle.test.ts` | T14 |
+| R-01 Écran d'erreur (extension de TECH-01) | `src/components/ErrorBoundary.tsx`, `src/main.tsx` | `ErrorBoundary.test.ts` | T24 |
+| D-02 Intégration continue | `.github/workflows/ci.yml` | les 55 tests, exécutés à chaque push | T26 |
+| CHECK-01, DASH-01, SYNC-01, ACCT-01, COLL-01, AI-01 | non réalisés (hors V1) | sans objet | voir `06` |

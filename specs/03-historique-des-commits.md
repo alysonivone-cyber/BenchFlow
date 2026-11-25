@@ -295,8 +295,16 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `8591419` | `feat(app)` | Application enveloppée dans l'écran d'erreur dans `main.tsx` (R-01) |
 | `f1ba657` | `feat(sessions)` | Écran maintenu allumé pendant une session : `useWakeLock` (L-01) |
 | `83c4665` | `ci` | Build et tests à chaque push sur `main` (D-02) |
+| `4cd7dbd` | `docs` | Documentation de R-01, L-01 et de la CI : DT-23 à DT-25, T24 à T26, journal, README |
+| `ea42732` | `docs` | Résultats de la batterie de tests manuels du 25 novembre (T05 à T07, T16, T18, T27 à T29) |
+| `2f18805` | `docs` | Extensions du 25 novembre, écran allumé et décision sur Vercel dans les limites |
+| `08f33a3` | `docs` | T18 marqué comme réussi dans les limites |
+| `bb0229b` | `docs` | Résultats de T03, T10 et T11 et réimport des PDF |
+| `4fb1e8b` | `docs` | Installation de l'application marquée comme testée dans le tableau du build |
+| `993050c` | `docs` | Retrait des mentions « non testé » devenues fausses (02, 04, 05, 06) |
+| `92a7a55` | `docs` | Vérifications restantes de `03` et journal du 25 novembre |
 
-Le commit qui enregistre ces ajouts dans la documentation n'est pas listé ici (voir `git log`).
+Le commit qui enregistre ce tableau et la correspondance cahier, code et tests de `05` n'est pas listé ici (voir `git log`).
 
 ---
 
