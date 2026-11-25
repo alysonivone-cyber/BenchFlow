@@ -1,6 +1,6 @@
 # BenchFlow — Journal des décisions techniques
 
-> Les décisions ci-dessous sont celles discutées pendant le développement. Les statuts « à valider » signalent ce qui doit encore être confirmé dans la version finale.
+> Les décisions ci-dessous sont celles discutées pendant le développement. Les mentions « Reste à vérifier » signalent ce qui doit encore être confirmé avant le gel du code.
 
 ## Note transversale — traçabilité
 
@@ -70,7 +70,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Arguments :** comparaison entre les champs générés et la source, traçabilité, possibilité de corriger une extraction.
 
-**Compromis :** augmentation de la taille du stockage local ; limite d'importation fixée à 15 Mo dans les services discutés.
+**Compromis :** augmentation de la taille du stockage local ; limite d'importation fixée à 15 Mo (refus d'un fichier plus lourd vérifié le 25 novembre : T07 dans `05`).
 
 ## DT-07 — Calculer les timers à partir d'une échéance
 
@@ -88,11 +88,23 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Contexte :** une date de livraison impose de prioriser les fonctionnalités essentielles.
 
-**Décision :** privilégier bibliothèque de protocoles, sessions, notes, calculateur et timer fonctionnel. L'import PDF éditable est une **fonction ajoutée en plus**, hors du périmètre déclaré dans le document des fonctionnalités (qui prévoyait des protocoles de démonstration structurés) : je l'ai développée parce que le temps le permettait, et je la présente comme un bonus, pas comme une exigence V1. Les timers multiples simultanés et les traitements documentaires avancés peuvent être envisagés en V2.
+**Décision :** privilégier bibliothèque de protocoles, sessions, notes, calculateur et timer fonctionnel. L'import PDF éditable est une **fonction ajoutée en plus**, hors du périmètre déclaré dans le document des fonctionnalités (qui prévoyait des protocoles de démonstration structurés) : je l'ai développée parce que le temps le permettait, et je la présente comme un bonus, pas comme une exigence V1. Les timers multiples simultanés, d'abord envisagés pour la V2, ont finalement été réalisés le 18 novembre (DT-19 et DT-20) ; les traitements documentaires avancés restent envisagés pour une V2.
 
 **Arguments :** réduire le risque de fonctionnalités inachevées et consacrer du temps aux tests.
 
 **Compromis :** certaines demandes restent hors périmètre de la première livraison.
+
+## DT-09 — Faire évoluer le périmètre V1 à partir des tests exploratoires (20–28 octobre 2026)
+
+**Contexte :** avant la formalisation des premiers commits du 28 octobre, une phase de développement local a permis d'essayer les principales fonctions de BenchFlow et d'en apprécier la faisabilité dans le délai imparti.
+
+**Décision :** utiliser les retours des prototypes pour préciser les fonctionnalités essentielles de la V1, identifier les fonctions à améliorer et reporter les fonctions avancées si nécessaire.
+
+**Lien avec le livrable pédagogique :** le document « Document des fonctionnalités PWA » devait être remis le **27 octobre 2026**. Les essais locaux ont nourri la réflexion sur son périmètre. Cette note n'altère pas le cahier des fonctionnalités déjà rédigé et ne présume pas des changements exacts effectués dans le PDF rendu.
+
+**Justification :** limiter les promesses irréalistes, privilégier les fonctionnalités démontrables, et conserver du temps pour les tests et les corrections.
+
+**Traçabilité :** distinguer les dates de développement des dates de commit ; documenter les arbitrages sans inventer de modifications au cahier des charges.
 
 ## DT-10 — Utiliser Tailwind CSS (migration le 11 novembre 2026)
 
@@ -133,6 +145,8 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 **Décision :** bannière dans l'application, trois bips Web Audio, notification système via le service worker uniquement après une action explicite de l'utilisateur (bouton « Enable system notifications »).
 
 **Limite assumée :** sans serveur push, une application entièrement fermée ne peut pas alerter ; je ne promets pas le contraire.
+
+**Validation :** bannière et bips vérifiés à la main les 18 et 22 novembre, notification système vue le 22 novembre, blocage des notifications par le navigateur géré avec un message le 25 novembre (T19 et T27 dans `05`).
 
 ## DT-15 — Noms lisibles pour les sessions et date d'ajout des protocoles
 
@@ -176,7 +190,7 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Limite :** le slogan fait partie de l'image : il n'est pas sélectionnable et reste petit sur téléphone ; le même texte existe en vrai texte dans le bandeau. Une variante simplifiée en SVG a été comparée puis écartée : le logo d'origine est conservé.
 
-**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (12 fichiers au lieu de 11) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production réussi le 24 novembre 2026 (voir `05`, T17).
+**Validation :** `tsc -b` et `vite build` réussis ; l'image fait partie du cache hors ligne (12 fichiers au lieu de 11 selon le décompte du build du 17 novembre ; le décompte des fichiers uniques du 24 novembre est dans `05`) ; affichage vérifié sur ordinateur et à 375 px de large ; test hors ligne sur le build de production réussi le 24 novembre 2026 (voir `05`, T17).
 
 ## DT-19 — Timer de la calculatrice indépendant, persistant, et logique partagée
 
@@ -234,10 +248,6 @@ La date d'un commit est celle de l'enregistrement, pas celle de l'écriture du c
 
 **Validation :** 53 tests réussis (+ 4 pour `formatClock`, + 2 pour `timerTabTitle`), `tsc -b` et `vite build` réussis ; test manuel sur ma machine (titre pendant le décompte, changement d'onglet, deux timers, retour à `BenchFlow` à la fin, rafraîchissement en plein décompte) ; contrôle automatisé dans le navigateur par l'assistant (commit `ed9ed56`).
 
-## Comment défendre une décision à l'oral
-
-Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.
-
 ## DT-23 — Écran d'erreur global (R-01)
 
 **Décision :** envelopper l'application dans un composant `ErrorBoundary` (`src/components/ErrorBoundary.tsx`) qui affiche un écran de récupération (« Something went wrong », boutons « Reload the app » et « Back to home », détails techniques repliables) au lieu d'une page blanche.
@@ -268,14 +278,20 @@ Pour chaque choix, suivre la structure : **besoin → contrainte → options →
 
 **Validation :** commit `83c4665` ; exécution n° 1 réussie le 25 novembre 2026 (coche verte, 30 secondes).
 
-## DT-09 — Faire évoluer le périmètre V1 à partir des tests exploratoires (20–28 octobre 2026)
+## DT-26 — Icône de l'onglet hors ligne : paramètre `?v=2` et correspondance du cache (24 novembre 2026)
 
-**Contexte :** avant la formalisation des premiers commits du 28 octobre, une phase de développement local a permis d'essayer les principales fonctions de BenchFlow et d'en apprécier la faisabilité dans le délai imparti.
+**Contexte :** le 17 novembre, `index.html` a reçu `?v=2` après l'adresse de l'icône de l'onglet pour contourner le cache du navigateur (commit `2d2d3ea`). Lors du test hors ligne du 24 novembre (T17), la console affichait `GET /icons/icon-192.png?v=2 net::ERR_INTERNET_DISCONNECTED` : le cache du service worker contient `icon-192.png` sans ce paramètre, la requête n'était pas reconnue et partait vers le réseau. Sans conséquence sur les fonctions, mais visible dans la console.
 
-**Décision :** utiliser les retours des prototypes pour préciser les fonctionnalités essentielles de la V1, identifier les fonctions à améliorer et reporter les fonctions avancées si nécessaire.
+**Décision :** ajouter `ignoreURLParametersMatching: [/^utm_/, /^fbclid$/, /^v$/]` à la configuration Workbox de `vite.config.ts` : le service worker ignore ces paramètres quand il cherche une réponse dans le cache (commit `d0344ea`).
 
-**Lien avec le livrable pédagogique :** le document « Document des fonctionnalités PWA » devait être remis le **27 octobre 2026**. Les essais locaux ont nourri la réflexion sur son périmètre. Cette note n'altère pas le cahier des fonctionnalités déjà rédigé et ne présume pas des changements exacts effectués dans le PDF rendu.
+**Raison :** garder le contournement du cache du navigateur en ligne sans perdre la correspondance hors ligne, avec une seule règle de configuration et sans toucher au code de l'application.
 
-**Justification :** limiter les promesses irréalistes, privilégier les fonctionnalités démontrables, et conserver du temps pour les tests et les corrections.
+**Limite :** le paramètre `v` est ignoré pour toutes les adresses du cache, pas seulement pour les icônes.
 
-**Traçabilité :** distinguer les dates de développement des dates de commit ; documenter les arbitrages sans inventer de modifications au cahier des charges.
+**Observation liée :** avec la mise à jour automatique du service worker (`autoUpdate`), après une reconstruction, l'ancienne version reste active tant que d'autres onglets de l'application sont ouverts ; la nouvelle ne sert qu'après leur fermeture et l'ouverture d'un nouvel onglet (constaté les 22 et 24 novembre). Une version périmée peut donc s'afficher une fois après une mise à jour.
+
+**Validation :** dans l'environnement de l'assistant (navigateur de test, build de production, hors ligne), `icon-192.png?v=2` et `icon-512.png?v=2` passent de « échec » à « 200 » ; chez moi, plus aucune ligne rouge dans la console hors ligne ; `tsc -b`, `vite build` et 54 tests réussis (voir `05`, T17).
+
+## Comment défendre une décision à l'oral
+
+Pour chaque choix, suivre la structure : **besoin → contrainte → options → solution retenue → compromis → validation**. Un choix technique solide n'est pas nécessairement parfait : il est adapté au contexte et ses limites sont connues.
