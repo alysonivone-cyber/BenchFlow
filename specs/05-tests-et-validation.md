@@ -116,15 +116,15 @@ Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, con
 |---|---|---|---|
 | T01 | Ouvrir la bibliothèque | Les protocoles sont affichés | Réussi à la main (22/11, avec le protocole vitamine C) ; revu le 25/11 : après effacement du stockage, les trois protocoles de démonstration reviennent |
 | T02 | Ouvrir le détail d'un protocole | Titre, objectif, matériel, résultats et étapes s'affichent | Réussi à la main (22/11, protocole vitamine C importé depuis son PDF) |
-| T03 | Ajouter un protocole manuellement | Le protocole est sauvegardé puis retrouvé | À tester |
-| T04 | Importer un PDF texte de moins de 15 Mo | Texte extrait, champs proposés à l'édition | Réussi à la main (22/11 : PDF vitamine C ; 24/11 : PDF fraises) |
+| T03 | Ajouter un protocole manuellement | Le protocole est sauvegardé puis retrouvé | Réussi à la main le 25/11 : protocole saisi sans PDF, enregistré puis retrouvé dans la bibliothèque |
+| T04 | Importer un PDF texte de moins de 15 Mo | Texte extrait, champs proposés à l'édition | Réussi à la main (22/11 : PDF vitamine C ; 24/11 : PDF fraises ; 25/11 : réimport des deux PDF, 6 étapes extraites chacun) |
 | T05 | Importer un PDF scanné sans texte | Message explicite, sans instructions inventées | Réussi à la main le 25/11 (PDF composé d'une image) : message « No selectable text found. This PDF may be scanned or image-based. », formulaire laissé vide, aucune étape inventée |
 | T06 | Importer un fichier non PDF | Rejet avec message compréhensible | Réussi à la main le 25/11 : le sélecteur de fichier n'affiche que les PDF ; un fichier texte renommé en .pdf passe ce filtre et est refusé par l'analyse avec « Invalid PDF structure. » |
 | T07 | Importer un PDF dépassant 15 Mo | Rejet avec message compréhensible | Réussi à la main le 25/11 (fichier de 16 864 688 octets) : refus avec « Select a PDF smaller than 15 MB. » |
 | T08 | PDF avec sections Objectif/Matériel/Résultats | Les champs globaux sont correctement affectés | Réussi à la main (22/11, PDF vitamine C) |
 | T09 | PDF avec étapes numérotées | Chaque instruction reste rattachée à la bonne étape | Réussi à la main (22/11, PDF vitamine C : chaque instruction sous la bonne étape) |
-| T10 | PDF avec retours à la ligne, colonnes ou tableaux | Le résultat est vérifié ; limites signalées | Prioritaire |
-| T11 | Corriger une étape extraite | La correction est enregistrée et réaffichée | À tester |
+| T10 | PDF avec retours à la ligne, colonnes ou tableaux | Le résultat est vérifié ; limites signalées | Réussi à la main le 25/11 sur deux PDF multipages (fraises : 4 pages ; vitamine C : 2 pages) avec coupure de page au milieu d'une étape et pieds de page répétés : 6 étapes extraites et correctement rattachées pour chacun. Colonnes et tableaux non testés : limite documentée dans `06` |
+| T11 | Corriger une étape extraite | La correction est enregistrée et réaffichée | Réussi à la main le 25/11 : étape corrigée après l'extraction, enregistrée puis réaffichée |
 | T12 | Démarrer une session | L'étape active s'affiche | Réussi à la main (22/11, scénario du test 1) |
 | T13 | Enregistrer des notes | Les notes sont retrouvées après rechargement | Réussi à la main (22/11 : note conservée après la fermeture complète du navigateur, scénario du test 1) |
 | T14 | Démarrer, suspendre et réinitialiser le timer de session | États et durée cohérents | Démarrage vérifié le 11/11 (script), puis à la main les 18 et 22 novembre ; pause et réinitialisation vérifiées à la main le 22 novembre |
@@ -193,7 +193,7 @@ Conserver des captures d'écran datées, les commandes de build/test, les cas de
 
 ## Résultats du 25 novembre : batterie de tests manuels
 
-Tests faits à la main dans Edge sur le build de production (`npm run build`, `npm run preview`, `localhost:4173`) : T05, T06, T07, T16, T18, T27, T28 et T29. Chaque ligne du tableau ci-dessus donne le message ou le comportement observé.
+Tests faits à la main dans Edge sur le build de production (`npm run build`, `npm run preview`, `localhost:4173`) : T03, T05, T06, T07, T10, T11, T16, T18, T27, T28 et T29, ainsi que le réimport des deux PDF (T04). Chaque ligne du tableau ci-dessus donne le message ou le comportement observé.
 
 Constats mineurs, non corrigés dans la V1 :
 
