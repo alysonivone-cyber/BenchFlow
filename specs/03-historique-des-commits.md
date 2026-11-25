@@ -316,9 +316,9 @@ Un build réussi confirme la possibilité de compiler et de générer l'applicat
 
 ### Vérifications restant à faire
 
-- Tester l'extraction PDF sur plusieurs documents scientifiques.
+- Tester l'extraction PDF sur plusieurs documents scientifiques : fait (PDF vitamine C le 22 novembre 2026, PDF fraises le 24, réimport des deux le 25 ; PDF scanné, faux PDF et fichier de plus de 15 Mo refusés avec un message, voir `05`, T04 à T11).
 - Rejouer à la main, sur ma machine, le timer et les notifications (permission du navigateur, onglet en arrière-plan) : fait le 22 novembre 2026 (voir `05`, T14 et T19).
-- Vérifier le mode hors ligne sur un build de production installé : fait le 24 novembre 2026 sur le build de production servi par `vite preview` (voir `05`, T17), sans installer l'application.
+- Vérifier le mode hors ligne sur un build de production installé : fait le 24 novembre 2026 sur le build de production servi par `vite preview` (voir `05`, T17), sans installer l'application ; l'installation a été testée séparément le 25 novembre 2026 (voir `05`, T29).
 - Tester l'indépendance des notes entre deux sessions (NOTE-01) : fait le 22 novembre 2026 (voir `05`).
 
 Les résultats seront ajoutés uniquement après exécution effective.

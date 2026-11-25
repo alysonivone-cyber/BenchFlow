@@ -155,9 +155,9 @@ Le travail local précède les premiers commits Git du 28 octobre, et la date d'
 
 **Observation sur la méthode :** à deux reprises, une modification faite par un script sur un fichier ouvert dans VS Code n'a pas été conservée (`main.tsx`, puis `SessionPages.tsx`). La cause n'est pas établie (le fichier ouvert dans l'éditeur est soupçonné). Le `git diff` avant chaque commit a permis de le voir et de refaire la modification.
 
-**Tests :** 54 → 55 tests unitaires. `tsc -b` et `vite build` réussis. Écran d'erreur vu à la main, journal du verrou d'écran vérifié à la main, exécution n° 1 de la CI verte en 30 secondes. Détail dans `specs/05`, décisions DT-23 à DT-25 dans `specs/04`.
+**Tests :** 54 → 55 tests unitaires. `tsc -b` et `vite build` réussis. Écran d'erreur vu à la main, journal du verrou d'écran vérifié à la main, exécution n° 1 de la CI verte en 30 secondes. Détail dans `specs/05`, décisions DT-23 à DT-25 dans `specs/04`. L'après-midi, batterie de tests manuels sur le build de production : T03, T05, T06, T07, T10, T11, T16, T18, T27, T28 et T29, tous réussis (messages et valeurs relevés dans `specs/05`). Constat : un second `vite preview` démarre sur le port 4174 quand le 4173 est pris, et les données du navigateur sont séparées par port ; je lance désormais `npm run preview -- --port 4173 --strictPort`.
 
-**Encore à faire :** décider d'I-04 et d'I-06 (sinon feuille de route) ; Lighthouse (D-01, D-04) ; polish ; dernier test hors ligne sur le build final ; gel du code au plus tard le lundi 30 novembre.
+**Encore à faire :** décider d'I-04 et d'I-06 (sinon feuille de route) ; Lighthouse (D-01, D-04) ; polish ; dernier test hors ligne sur le build final ; gel du code au plus tard le lundi 30 novembre. Le critère TECH-01 « un échec de stockage affiche un message » n'a pas été testé : seul l'effacement du stockage l'a été (T18), voir `06`.
 
 ## Modèle à réutiliser pour les prochaines séances
 
