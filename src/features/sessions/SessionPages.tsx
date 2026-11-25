@@ -17,6 +17,7 @@ import {
   saveSession,
 } from "./sessionService";
 import { TimerPanel } from "../timer/TimerPanel";
+import { useWakeLock } from "./useWakeLock";
 import {
   formatSessionName,
   formatSessionStamp,
@@ -234,6 +235,7 @@ export function SessionsPage() {
 
 export function SessionDetail() {
   const { id } = useParams();
+  useWakeLock(true);
   const navigate = useNavigate();
 
   // Retrieve the active session.
