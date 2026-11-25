@@ -358,8 +358,14 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `76840d8` | `docs` | Revue de `03` : commits manquants du 25 novembre, réponse orale corrigée, conclusion |
 | `ec55c30` | `docs` | Revue de `04` : DT-26, ordre des décisions, timers multiples marqués comme faits |
 | `400c8fc` | `docs` | Les neuf commits de l'après-midi du 11 novembre dans `03` |
+| `164f0c0` | `docs` | Commits GitHub du 25 octobre et commits manquants du 25 novembre dans `03` |
+| `5808095` | `docs` | Revue de `08` : ordre chronologique, période, mentions « à faire » périmées |
+| `95cbda9` | `docs` | Revue de `02` : arborescence, modèle de données, extensions du 25 novembre |
+| `41a37f2` | `docs` | Revue de `07` : réponse sur l'IA, question du 25 octobre, checklist de démonstration |
+| `cc22364` | `docs(readme)` | README : statuts des fonctions, timer de la calculatrice, déclaration d'IA |
+| `4e41be0` | `docs` | Revue de `00-index` : commits du 25 octobre, DT-26 |
 
-Les commits qui enregistrent les révisions suivantes des specs (dont celui de cette section) ne sont pas encore listés ici (voir `git log`).
+Les commits qui enregistrent les révisions suivantes des specs (dont celui de cette section) ne sont pas listés ici (voir `git log`) : un hash ne peut pas figurer dans le commit qui le crée.
 
 ---
 
