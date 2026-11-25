@@ -45,7 +45,7 @@ Les sections ci-dessous suivent l'ordre du temps, mais certaines périodes n'ont
 | 28/10 | Premiers commits (5) | `ef00ee4` à `40794ba` | 2 |
 | 1 au 3/11 | Rédaction des specs à la main | aucun commit (fichiers non suivis) | 4 |
 | 4 au 10/11 | Vérification des specs par rapport au code, planification | aucun commit | 4 |
-| 11/11 | Session avec Claude : commits regroupés par sujet (10), dont les specs | `2f2b3dc` à `880c22d` | 4 bis |
+| 11/11 | Session avec Claude : 10 commits regroupés par sujet, puis 9 commits dans l'après-midi (noms de session, DT-16, DT-17, specs, fusion avec l'historique GitHub) ; 19 au total | `2f2b3dc` à `6ed7e62` | 4 bis |
 | 12 au 16/11 | Séances de nettoyage reportées | aucun commit | 4 ter |
 | 17/11 | Nettoyage du code, logo, icône (11) | `f7730cf` à `2906358` | 4 ter |
 | 18/11 | Timers indépendants, alertes globales, pastille grise (13) | `e98ce95` à `ac2b8e5` | 4 quater |
@@ -221,7 +221,23 @@ Chaque groupe contient des fichiers entiers ; un fichier qui touche plusieurs su
 | `56ea93d` | `docs: add and update project specs` | Dossier `specs/` |
 | `880c22d` | `docs(readme): declare Claude assistance, update scope and styling` | `README.md` |
 
-Obtenir les hashes : `git log --oneline -12`.
+### Commits de l'après-midi du 11 novembre 2026
+
+Après les dix commits ci-dessus, neuf commits ont suivi le même jour : les noms lisibles des sessions (DT-15), le message « introuvable » (DT-16), le titre de l'onglet du PDF (DT-17), leurs entrées dans les specs et une fusion avec l'historique GitHub de `main`. Ces commits ont été faits fonction par fonction, au fil du travail de l'après-midi. Tests après chaque fonction : 37 (noms de sessions), puis 38 (DT-16).
+
+| Hash | Commit | Contenu |
+|---|---|---|
+| `62a9068` | `docs(specs): record commit hashes` | Hash des commits du 11 novembre dans les specs |
+| `b7e9399` | `merge: bring the GitHub history of main into the project branch` | Fusion de l'historique GitHub de `main` dans la branche du projet |
+| `42f7722` | `feat(sessions): show readable names (date, time, title) instead of the UUID prefix` | Noms lisibles des sessions (DT-15) |
+| `e6e8f53` | `docs(specs): add DT-15 readable session names and journal entry` | DT-15 et journal |
+| `4fdd999` | `feat(protocols): open the source PDF in a titled page instead of a UUID tab` | Ouverture du PDF source dans une page titrée (DT-17) |
+| `4e96da6` | `docs(specs): add DT-17 and record the PDF tab title` | DT-17 et titre de l'onglet du PDF |
+| `31e0010` | `fix(pages): show 'not found' for unknown protocol and session ids` | Message « introuvable » pour les identifiants inconnus (DT-16) |
+| `f0fee14` | `docs(specs): restore the journal and add the DT-16 and DT-17 entries` | Journal restauré, entrées DT-16 et DT-17 |
+| `6ed7e62` | `docs(specs): add DT-16 and DT-17 journal entries and fix the test count` | Entrées DT-16 et DT-17, nombre de tests corrigé |
+
+Obtenir les hashes du 11 novembre : `git log --format="%h %ad %s" --date=short | Select-String "2026-11-11"`.
 
 Détail des décisions : voir `04-decisions-techniques.md` (DT-10 à DT-14).
 
