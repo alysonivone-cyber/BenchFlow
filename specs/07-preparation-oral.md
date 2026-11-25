@@ -63,11 +63,15 @@ En utilisant une échéance absolue pour les timers actifs et en recalculant le 
 
 ### Avez-vous utilisé l'IA ?
 
-« Oui, c'est déclaré dans le README : ChatGPT pour la base du projet, Claude pour la correction du timer, les notifications, la suppression de protocoles, la migration Tailwind, le chargement différé de pdf.js et l'aide à la documentation. Je relis, teste et sais expliquer chaque fichier. »
+« Oui, c'est déclaré dans le README : ChatGPT pour la base du projet, Claude pour la correction du timer, les notifications, la suppression de protocoles, la migration Tailwind, le chargement différé de pdf.js et l'aide à la documentation, puis, du 11 au 25 novembre, les noms de session, les timers indépendants et les alertes globales, le titre de l'onglet, l'écran d'erreur, l'écran allumé et l'intégration continue. Le logo vient de ChatGPT ; Claude n'a fait que préparer les fichiers. Je relis, teste et sais expliquer chaque fichier. »
 
 ### Pourquoi le premier commit contient-il autant de fichiers ?
 
 Le développement avait commencé localement avant l'initialisation de Git. Le premier commit a enregistré une base déjà existante. Par la suite, le suivi des versions est devenu plus régulier. Il faut pouvoir le montrer dans l'historique réel.
+
+### Pourquoi y a-t-il deux commits du 25 octobre, avant les premiers commits du 28 octobre ?
+
+« Ces deux commits ont été créés sur GitHub avec l'interface web (dépôt de fichiers, puis mise à jour du lien du cahier des fonctionnalités), avant que je commence à versionner mon dossier local. Leur historique a été fusionné dans ma branche le 11 novembre. Mes commits locaux commencent le 28 octobre. »
 
 ### Pourquoi deux semaines sans commit, puis une série de commits le 11 novembre ?
 
@@ -85,7 +89,7 @@ En distinguant compilation, tests unitaires et essais fonctionnels. Un build ré
 
 ### Que feriez-vous avec plus de temps ?
 
-Améliorer la robustesse de l'extraction PDF, ajouter des tests sur plusieurs formats, proposer une sauvegarde/export local, optimiser les performances et envisager des minuteries multiples.
+Améliorer la robustesse de l'extraction PDF, ajouter des tests sur plusieurs formats, proposer une sauvegarde/export local, optimiser les performances et, comme l'indique `06`, envisager l'OCR local et la prise en charge de PDF plus complexes.
 
 ## 4. Questions difficiles : réponses crédibles
 
@@ -107,8 +111,10 @@ Améliorer la robustesse de l'extraction PDF, ajouter des tests sur plusieurs fo
 
 ## 5. Préparation de la démonstration
 
-- [ ] Préparer une version stable et noter le hash Git correspondant.
+- [ ] Préparer une version stable et noter le hash Git correspondant (gel du code et tag `v1.0` prévus au plus tard le 30 novembre).
 - [ ] Lancer le build et les tests avant la présentation.
+- [ ] Lancer la démonstration en local : `npm run build` puis `npm run preview -- --port 4173 --strictPort` (l'examen se fait en localhost, sans publication en ligne).
+- [ ] Après le gel du code, réinstaller l'application depuis le build final et refaire un test hors ligne rapide.
 - [ ] Prévoir un protocole de démonstration non sensible.
 - [ ] Vérifier l'ouverture du PDF source et la lisibilité des étapes.
 - [ ] Tester le timer et les notifications dans une session réelle (permission du navigateur).
