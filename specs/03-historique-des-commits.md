@@ -100,7 +100,7 @@ Ces cinq commits sont ceux présents dans `git log` pour le 28 octobre (entre 14
 
 ## 3. Travaux techniques réalisés pendant la phase initiale
 
-Les travaux suivants correspondent aux fonctionnalités développées ou aux difficultés rencontrées pendant la phase exploratoire. Ils ne sont pas associés à des commits individuels lorsque leur référence Git n'a pas été vérifiée.
+Les travaux suivants correspondent aux fonctionnalités développées ou aux difficultés rencontrées pendant la phase exploratoire. Ils ne sont pas associés à des commits individuels lorsque leur référence Git n'a pas été vérifiée. La colonne « État documenté » décrit la fin de la phase exploratoire (28 octobre) ; l'état actuel de chaque point se trouve dans `05` et `06`.
 
 | Domaine | Travail entrepris | État documenté |
 |---|---|---|
@@ -322,8 +322,12 @@ Aucun commit n'a été fait entre le 12 et le 16 novembre : les séances de nett
 | `4fb1e8b` | `docs` | Installation de l'application marquée comme testée dans le tableau du build |
 | `993050c` | `docs` | Retrait des mentions « non testé » devenues fausses (02, 04, 05, 06) |
 | `92a7a55` | `docs` | Vérifications restantes de `03` et journal du 25 novembre |
+| `3ae4141` | `docs` | Correspondance cahier, code et tests dans `05` et trace dans `03` |
+| `0a15330` | `docs` | Réponses courtes sur les ajouts du 25 novembre dans `07` |
+| `33c04ce` | `docs` | Revue de `05` : statuts des cas PDF, défauts trouvés et corrigés, critères de validation de la V1 |
+| `f2d28f8` | `docs` | Revue de `06` : timers multiples faits, vérifications déjà réalisées, constats mineurs |
 
-Le commit qui enregistre ce tableau et la correspondance cahier, code et tests de `05` n'est pas listé ici (voir `git log`).
+Les commits qui enregistrent les révisions suivantes des specs (dont celui de cette section) ne sont pas encore listés ici (voir `git log`).
 
 ---
 
@@ -341,7 +345,7 @@ Un build réussi confirme la possibilité de compiler et de générer l'applicat
 - `tsc -b` et `vite build` réussis ; 11 fichiers précachés par le service worker.
 - Parcours vérifiés dans Chrome par un script automatisé (démarrage d'un timer de session, suppression d'un protocole et restauration des protocoles de démonstration, import PDF hors ligne) ; ce script a été exécuté dans l'environnement de l'assistant, pas sur ma machine.
 
-### Vérifications restant à faire
+### Vérifications prévues et leur état au 25 novembre
 
 - Tester l'extraction PDF sur plusieurs documents scientifiques : fait (PDF vitamine C le 22 novembre 2026, PDF fraises le 24, réimport des deux le 25 ; PDF scanné, faux PDF et fichier de plus de 15 Mo refusés avec un message, voir `05`, T04 à T11).
 - Rejouer à la main, sur ma machine, le timer et les notifications (permission du navigateur, onglet en arrière-plan) : fait le 22 novembre 2026 (voir `05`, T14 et T19).
@@ -402,7 +406,7 @@ La création des spécifications du 1er au 3 novembre m'a ensuite permis de form
 
 ### Pourquoi les fichiers SPECS n'ont-ils pas immédiatement de commit Git ?
 
-Les fichiers ont d'abord été créés, révisés et organisés localement. Leur intégration dans Git constitue une étape distincte, qui sera documentée avec la date et le hash du commit correspondant.
+Les fichiers ont d'abord été créés, révisés et organisés localement. Leur intégration dans Git constitue une étape distincte : elle est documentée avec la date et le hash du commit (`56ea93d`, 11 novembre, section 4 bis).
 
 ---
 
@@ -429,5 +433,7 @@ Les premiers commits du 28 octobre ont ensuite marqué le début du suivi des ve
 Du 1er au 3 novembre, la création et l'organisation des spécifications techniques ont permis de compléter cette démarche par une documentation structurée.
 
 Cette évolution reflète une progression dans ma méthode de travail : passer de l'expérimentation et du prototypage à un développement davantage organisé, documenté et vérifiable.
+
+À partir du 17 novembre, les commits sont ciblés et datés du jour réel du travail (sections 4 ter à 4 septies) ; les jours sans commit sont signalés (12 au 16 et 19 au 21 novembre, séances reportées).
 
 L'objectif pour la suite est de maintenir cette cohérence entre le code source, les tests, les décisions techniques, le journal de bord et l'historique Git.
