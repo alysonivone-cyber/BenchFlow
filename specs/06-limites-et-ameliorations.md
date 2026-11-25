@@ -49,6 +49,8 @@
 
 **Améliorations :** export de sauvegarde, import de restauration, messages d'erreur explicites et tests de migration de schéma.
 
+**Extension de TECH-01 réalisée le 25 novembre (R-01, DT-23) :** un écran de récupération remplace la page blanche lorsque l'interface plante pendant l'affichage. **Limites :** il ne rattrape ni les erreurs des gestionnaires d'événements, ni celles des opérations asynchrones, donc pas un échec d'écriture Dexie. Ce cas relève de la gestion d'erreurs propre à chaque opération (par exemple le message du timer) et du test T18 (effacer le stockage local), qui reste à faire.
+
 ## 4. Minuteries et exécution
 
 **Corrigé le 11 novembre :** le message « Timer storage unavailable » venait d'une course entre deux créations simultanées du timer (React.StrictMode) ; la création est maintenant atomique (DT-13).
@@ -56,6 +58,8 @@
 **NOTIF-01 réalisé (V1) :** bannière, son et notification système avec permission (DT-14).
 
 **Limites restantes :** sans serveur push, aucune alerte si l'application est complètement fermée ; en arrière-plan, le navigateur peut suspendre les timers JavaScript (le temps restant reste juste grâce à `endsAt`). Le son exige un clic préalable (règle des navigateurs).
+
+**Extension de TIME-01 et WORK-01 réalisée le 25 novembre (L-01, DT-24) :** l'écran reste allumé tant qu'une session est ouverte, pour que le décompte et les consignes restent visibles pendant la manipulation. **Limites :** il reste allumé même sans timer actif (raffinement possible : seulement pendant un timer) ; le navigateur peut refuser la demande ; vérifié uniquement dans Edge.
 
 **Évolution V2 :** plusieurs timers simultanés.
 
@@ -68,6 +72,8 @@
 ## 6. Compatibilité et accessibilité
 
 **À vérifier :** navigation clavier, labels de formulaires, contrastes, affichage mobile, lecteurs d'écran, fonctionnement sur différents navigateurs et prise en charge des notifications.
+
+**Écran allumé (L-01) :** l'API Screen Wake Lock manque dans certains navigateurs et exige `localhost` ou HTTPS. Sans elle, l'écran peut s'éteindre ; le reste de l'application fonctionne.
 
 **Évolutions :** audit d'accessibilité, tests multi-appareils et retours d'utilisateurs en laboratoire.
 
@@ -86,9 +92,13 @@ Les erreurs d'extraction ne doivent jamais être masquées par des valeurs inven
 | Haute V1 | Sauvegarde notes/sessions et fonctionnement hors ligne | Promesse centrale de l'application |
 | Haute V1 | Tests de régression et gestion d'erreurs | Stabilité de la démonstration |
 | Fait (11/11) | Chargement différé de pdf.js | Avertissement de taille résolu |
+| Fait (25/11) | Écran d'erreur global (extension de TECH-01) | Évite une page blanche ; limites en section 3 |
+| Fait (25/11) | Écran maintenu allumé (extension de TIME-01 et WORK-01) | Confort en laboratoire ; dépend du navigateur |
+| Fait (25/11) | Intégration continue (GitHub Actions) | Build et tests vérifiés sur une machine propre |
 | V2 | Timers multiples | Fonctionnalité additionnelle (les notifications de base sont faites) |
 | V2 | OCR local et prise en charge des PDF complexes | Complexité importante |
 | Hors V1 | Backend et API IA distante | Incompatible avec la contrainte actuelle |
+| Hors V1 | Publication en ligne (Vercel) | Non nécessaire : l'examen du 10 décembre se fait en localhost |
 
 ## 9. Message à retenir pour l'oral
 
