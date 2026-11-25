@@ -12,21 +12,24 @@ Les vérifications couvrent quatre niveaux : compilation TypeScript, tests unita
 npm.cmd run build
 npx.cmd vitest run
 npm.cmd run dev
+npm.cmd run preview -- --port 4173 --strictPort
 ```
 
 Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`, mais le port réel est celui annoncé par le terminal).
 
 ## 3. Résultats déjà observés
 
+Cette première série date du 28 octobre 2026. Les lignes marquées **Suite** indiquent comment chaque point a été traité ensuite.
+
 | Vérification | Observation | Interprétation |
 |---|---|---|
 | `npm.cmd run build` après intégration de PDF.js | Compilation TypeScript et build Vite réussis dans un journal partagé | La version correspondante compilait ; cela ne prouve pas l'absence de bugs fonctionnels |
 | Build PWA | Génération de `dist/sw.js` et du manifest observée | Les fichiers PWA ont été générés ; le mode hors ligne a été testé le 24 novembre 2026 (T17) et l'installation le 25 novembre 2026 (T29) |
 | Taille des bundles (28/10) | Avertissement Vite pour des chunks de plus de 500 Ko | Résolu le 11/11 par le chargement différé de pdf.js |
-| PDF de démonstration | Objectif et matériel affichés après amélioration | Une partie de l'extraction fonctionne sur ce document |
-| Extraction des étapes | Instructions parfois mal regroupées ou tronquées | Régression / limite à traiter avec des cas de test représentatifs |
+| PDF de démonstration | Objectif et matériel affichés après amélioration | Une partie de l'extraction fonctionne sur ce document. **Suite** : améliorée ensuite, voir T04 et T08 |
+| Extraction des étapes | Instructions parfois mal regroupées ou tronquées | Régression / limite à traiter avec des cas de test représentatifs. **Suite** : traité les 22 et 25 novembre (T09, T10) |
 | Timer de session (28/10) | Message « Timer storage unavailable » observé | Diagnostiqué et corrigé le 11/11, voir ci-dessous |
-| Timer du calculateur | Fonctionnement signalé lors du même essai | Les deux contextes doivent être testés séparément |
+| Timer du calculateur | Fonctionnement signalé lors du même essai | Les deux contextes doivent être testés séparément. **Suite** : traité le 18 novembre (timers indépendants, DT-19) |
 
 ### Résultats du 11 novembre 2026 (état final)
 
@@ -56,7 +59,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | Chrome (script automatisé, environnement de l'assistant) | Timer de la calculatrice conservé après rafraîchissement ; alerte déclenchée et bandeau affiché pendant qu'on est sur une autre page, bandeau fermé avec « Close » ; 20 rafraîchissements successifs : 0 clignotement et 0 seconde en trop (avant le correctif : 20 clignotements et 1 seconde en trop) |
 | `npm.cmd run build` et `npm.cmd test` chez moi, commit `93bccc9` (pastille grise des étapes) | Build réussi, 47 tests réussis ; rendu observé dans le navigateur sur un protocole importé |
 | Présentation à l'enseignant | Fonctionnement présenté le 18 novembre, solution validée par l'enseignant |
-| Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, titre de l'onglet d'un PDF fraîchement importé : tests reportés, voir les résultats du 22 novembre |
+| Pas encore testé | Notifications système, hors ligne sur le build de production, affichage à 375 px, titre de l'onglet d'un PDF fraîchement importé : tests reportés. **Suite** : affichage à 375 px et titre de l'onglet faits le 22 novembre, hors ligne le 24 novembre (T17), notifications système vues le 22 novembre (T19) et bloquées le 25 novembre (T27) |
 
 ### Résultats du 22 novembre 2026 (temps restant dans l'onglet : L-02 ; confirmation « Notes saved » : R-03)
 
@@ -86,7 +89,7 @@ Le serveur Vite affiche ensuite une URL locale (souvent `http://localhost:5173/`
 | Fermer complètement Edge, attendre environ 2 minutes, rouvrir l'application et la session (« Resume Session ») | Conforme : la note de l'étape 1 est conservée ; la session reprend à l'étape 2 ; le timer de 5 min est conservé avec son temps restant ; le timer de 1 min, terminé pendant la fermeture, affiche `00:00` avec une alerte de rattrapage (bandeau et bips), car il s'est terminé depuis moins de 5 minutes (DT-20) |
 | Constat avant le test | Edge affichait d'abord une ancienne version de l'application (ancien accueil sans logo), servie par le cache du service worker de `localhost:4173`. Après désinscription du service worker (onglet Application) et rechargement forcé, la version actuelle s'est affichée ; la base IndexedDB n'a pas été effacée. C'est le comportement attendu d'une PWA en mise à jour automatique (`autoUpdate`) : la nouvelle version s'affiche à la visite suivante |
 
-Ces vérifications ne remplacent pas un test manuel sur ma machine.
+Les vérifications par script ou dans l'environnement de l'assistant (11 et 18 novembre) ont été complétées par des tests à la main dans Edge, sur ma machine (22, 24 et 25 novembre).
 
 Un build réussi a été observé le 28 octobre 2026. Pour les tests futurs, consigner la date, le commit testé et le résultat réel ; ne pas attribuer rétroactivement un résultat à un commit non identifié.
 
@@ -159,6 +162,19 @@ Créer un jeu de PDF de démonstration avec résultats attendus connus :
 
 Pour chaque document, comparer : **texte source → sortie du parseur → protocole affiché**. Documenter les divergences et conserver les fichiers de test non sensibles.
 
+### Où en est chaque cas (25 novembre 2026)
+
+| Cas | Statut |
+|---|---|
+| 1. PDF simple | Vérifié : T08 et T09 (PDF vitamine C), T04 (PDF fraises) |
+| 2. PDF français | Non testé |
+| 3. Instructions sur plusieurs lignes | Vérifié : T10 (coupures de page et pieds de page répétés) |
+| 4. Liste de matériel à puces | Matériel affiché dans T02 et T08 ; quantités non vérifiées une à une |
+| 5. Durées dans le texte | Vérifié le 22 novembre (durées de 5, 15, 10, 10 et 20 minutes ; un défaut corrigé) ; une étape sans durée affiche « ~ — min » |
+| 6. PDF multicolonnes | Non testé (limite documentée dans `06`) |
+| 7. PDF scanné | Vérifié : T05 |
+| 8. PDF contenant des avertissements | Non testé |
+
 ## 6. Exemple de fiche de bug
 
 ```text
@@ -175,17 +191,32 @@ Tests de non-régression :
 Statut : ouvert / corrigé / validé
 ```
 
+### Défauts trouvés par les tests et corrigés
+
+Les fiches `BUG-XXX` ci-dessus n'ont pas été numérotées une à une ; ce tableau en tient lieu.
+
+| Date | Défaut | Correction |
+|---|---|---|
+| 28/10 | Message « Timer storage unavailable » dans le timer de session | Diagnostiqué et corrigé le 11/11 (voir `03`) |
+| 18/11 | Timers : 20 clignotements et 1 seconde en trop sur 20 rafraîchissements | 0 clignotement et 0 seconde en trop après le commit `4cd042c` |
+| 22/11 | Message « Notes saved » qui disparaissait aussitôt | Corrigé avant le commit de R-03 |
+| 22/11 | Import de PDF : 4 étapes sur 6 | Commit `610c03d` |
+| 22/11 | Deux sessions de la même minute portant le même nom | Commit `ffc7422` |
+| 24/11 | Icône demandée avec `?v=2` hors ligne, requête partie vers le réseau | Commit `d0344ea` |
+| 25/11 | Écran maintenu allumé (L-01) sans effet : hook non appelé dans `SessionPages.tsx` | Modification refaite et vérifiée avec `git diff` ; commit `f1ba657` |
+
 ## 7. Critères de validation de la V1
 
-- [ ] Build de production sans erreur TypeScript.
-- [ ] Tests automatisés exécutés et résultats archivés.
-- [ ] Parcours bibliothèque → protocole → session opérationnel.
-- [ ] Sauvegarde et récupération des notes vérifiées.
-- [ ] Timer de session opérationnel, y compris après rechargement.
-- [ ] Import PDF avec correction humaine possible.
-- [ ] Limites des PDF non pris en charge clairement affichées.
+- [x] Build de production sans erreur TypeScript (`tsc -b` + `vite build` à chaque commit de code ; CI n° 1 du 25 novembre).
+- [x] Tests automatisés exécutés et résultats archivés (55 tests, relevés dans ce document et exécutés par la CI).
+- [x] Parcours bibliothèque → protocole → session opérationnel (T01, T02, T12, T28).
+- [x] Sauvegarde et récupération des notes vérifiées (T13, vérification d'indépendance du 22 novembre).
+- [x] Timer de session opérationnel, y compris après rechargement (T14, T15).
+- [x] Import PDF avec correction humaine possible (T04, T11).
+- [x] Limites des PDF non pris en charge clairement affichées (T05, T06, T07 ; colonnes et tableaux : limite documentée dans `06`).
 - [x] Vérification hors ligne sur une version de production (24 novembre 2026 ; à refaire sur le build final).
-- [ ] Aucun paramètre scientifique inventé par le parseur.
+- [x] Application installable dans sa propre fenêtre (T29, 25 novembre 2026).
+- [ ] Aucun paramètre scientifique inventé par le parseur (durées vérifiées sur deux PDF, pas de garantie générale : case laissée ouverte).
 
 ## 8. Collecte des preuves
 
@@ -193,7 +224,7 @@ Conserver des captures d'écran datées, les commandes de build/test, les cas de
 
 ## Résultats du 25 novembre : batterie de tests manuels
 
-Tests faits à la main dans Edge sur le build de production (`npm run build`, `npm run preview`, `localhost:4173`) : T03, T05, T06, T07, T10, T11, T16, T18, T27, T28 et T29, ainsi que le réimport des deux PDF (T04). Chaque ligne du tableau ci-dessus donne le message ou le comportement observé.
+Tests faits à la main dans Edge sur le build de production (`npm run build`, `npm run preview`, `localhost:4173`) : T03, T05, T06, T07, T10, T11, T16, T18, T27, T28 et T29, ainsi que le réimport des deux PDF (T04). Chaque ligne du tableau ci-dessus donne le message ou le comportement observé. Code testé : celui du commit `83c4665`, dernier commit de code du 25 novembre (les commits suivants ne modifient que les specs).
 
 Constats mineurs, non corrigés dans la V1 :
 
