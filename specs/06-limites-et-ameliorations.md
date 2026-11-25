@@ -14,7 +14,7 @@
 
 **Limite fondamentale :** il n'est pas réaliste de garantir une lecture « parfaite » de tous les PDF avec des expressions régulières. Le logiciel doit reconnaître ses incertitudes.
 
-**Ce que l'import lit aujourd'hui (état du 22 novembre 2026) :**
+**Ce que l'import lit aujourd'hui (état du 25 novembre 2026) :**
 - le texte sélectionnable uniquement, lu page par page, pour un fichier de 15 Mo au plus ;
 - les étapes, reconnues par un titre de la forme « Step 1: titre », « Étape 1 : titre », « Phase 1 » ou « 1. titre » (130 caractères au plus, sans point, point d'exclamation ni point d'interrogation final), numérotées dans l'ordre à partir de 1 : une ligne numérotée hors séquence reste une instruction ;
 - les sections reconnues par leur intitulé, en anglais ou en français : objectif, description, matériel, résultats attendus, durée, procédure, notes ;
@@ -23,7 +23,8 @@
 
 **Ce que l'import ne lit pas, ou lit mal :**
 - les photos, schémas, tableaux et formules sous forme d'image : seul le texte est lu, et le PDF d'origine reste consultable depuis le protocole ;
-- les PDF scannés (images sans texte) : l'application affiche un message d'erreur, il n'y a pas d'OCR ;
+- les PDF scannés (images sans texte) : l'application affiche un message d'erreur, il n'y a pas d'OCR (test T05 dans `05`) ;
+- les fichiers invalides ou trop lourds : un fichier texte renommé en .pdf est refusé (« Invalid PDF structure. »), de même qu'un PDF de plus de 15 Mo (« Select a PDF smaller than 15 MB. ») ; tests T06 et T07 dans `05` ;
 - les mises en page en colonnes ou en tableaux : l'ordre des lignes peut être mélangé ;
 - les étapes non numérotées ou numérotées dans un autre style : si aucune étape fiable n'est trouvée, l'application le dit et invite à saisir les étapes à la main ;
 - **une étape sans aucune instruction est supprimée sans message** : le choix évite de créer des étapes vides, mais l'utilisatrice n'est pas prévenue du nombre d'étapes retirées ;
@@ -57,25 +58,29 @@
 
 **NOTIF-01 réalisé (V1) :** bannière, son et notification système avec permission (DT-14).
 
-**Limites restantes :** sans serveur push, aucune alerte si l'application est complètement fermée ; en arrière-plan, le navigateur peut suspendre les timers JavaScript (le temps restant reste juste grâce à `endsAt`). Le son exige un clic préalable (règle des navigateurs).
+**Limites restantes :** sans serveur push, aucune alerte si l'application est complètement fermée ; en arrière-plan, le navigateur peut suspendre les timers JavaScript (le temps restant reste juste grâce à `endsAt`). Le son exige un clic préalable (règle des navigateurs), et le navigateur peut couper l'audio du site. Si la permission des notifications système est bloquée, la bannière et le son restent actifs et un message l'explique (T27 dans `05`).
 
 **Extension de TIME-01 et WORK-01 réalisée le 25 novembre (L-01, DT-24) :** l'écran reste allumé tant qu'une session est ouverte, pour que le décompte et les consignes restent visibles pendant la manipulation. **Limites :** il reste allumé même sans timer actif (raffinement possible : seulement pendant un timer) ; le navigateur peut refuser la demande ; vérifié uniquement dans Edge.
 
-**Évolution V2 :** plusieurs timers simultanés.
+**Plusieurs timers simultanés : réalisés le 18 novembre (DT-19, DT-20) :** chaque timer est indépendant (session ou calculatrice), avec une étiquette et des alertes globales ; depuis le 22 novembre, le temps restant s'affiche aussi dans le titre de l'onglet (L-02). Vérifié à la main (T15 et T19 dans `05`).
 
 ## 5. Performance
 
 **Résolu le 11 novembre :** pdf.js est chargé à la demande (DT-11), l'avertissement de taille a disparu.
 
-**Reste possible :** découpage du code par écran, audit Lighthouse.
+**Reste possible :** découpage du code par écran, audit Lighthouse (prévu avant le gel du code).
 
 ## 6. Compatibilité et accessibilité
 
-**À vérifier :** navigation clavier, labels de formulaires, contrastes, affichage mobile, lecteurs d'écran, fonctionnement sur différents navigateurs et prise en charge des notifications.
+**À vérifier :** contrastes et labels de formulaires (audit Lighthouse prévu), navigation au clavier sur les écrans autres que la pastille des étapes, lecteurs d'écran, autres navigateurs et vrai téléphone (l'installation n'a été testée que dans Edge).
+
+**Déjà vérifié :** affichage à 375 px (22 novembre, émulation d'appareil dans Edge, pas un téléphone réel) ; navigation au clavier sur la pastille grise des étapes (22 novembre) ; notifications système accordées et bloquées (T19, T27) ; installation de l'application (T29).
 
 **Écran allumé (L-01) :** l'API Screen Wake Lock manque dans certains navigateurs et exige `localhost` ou HTTPS. Sans elle, l'écran peut s'éteindre ; le reste de l'application fonctionne.
 
 **Évolutions :** audit d'accessibilité, tests multi-appareils et retours d'utilisateurs en laboratoire.
+
+**Constats mineurs de l'interface, non corrigés dans la V1 (25 novembre) :** le champ de durée du timer peut afficher `010` après une saisie commençant par un zéro ; sur la carte d'une session, le bouton « Delete protocol » supprime le protocole et, en cascade, ses sessions, notes et timers (avec confirmation), son libellé pourrait être plus explicite ; une étape sans durée estimée affiche « ~ — min ». Voir `05`.
 
 ## 7. Fiabilité scientifique
 
@@ -88,14 +93,14 @@ Les erreurs d'extraction ne doivent jamais être masquées par des valeurs inven
 | Priorité | Sujet | Justification |
 |---|---|---|
 | Fait (11/11) | Timer de session et persistance | Corrigé, test de régression ; test manuel réussi les 18 et 22 novembre |
-| Critique V1 | Exactitude et édition des étapes extraites | Risque de mauvaise compréhension du protocole |
-| Haute V1 | Sauvegarde notes/sessions et fonctionnement hors ligne | Promesse centrale de l'application |
+| Critique V1 | Exactitude et édition des étapes extraites | Risque de mauvaise compréhension du protocole ; correction d'une étape vérifiée (T11), limites en section 1 |
+| Haute V1 | Sauvegarde notes/sessions et fonctionnement hors ligne | Promesse centrale de l'application ; hors ligne vérifié le 24/11 (T17), à refaire sur le build final |
 | Haute V1 | Tests de régression et gestion d'erreurs | Stabilité de la démonstration |
 | Fait (11/11) | Chargement différé de pdf.js | Avertissement de taille résolu |
 | Fait (25/11) | Écran d'erreur global (extension de TECH-01) | Évite une page blanche ; limites en section 3 |
 | Fait (25/11) | Écran maintenu allumé (extension de TIME-01 et WORK-01) | Confort en laboratoire ; dépend du navigateur |
 | Fait (25/11) | Intégration continue (GitHub Actions) | Build et tests vérifiés sur une machine propre |
-| V2 | Timers multiples | Fonctionnalité additionnelle (les notifications de base sont faites) |
+| Fait (18/11) | Timers multiples et indépendants | Étiquettes et alertes globales (DT-19, DT-20) |
 | V2 | OCR local et prise en charge des PDF complexes | Complexité importante |
 | Hors V1 | Backend et API IA distante | Incompatible avec la contrainte actuelle |
 | Hors V1 | Publication en ligne (Vercel) | Non nécessaire : l'examen du 10 décembre se fait en localhost |
